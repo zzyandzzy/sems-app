@@ -5,4 +5,6 @@
     <color name="colorAccent">#3700B3</color>
     <color name="edit_text_normal_color">#00000000</color>
     <color name="edit_text_activated_color">#00000000</color>
+    <color name="text_grey_666">#666666</color>
+    <color name="text_grey_888">#888888</color>
 </resources>

@@ -67,4 +67,6 @@
     <string name="input_express_number_hint">Enter or scan the tracking number.</string>
     <string name="save_setting">Modify setting</string>
     <string name="modify_user_fail">An error occurred while updating the user.</string>
+    <string name="tips">Tips</string>
+    <string name="ok">Ok</string>
 </resources>

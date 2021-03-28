@@ -22,6 +22,7 @@ import cool.zzy.sems.application.model.Rect;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.CameraHelper;
 import cool.zzy.sems.application.util.CameraUtils;
+import cool.zzy.sems.application.util.DialogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -170,17 +171,11 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
             Log.d(TAG, barcode);
             barcodeTextView.setText(barcode);
             stopCamera();
-            progressDialog.setTitle(barcode);
-            progressDialog.show();
-            new Thread(() -> {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                progressDialog.dismiss();
-                startOpenCV();
-            }).start();
+            DialogUtils.showTipDialog(this.getActivity(), "条形码：" + barcode,
+                    (dialog, which) -> {
+                        startOpenCV();
+                        dialog.dismiss();
+                    });
         }
     }
 

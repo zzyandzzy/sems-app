@@ -50,6 +50,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+//        long start = System.currentTimeMillis();
         UserUtils.staticLogin(this);
+//        Log.d(TAG, "onResume: " + (System.currentTimeMillis() - start) / 1000 + "ms");
     }
 }

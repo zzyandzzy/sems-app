@@ -37,8 +37,15 @@ public class UserUtils {
     }
 
     public static void logout(Activity activity) {
-        SemsApplication.instance.removeUser();
-        activity.startActivity(new Intent(activity, LoginActivity.class));
-        activity.finish();
+        UserService userService = SemsApplication.instance.getUserService();
+        if (userService != null) {
+            User user = SemsApplication.instance.getUser();
+            boolean logoutSuccess = userService.logout(user.getUkEmail());
+            if (logoutSuccess) {
+                SemsApplication.instance.removeUser();
+                activity.startActivity(new Intent(activity, LoginActivity.class));
+                activity.finish();
+            }
+        }
     }
 }

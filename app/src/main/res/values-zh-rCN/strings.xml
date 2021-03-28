@@ -68,4 +68,6 @@
     <string name="input_express_number_hint">输入或扫一扫快递单号</string>
     <string name="save_setting">保存修改</string>
     <string name="modify_user_fail">更新用户时出现错误</string>
+    <string name="tips">提示</string>
+    <string name="ok">确定</string>
 </resources>

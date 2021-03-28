@@ -87,6 +87,7 @@
                         android:layout_marginEnd="@dimen/input_edit_margin_right"
                         android:theme="@style/EditTextStyle"
                         android:inputType="textEmailAddress"
+                        android:backgroundTint="@android:color/transparent"
                         android:textCursorDrawable="@drawable/edit_cursor_color"/>
 
             </LinearLayout>
@@ -121,6 +122,7 @@
                         android:layout_marginEnd="@dimen/input_edit_margin_right"
                         android:theme="@style/EditTextStyle"
                         android:inputType="textPassword"
+                        android:backgroundTint="@android:color/transparent"
                         android:textCursorDrawable="@drawable/edit_cursor_color"/>
 
             </LinearLayout>

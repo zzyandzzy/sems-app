@@ -56,6 +56,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
         RpcFuture rpcFuture = pendingRPC.get(requestId);
         if (rpcFuture != null) {
             pendingRPC.remove(requestId);
+            Log.d(TAG, "Receive response: " + rpcResponse.toString());
             rpcFuture.done(rpcResponse);
         } else {
             Log.w(TAG, "Can not get pending response for request id: " + requestId);

@@ -32,15 +32,17 @@ public class IPUtils {
     }
 
     public static void getMyIp() {
-        try {
-            connect(GET_IP_API_IP, 80, json -> {
-                IPApi ipApi = new Gson().fromJson(json, IPApi.class);
-                SemsApplication.instance.setIp(ipApi.getQuery());
-                Log.d(TAG, "getMyIp: " + json);
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        new Thread(() -> {
+            try {
+                connect(GET_IP_API_IP, 80, json -> {
+                    IPApi ipApi = new Gson().fromJson(json, IPApi.class);
+                    SemsApplication.instance.setIp(ipApi.getQuery());
+                    Log.d(TAG, "getMyIp: " + json);
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
     }
 
     private static void connect(String host, int port, Callback callback) throws Exception {
