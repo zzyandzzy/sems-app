@@ -14,10 +14,10 @@ EAN-13条形码是基于Android写的一个工具类，参考：[EAN13Utils](htt
 
 # RPC
 
-- [intent-rpc-common](https://github.com/GuaSeed/sems/tree/master/intent-rpc-common)是一些RPC工具类，如序列化对象等
+- [intent-rpc-common](./intent-rpc-common)是一些RPC工具类，如序列化对象等
 
-- [intent-rpc-client](https://github.com/GuaSeed/sems/tree/master/intent-rpc-client)是RPC的客户端。
+- [intent-rpc-client](./intent-rpc-client)是RPC的客户端。
 
-- [intent-rpc-model](https://github.com/GuaSeed/sems/tree/master/intent-rpc-model)是RPC服务需要的POJO，如用户等。
+- [intent-rpc-model](./intent-rpc-model)是RPC服务需要的POJO，如用户等。
 
-- [intent-rpc-service](https://github.com/GuaSeed/sems/tree/master/intent-rpc-service)是RPC的Service层，方便客户端使用。
+- [intent-rpc-service](./intent-rpc-service)是RPC的Service层，方便客户端使用。
