@@ -8,10 +8,13 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import cool.zzy.sems.application.R;
+import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.adapter.DeliveryAdapter;
+import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.UserUtils;
+import cool.zzy.sems.context.model.DeliveryLogistics;
+import cool.zzy.sems.context.service.DeliveryLogisticsService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,7 +28,7 @@ public class MainFragment extends BaseFragment {
     private AppCompatImageView scanImageView;
     private AppCompatButton settingButton;
     private RecyclerView recyclerView;
-    private List<String> deliveryList;
+    private List<DeliveryLogistics> deliveryLogisticsList;
 
     @Override
     protected int getLayout() {
@@ -54,14 +57,16 @@ public class MainFragment extends BaseFragment {
     }
 
     private void initRecyclerView() {
-        deliveryList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            deliveryList.add("test");
+        DeliveryLogisticsService deliveryLogisticsService = SemsApplication.instance.getDeliveryLogisticsService();
+        if (deliveryLogisticsService != null) {
+            deliveryLogisticsList = deliveryLogisticsService.getListByUid(user.getId());
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            DeliveryAdapter adapter = new DeliveryAdapter(deliveryLogisticsList, getActivity());
+            recyclerView.setAdapter(adapter);
+        } else {
+            DialogUtils.showConnectErrorDialog(this.getMainActivity());
         }
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-        DeliveryAdapter adapter = new DeliveryAdapter(deliveryList, getActivity());
-        recyclerView.setAdapter(adapter);
     }
 
     @Override

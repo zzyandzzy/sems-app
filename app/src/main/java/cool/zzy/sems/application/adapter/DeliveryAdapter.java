@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 import cool.zzy.sems.application.R;
+import cool.zzy.sems.context.model.Delivery;
+import cool.zzy.sems.context.model.DeliveryLogistics;
 
 import java.util.List;
 
@@ -18,9 +21,9 @@ import java.util.List;
  * @since 1.0
  */
 public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHolder> {
-    private final List<String> data;
+    private final List<DeliveryLogistics> data;
 
-    public DeliveryAdapter(List<String> data, Context context) {
+    public DeliveryAdapter(List<DeliveryLogistics> data, Context context) {
         this.data = data;
     }
 
@@ -33,6 +36,22 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        DeliveryLogistics deliveryLogistics = data.get(position);
+        Delivery delivery = deliveryLogistics.getDelivery();
+        StringBuilder info = new StringBuilder();
+        if (delivery.getDeliveryName() != null) {
+            info.append(delivery.getDeliveryName());
+        }
+        if (delivery.getRemark() != null) {
+            info.append("|").append(delivery.getRemark());
+        }
+        holder.info.setText(info.toString());
+        String logistics = deliveryLogistics.getDeliveryCompany().getCompanyName() + ":"
+                + deliveryLogistics.getLogisticsList().get(0).getCurrentLocation();
+        if (logistics.length() > 30) {
+            logistics = logistics.substring(30) + "...";
+        }
+        holder.logistics.setText(logistics);
     }
 
     @Override
@@ -42,10 +61,14 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         private LinearLayout parentLinearLayout;
+        private AppCompatTextView info;
+        private AppCompatTextView logistics;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             parentLinearLayout = itemView.findViewById(R.id.item_delivery_parent);
+            info = itemView.findViewById(R.id.item_delivery_info);
+            logistics = itemView.findViewById(R.id.item_delivery_logistics);
             parentLinearLayout.setOnClickListener((v) -> {
                 Toast.makeText(itemView.getContext(), "该功能暂未实现！", Toast.LENGTH_LONG).show();
             });

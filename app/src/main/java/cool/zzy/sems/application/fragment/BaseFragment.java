@@ -1,6 +1,5 @@
 package cool.zzy.sems.application.fragment;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -47,21 +46,21 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected abstract void viewOnClick(View v);
 
     public void enterSettingFragment() {
-        getMainActivity(getActivity())
-                .setCurrentFragment(getMainActivity(getActivity()).settingFragment);
+        getMainActivity()
+                .setCurrentFragment(getMainActivity().settingFragment);
     }
 
     public void enterBarcodeFragment() {
-        getMainActivity(getActivity())
-                .setCurrentFragment(getMainActivity(getActivity()).barcodeFragment);
+        getMainActivity()
+                .setCurrentFragment(getMainActivity().barcodeFragment);
     }
 
     public void enterMainFragment() {
-        getMainActivity(getActivity())
-                .setCurrentFragment(getMainActivity(getActivity()).mainFragment);
+        getMainActivity()
+                .setCurrentFragment(getMainActivity().mainFragment);
     }
 
-    public MainActivity getMainActivity(Activity a) {
-        return (MainActivity) a;
+    public MainActivity getMainActivity() {
+        return (MainActivity) this.getActivity();
     }
 }

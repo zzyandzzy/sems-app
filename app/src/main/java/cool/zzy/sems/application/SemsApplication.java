@@ -7,8 +7,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import cool.zzy.sems.application.constant.Const;
 import cool.zzy.sems.context.model.User;
-import cool.zzy.sems.context.service.HelloService;
-import cool.zzy.sems.context.service.UserService;
+import cool.zzy.sems.context.service.*;
 import cool.zzy.sems.rpc.client.RpcClient;
 
 
@@ -28,6 +27,9 @@ public class SemsApplication extends Application {
     private RpcClient rpcClient;
     private HelloService helloService;
     private UserService userService;
+    private DeliveryService deliveryService;
+    private LogisticsService logisticsService;
+    private DeliveryLogisticsService deliveryLogisticsService;
 
     public SemsApplication() {
         instance = this;
@@ -60,6 +62,9 @@ public class SemsApplication extends Application {
         Log.d(TAG, "initService: ");
         helloService = RpcClient.createService(HelloService.class, 1);
         userService = RpcClient.createService(UserService.class, 1);
+        deliveryService = RpcClient.createService(DeliveryService.class, 1);
+        logisticsService = RpcClient.createService(LogisticsService.class, 1);
+        deliveryLogisticsService = RpcClient.createService(DeliveryLogisticsService.class, 1);
     }
 
     /**
@@ -161,5 +166,17 @@ public class SemsApplication extends Application {
 
     public void setIp(String ip) {
         this.ip = ip;
+    }
+
+    public DeliveryService getDeliveryService() {
+        return deliveryService;
+    }
+
+    public LogisticsService getLogisticsService() {
+        return logisticsService;
+    }
+
+    public DeliveryLogisticsService getDeliveryLogisticsService() {
+        return deliveryLogisticsService;
     }
 }

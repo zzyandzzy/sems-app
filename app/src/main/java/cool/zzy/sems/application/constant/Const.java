@@ -6,8 +6,8 @@ package cool.zzy.sems.application.constant;
  * @since 1.0
  */
 public class Const {
-    public static final String RPC_IP = "8.131.59.159";
-//        public static final String RPC_IP = "192.168.101.3";
+//    public static final String RPC_IP = "8.131.59.159";
+        public static final String RPC_IP = "192.168.101.8";
     public static final int RPC_PORT = 11280;
 
     public static final int PASSWORD_MIN_LEN = 6;
