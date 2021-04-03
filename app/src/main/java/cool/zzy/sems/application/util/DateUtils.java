@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * xyz.zzyitj.iface.util
@@ -21,5 +22,10 @@ public class DateUtils {
     public static boolean checkNowIsNoon() {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH");
         return Integer.parseInt(simpleDateFormat.format(new Date())) >= 12;
+    }
+
+    public static String formatDateTime(long timestamp, TimeUnit unit) {
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return simpleDateFormat.format(new Date(unit.toMillis(timestamp)));
     }
 }

@@ -71,4 +71,6 @@
     <string name="tips">提示</string>
     <string name="ok">确定</string>
     <string name="loading">加载中...</string>
+    <string name="delivery_info">快递信息</string>
+    <string name="logistics_info">物流信息</string>
 </resources>

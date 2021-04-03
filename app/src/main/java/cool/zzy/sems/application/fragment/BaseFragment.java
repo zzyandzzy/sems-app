@@ -60,6 +60,11 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 .setCurrentFragment(getMainActivity().mainFragment);
     }
 
+    public void enterLogisticsFragment() {
+        getMainActivity()
+                .setCurrentFragment(getMainActivity().logisticsFragment);
+    }
+
     public MainActivity getMainActivity() {
         return (MainActivity) this.getActivity();
     }

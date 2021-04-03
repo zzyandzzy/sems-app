@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.fragment.BarcodeFragment;
+import cool.zzy.sems.application.fragment.LogisticsFragment;
 import cool.zzy.sems.application.fragment.MainFragment;
 import cool.zzy.sems.application.fragment.SettingFragment;
 import cool.zzy.sems.application.util.UserUtils;
@@ -15,6 +16,7 @@ public class MainActivity extends BaseActivity {
     public MainFragment mainFragment;
     public SettingFragment settingFragment;
     public BarcodeFragment barcodeFragment;
+    public LogisticsFragment logisticsFragment;
 
 //    private BottomBar bottomBar;
 
@@ -38,6 +40,7 @@ public class MainActivity extends BaseActivity {
         mainFragment = new MainFragment();
         settingFragment = new SettingFragment();
         barcodeFragment = new BarcodeFragment();
+        logisticsFragment = new LogisticsFragment();
         setCurrentFragment(mainFragment);
 //        bottomBar.setItems(R.xml.bottombar_tabs_user);
 //        for (int i = 0; i < bottomBar.getTabCount(); i++) {

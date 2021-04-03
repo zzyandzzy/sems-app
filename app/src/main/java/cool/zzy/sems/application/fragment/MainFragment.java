@@ -64,6 +64,10 @@ public class MainFragment extends BaseFragment {
             recyclerView.setLayoutManager(layoutManager);
             DeliveryAdapter adapter = new DeliveryAdapter(deliveryLogisticsList, getActivity());
             recyclerView.setAdapter(adapter);
+            adapter.setOnItemClickListener((itemView, position) -> {
+                SemsApplication.instance.setDeliveryLogistics(deliveryLogisticsList.get(position));
+                enterLogisticsFragment();
+            });
         } else {
             DialogUtils.showConnectErrorDialog(this.getMainActivity());
         }

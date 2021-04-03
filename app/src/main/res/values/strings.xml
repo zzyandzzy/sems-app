@@ -70,4 +70,6 @@
     <string name="tips">Tips</string>
     <string name="ok">Ok</string>
     <string name="loading">Loading</string>
+    <string name="delivery_info">Delivery info.</string>
+    <string name="logistics_info">Logistics info</string>
 </resources>

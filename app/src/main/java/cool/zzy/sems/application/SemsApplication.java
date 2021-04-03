@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import com.google.gson.Gson;
 import cool.zzy.sems.application.constant.Const;
+import cool.zzy.sems.context.model.DeliveryLogistics;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.*;
 import cool.zzy.sems.rpc.client.RpcClient;
@@ -25,11 +26,14 @@ public class SemsApplication extends Application {
     private String ip;
     private User user;
     private RpcClient rpcClient;
+    // services
     private HelloService helloService;
     private UserService userService;
     private DeliveryService deliveryService;
     private LogisticsService logisticsService;
     private DeliveryLogisticsService deliveryLogisticsService;
+    // 公共
+    private DeliveryLogistics deliveryLogistics;
 
     public SemsApplication() {
         instance = this;
@@ -178,5 +182,13 @@ public class SemsApplication extends Application {
 
     public DeliveryLogisticsService getDeliveryLogisticsService() {
         return deliveryLogisticsService;
+    }
+
+    public DeliveryLogistics getDeliveryLogistics() {
+        return deliveryLogistics;
+    }
+
+    public void setDeliveryLogistics(DeliveryLogistics deliveryLogistics) {
+        this.deliveryLogistics = deliveryLogistics;
     }
 }
