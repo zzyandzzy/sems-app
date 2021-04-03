@@ -12,9 +12,11 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import cool.zzy.sems.application.R;
+import cool.zzy.sems.application.util.DeliveryCompanyHandler;
 import cool.zzy.sems.context.dto.DeliveryDTO;
 import cool.zzy.sems.context.enums.DeliveryStatusEnum;
 import cool.zzy.sems.context.model.DeliveryLogistics;
+import cool.zzy.sems.context.model.Logistics;
 
 import java.util.List;
 
@@ -55,19 +57,32 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
         // 快递状态
         DeliveryStatusEnum deliveryStatusEnum = DeliveryStatusEnum.of(delivery.getDeliveryStatus());
         holder.status.setText(deliveryStatusEnum.getDescription());
-        // 物流信息
-        String logistics = deliveryLogistics.getDeliveryCompany().getCompanyName() + ":"
-                + deliveryLogistics.getLogisticsList().get(0).getCurrentLocation();
-        if (logistics.length() > 30) {
-            logistics = logistics.substring(0, 30) + "...";
+        DeliveryCompanyHandler.DeliveryCompanyEntity deliveryCompanyEntity = DeliveryCompanyHandler.get(delivery.getDeliveryCompanyId());
+        List<Logistics> logisticsList = deliveryLogistics.getLogisticsList();
+        StringBuilder logistics = new StringBuilder();
+        if (deliveryCompanyEntity != null) {
+            logistics.append(deliveryCompanyEntity.getName()).append(":");
         }
-        holder.logistics.setText(logistics);
+        if (!logisticsList.isEmpty()) {
+            // 物流信息
+            logistics.append(logisticsList.get(0).getCurrentLocation());
+        } else {
+            logistics.append("暂无物流信息");
+        }
+        if (logistics.length() > 35) {
+            holder.logistics.setText(logistics.substring(0, 35) + "...");
+        } else {
+            holder.logistics.setText(logistics.toString());
+        }
         // 物流图片
         String avatarUrl = delivery.getAvatarUrl();
-        if (avatarUrl == null) {
-            avatarUrl = deliveryLogistics.getDeliveryCompany().getAvatarUrl();
+        if (avatarUrl != null) {
+            Glide.with(this.context).load(avatarUrl).into(holder.avatar);
+        } else {
+            if (deliveryCompanyEntity != null) {
+                holder.avatar.setImageResource(deliveryCompanyEntity.getAvatar());
+            }
         }
-        Glide.with(this.context).load(avatarUrl).into(holder.avatar);
     }
 
     @Override

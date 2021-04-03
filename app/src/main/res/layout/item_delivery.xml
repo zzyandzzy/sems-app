@@ -52,7 +52,6 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/item_delivery_info"
-                    android:text="淘宝 | 买给【包图】的无主LED..."
                     android:textColor="@color/text_grey_666"
                     android:textSize="15sp"
                     android:layout_marginStart="16dp"
@@ -64,7 +63,6 @@
 
             <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/item_delivery_logistics"
-                    android:text="申通快递：【重庆市】..."
                     android:textColor="@color/text_grey_888"
                     android:textSize="15sp"
                     android:layout_marginStart="16dp"

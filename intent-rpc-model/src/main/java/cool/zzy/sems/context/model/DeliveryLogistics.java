@@ -15,6 +15,6 @@ import java.util.List;
 public class DeliveryLogistics implements Serializable {
     private static final long serialVersionUID = 3089742177400240209L;
     private DeliveryDTO delivery;
-    private DeliveryCompany deliveryCompany;
+//    private DeliveryCompany deliveryCompany;
     private List<Logistics> logisticsList;
 }
