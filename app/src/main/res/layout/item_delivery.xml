@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <cool.zzy.sems.application.ui.CircleImageView
                 android:id="@+id/item_delivery_avatar"
                 android:layout_width="90dp"
                 android:layout_height="90dp"
