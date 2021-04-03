@@ -1,5 +1,6 @@
 package cool.zzy.sems.context.model;
 
+import cool.zzy.sems.context.dto.DeliveryDTO;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -13,7 +14,7 @@ import java.util.List;
 @Data
 public class DeliveryLogistics implements Serializable {
     private static final long serialVersionUID = 3089742177400240209L;
-    private Delivery delivery;
+    private DeliveryDTO delivery;
     private DeliveryCompany deliveryCompany;
     private List<Logistics> logisticsList;
 }

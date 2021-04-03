@@ -1,4 +1,4 @@
-package cool.zzy.sems.context.model;
+package cool.zzy.sems.context.dto;
 
 import lombok.Data;
 
@@ -6,17 +6,15 @@ import java.io.Serializable;
 
 /**
  * @author intent <a>zzy.main@gmail.com</a>
- * @date 2021/3/10 19:48
+ * @date 2021/4/3 11:17
  * @since 1.0
  */
 @Data
-public class Delivery implements Serializable {
-
-    private static final long serialVersionUID = -8734688086581430553L;
+public class DeliveryDTO implements Serializable {
+    private static final long serialVersionUID = 3593625541433750056L;
     private Integer id;
     private Long created;
     private Long modified;
-    private Boolean delete;
     private Integer userId;
     private String postId;
     private Integer deliveryCompanyId;

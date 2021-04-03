@@ -17,4 +17,5 @@ public class DeliveryCompany implements Serializable {
     private Long modified;
     private Boolean delete;
     private String companyName;
+    private String avatarUrl;
 }
