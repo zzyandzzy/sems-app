@@ -8,10 +8,7 @@ import androidx.annotation.NonNull;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
 import cool.zzy.sems.application.R;
-import cool.zzy.sems.application.fragment.BarcodeFragment;
-import cool.zzy.sems.application.fragment.LogisticsFragment;
-import cool.zzy.sems.application.fragment.MainFragment;
-import cool.zzy.sems.application.fragment.SettingFragment;
+import cool.zzy.sems.application.fragment.*;
 import cool.zzy.sems.application.util.UserUtils;
 import cool.zzy.sems.context.enums.UserRoleEnum;
 
@@ -20,8 +17,10 @@ import java.util.Objects;
 public class MainActivity extends BaseActivity {
     public MainFragment mainFragment;
     public SettingFragment settingFragment;
-    public BarcodeFragment barcodeFragment;
+    public BarcodeFragment userBarcodeFragment;
+    public BarcodeFragment logisticsPersonnelBarcodeFragment;
     public LogisticsFragment logisticsFragment;
+    public LogisticsPersonnelFragment logisticsPersonnelFragment;
 
     private BottomBar bottomBar;
 
@@ -44,7 +43,7 @@ public class MainActivity extends BaseActivity {
     protected void initData() {
         mainFragment = new MainFragment();
         settingFragment = new SettingFragment();
-        barcodeFragment = new BarcodeFragment();
+        userBarcodeFragment = new BarcodeFragment(BarcodeFragment.USER_SCAN_TYPE);
         logisticsFragment = new LogisticsFragment();
         if (userRole == null) {
             bottomBar.setVisibility(View.GONE);
@@ -57,6 +56,8 @@ public class MainActivity extends BaseActivity {
             setCurrentFragment(mainFragment);
             return;
         }
+        logisticsPersonnelBarcodeFragment = new BarcodeFragment(BarcodeFragment.LOGISTICS_PERSONNEL_SCAN_TYPE);
+        logisticsPersonnelFragment = new LogisticsPersonnelFragment();
         if (roleEnum == UserRoleEnum.LOGISTICS_PERSONNEL) {
             bottomBar.setItems(R.xml.bottombar_tabs_logistics_personnel);
         } else if (roleEnum == UserRoleEnum.ADMIN) {
@@ -70,6 +71,9 @@ public class MainActivity extends BaseActivity {
             switch (tabId) {
                 case R.id.tab_user:
                     setCurrentFragment(mainFragment);
+                    break;
+                case R.id.tab_logistics_personnel:
+                    setCurrentFragment(logisticsPersonnelFragment);
                     break;
                 default:
             }

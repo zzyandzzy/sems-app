@@ -20,6 +20,7 @@ import cool.zzy.sems.context.model.UserRole;
  */
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected View rootView;
+    protected UserDTO userDTO;
     protected User user;
     protected UserRole userRole;
 
@@ -29,7 +30,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(getLayout(), container, false);
-        UserDTO userDTO = SemsApplication.instance.getUser();
+        userDTO = SemsApplication.instance.getUser();
         if (userDTO != null) {
             this.user = userDTO.getUser();
             this.userRole = userDTO.getUserRole();
@@ -57,9 +58,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 .setCurrentFragment(getMainActivity().settingFragment);
     }
 
-    public void enterBarcodeFragment() {
+    public void enterUserBarcodeFragment() {
         getMainActivity()
-                .setCurrentFragment(getMainActivity().barcodeFragment);
+                .setCurrentFragment(getMainActivity().userBarcodeFragment);
+    }
+
+    public void enterLogisticsPersonnelBarcodeFragment() {
+        getMainActivity()
+                .setCurrentFragment(getMainActivity().logisticsPersonnelBarcodeFragment);
     }
 
     public void enterMainFragment() {

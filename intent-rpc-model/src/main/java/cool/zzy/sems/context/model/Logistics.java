@@ -30,12 +30,19 @@ public class Logistics implements Serializable {
     /**
      * 当前位置
      */
-    private String currentLocation;
+    private Integer currentLocationId;
+
+    /**
+     * 物流信息
+     */
+    private String description;
+
+    private Integer userId;
 
     /**
      * 操作人id
      */
-    private Integer userId;
+    private Integer ctlUserId;
 
     private Short deleted;
 
@@ -49,9 +56,13 @@ public class Logistics implements Serializable {
 
     public static final String COL_FK_DELIVERY_ID = "fk_delivery_id";
 
-    public static final String COL_CURRENT_LOCATION = "current_location";
+    public static final String COL_CURRENT_LOCATION_ID = "t_current_location_id";
+
+    public static final String COL_DESCRIPTION = "description";
 
     public static final String COL_FK_USER_ID = "fk_user_id";
+
+    public static final String COL_CTL_USER_ID = "ctl_user_id";
 
     public static final String COL_IS_DELETED = "is_deleted";
 }

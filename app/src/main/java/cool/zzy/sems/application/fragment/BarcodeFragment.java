@@ -23,7 +23,9 @@ import cool.zzy.sems.application.util.CameraHelper;
 import cool.zzy.sems.application.util.CameraUtils;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.context.dto.DeliveryPickUpDTO;
+import cool.zzy.sems.context.dto.LogisticsAddDTO;
 import cool.zzy.sems.context.service.DeliveryLogisticsService;
+import cool.zzy.sems.context.service.LogisticsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,14 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
     private ProgressDialog progressDialog;
 
     private List<String> barcodeResultList = new ArrayList<>(BARCODE_RESULT_SIZE);
+
+    public static final int USER_SCAN_TYPE = 1;
+    public static final int LOGISTICS_PERSONNEL_SCAN_TYPE = 2;
+    private final int type;
+
+    public BarcodeFragment(int type) {
+        this.type = type;
+    }
 
     @Override
     protected int getLayout() {
@@ -172,16 +182,47 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
         if (!barcode.isEmpty()) {
             Log.d(TAG, barcode);
             stopCamera();
-            pickUp(barcode);
-//            DialogUtils.showTipDialog(this.getActivity(), "条形码：" + barcode,
-//                    (dialog, which) -> {
-//                        startOpenCV();
-//                        dialog.dismiss();
-//                    });
+            if (type == USER_SCAN_TYPE) {
+                pickUp(barcode);
+            } else if (type == LOGISTICS_PERSONNEL_SCAN_TYPE) {
+                inOutbound(barcode);
+            }
         }
     }
 
+    /**
+     * 入库
+     *
+     * @param postId
+     */
+    private void inOutbound(String postId) {
+        progressDialog.setTitle(getString(R.string.in_the_outbound));
+        progressDialog.show();
+        LogisticsService logisticsService = SemsApplication.instance.getLogisticsService();
+        if (logisticsService == null) {
+            DialogUtils.showConnectErrorDialog(this.getMainActivity());
+            return;
+        }
+        new Thread(() -> {
+            LogisticsAddDTO logisticsAddDTO = logisticsService.addLogistics(postId, userDTO);
+            getMainActivity().runOnUiThread(() -> {
+                progressDialog.dismiss();
+                DialogUtils.showTipDialog(this.getActivity(), logisticsAddDTO.getInfo(),
+                        (dialog, which) -> {
+                            dialog.dismiss();
+                            startOpenCV();
+                        });
+            });
+        }).start();
+    }
+
+    /**
+     * 取件
+     *
+     * @param postId
+     */
     private void pickUp(String postId) {
+        progressDialog.setTitle(getString(R.string.pick_upping));
         progressDialog.show();
         DeliveryLogisticsService deliveryLogisticsService = SemsApplication.instance.getDeliveryLogisticsService();
         if (deliveryLogisticsService == null) {

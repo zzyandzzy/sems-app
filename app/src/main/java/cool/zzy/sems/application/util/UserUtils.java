@@ -47,7 +47,14 @@ public class UserUtils {
     public static void logout(Activity activity) {
         UserService userService = SemsApplication.instance.getUserService();
         if (userService != null) {
-            User user = SemsApplication.instance.getUser().getUser();
+            UserDTO userDTO = SemsApplication.instance.getUser();
+            if (userDTO == null) {
+                return;
+            }
+            User user = userDTO.getUser();
+            if (user == null) {
+                return;
+            }
             boolean logoutSuccess = userService.logout(user.getEmail());
             if (logoutSuccess) {
                 SemsApplication.instance.removeUser();

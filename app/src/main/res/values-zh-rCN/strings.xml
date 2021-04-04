@@ -78,4 +78,6 @@
     <string name="tab_logistics_personnel">物流人员</string>
     <string name="pick_upping">取件中</string>
     <string name="pick_up_success">取件成功</string>
+    <string name="scan_in_the_outbound">扫码入库</string>
+    <string name="in_the_outbound">入库中</string>
 </resources>

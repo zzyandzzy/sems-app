@@ -1,5 +1,7 @@
 package cool.zzy.sems.context.service;
 
+import cool.zzy.sems.context.dto.LogisticsAddDTO;
+import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.Logistics;
 
 import java.util.List;
@@ -20,10 +22,11 @@ public interface LogisticsService {
 
 
     /**
-     * 增加物流信息
+     * 增加一条物流信息
      *
-     * @param logistics 物流信息
-     * @return >=1 success
+     * @param postId 快递单号
+     * @param ctlUser 操作人
+     * @return
      */
-    boolean save(Logistics logistics);
+    LogisticsAddDTO addLogistics(String postId, UserDTO ctlUser);
 }

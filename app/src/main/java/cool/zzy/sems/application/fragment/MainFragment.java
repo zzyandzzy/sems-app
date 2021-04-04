@@ -80,7 +80,7 @@ public class MainFragment extends BaseFragment {
                 enterSettingFragment();
                 break;
             case R.id.fragment_main_scan:
-                enterBarcodeFragment();
+                enterUserBarcodeFragment();
                 break;
             default:
         }

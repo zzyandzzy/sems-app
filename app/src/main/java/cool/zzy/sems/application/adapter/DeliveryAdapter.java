@@ -83,7 +83,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
         }
         if (!logisticsList.isEmpty()) {
             // 物流信息
-            logisticsStr.append(logisticsList.get(0).getCurrentLocation());
+            logisticsStr.append(logisticsList.get(0).getDescription());
         } else {
             logisticsStr.append("暂无物流信息");
         }

@@ -48,7 +48,7 @@ public class LogisticsAdapter extends RecyclerView.Adapter<LogisticsAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Logistics logistics = data.get(position);
         holder.created.setText("时间：" + DateUtils.formatDateTime(logistics.getCreated(), TimeUnit.MILLISECONDS));
-        holder.info.setText("物流信息：" + logistics.getCurrentLocation());
+        holder.info.setText("物流信息：" + logistics.getDescription());
         holder.itemView.setOnClickListener(view -> {
             if (listener != null) {
                 listener.onItemClick(holder.itemView, holder.getAdapterPosition());
