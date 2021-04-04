@@ -80,6 +80,7 @@
                 <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/fragment_login_account"
                         android:ems="15"
+                        android:focusable="true"
                         android:hint="@string/input_email_hint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"

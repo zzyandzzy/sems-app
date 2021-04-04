@@ -47,65 +47,6 @@
         </RelativeLayout>
 
         <androidx.cardview.widget.CardView
-                android:layout_margin="8dp"
-                app:cardCornerRadius="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <LinearLayout
-                    android:orientation="vertical"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/fragment_logistics_user_info"
-                        android:text="姓名 | 手机号"
-                        android:textSize="15sp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/fragment_logistics_post_id"
-                        android:text="快递单号"
-                        android:textSize="15sp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/fragment_logistics_created"
-                        android:text="创建时间"
-                        android:textSize="15sp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-                <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/fragment_logistics_location_name"
-                        android:text="地址：xxx"
-                        android:textSize="15sp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="4dp"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginBottom="4dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"/>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
                 app:cardCornerRadius="16dp"
                 android:layout_margin="8dp"
                 android:layout_width="match_parent"
@@ -172,6 +113,65 @@
                             android:layout_height="wrap_content"/>
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+                android:layout_margin="8dp"
+                app:cardCornerRadius="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_logistics_user_info"
+                        android:text="姓名 | 手机号"
+                        android:textSize="15sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_logistics_post_id"
+                        android:text="快递单号"
+                        android:textSize="15sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_logistics_created"
+                        android:text="创建时间"
+                        android:textSize="15sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/fragment_logistics_location_name"
+                        android:text="地址：xxx"
+                        android:textSize="15sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
             </LinearLayout>
 

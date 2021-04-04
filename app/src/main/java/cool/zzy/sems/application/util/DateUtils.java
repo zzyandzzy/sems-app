@@ -24,6 +24,10 @@ public class DateUtils {
         return Integer.parseInt(simpleDateFormat.format(new Date())) >= 12;
     }
 
+    public static String formatDateTime(Date date, TimeUnit unit) {
+        return formatDateTime(date.getTime(), unit);
+    }
+
     public static String formatDateTime(long timestamp, TimeUnit unit) {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return simpleDateFormat.format(new Date(unit.toMillis(timestamp)));

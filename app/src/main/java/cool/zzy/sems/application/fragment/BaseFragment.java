@@ -9,7 +9,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.activity.MainActivity;
+import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
+import cool.zzy.sems.context.model.UserRole;
 
 /**
  * @author intent zzy.main@gmail.com
@@ -19,6 +21,7 @@ import cool.zzy.sems.context.model.User;
 public abstract class BaseFragment extends Fragment implements View.OnClickListener {
     protected View rootView;
     protected User user;
+    protected UserRole userRole;
 
     @Nullable
     @Override
@@ -26,7 +29,11 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(getLayout(), container, false);
-        user = SemsApplication.instance.getUser();
+        UserDTO userDTO = SemsApplication.instance.getUser();
+        if (userDTO != null) {
+            this.user = userDTO.getUser();
+            this.userRole = userDTO.getUserRole();
+        }
         initViews(rootView);
         initData();
         return rootView;

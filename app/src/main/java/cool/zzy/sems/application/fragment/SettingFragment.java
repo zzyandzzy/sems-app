@@ -9,6 +9,7 @@ import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.UserUtils;
+import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.UserService;
 
@@ -43,7 +44,7 @@ public class SettingFragment extends BaseFragment {
         settingBack.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
         saveButton.setOnClickListener(this);
-        emailEdittext.setText(user.getUkEmail());
+        emailEdittext.setText(user.getEmail());
         usernameEdittext.setText(user.getNickname());
     }
 
@@ -66,14 +67,16 @@ public class SettingFragment extends BaseFragment {
     private void saveUser() {
         UserService userService = SemsApplication.instance.getUserService();
         if (userService != null) {
-            User newUser = this.user;
-            newUser.setNickname(usernameEdittext.getText().toString());
-            newUser = userService.updateUser(newUser);
-            if (newUser == null) {
+            User updateUser = new User();
+            updateUser.setEmail(user.getEmail());
+            updateUser.setGender(user.getGender());
+            updateUser.setNickname(usernameEdittext.getText().toString());
+            UserDTO userDTO = userService.updateUser(updateUser);
+            if (userDTO == null) {
                 Toast.makeText(getActivity(), R.string.modify_user_fail, Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(getActivity(), R.string.success, Toast.LENGTH_LONG).show();
-                SemsApplication.instance.putUser(newUser);
+                SemsApplication.instance.putUser(userDTO);
                 enterMainFragment();
             }
         } else {

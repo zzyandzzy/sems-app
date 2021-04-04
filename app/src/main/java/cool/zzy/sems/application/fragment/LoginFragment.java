@@ -15,7 +15,7 @@ import cool.zzy.sems.application.constant.Const;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.RegexUtils;
-import cool.zzy.sems.context.model.User;
+import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.service.UserService;
 
 import java.util.Objects;
@@ -49,7 +49,7 @@ public class LoginFragment extends BaseFragment {
         progressDialog.show();
         UserService userService = SemsApplication.instance.getUserService();
         if (userService != null) {
-            User user = userService.signIn(Objects.requireNonNull(emailEditText.getText()).toString(),
+            UserDTO user = userService.signIn(Objects.requireNonNull(emailEditText.getText()).toString(),
                     Objects.requireNonNull(passwordEditText.getText()).toString());
             loginCancel();
             if (user == null) {
@@ -63,14 +63,14 @@ public class LoginFragment extends BaseFragment {
         }
     }
 
-    private void loginFail(User user) {
+    private void loginFail(UserDTO user) {
         SemsApplication.instance.removeUser();
         Toast.makeText(getLoginActivity(), R.string.login_fail, Toast.LENGTH_LONG).show();
     }
 
-    public static void loginSuccess(LoginActivity loginActivity, User user) {
+    public static void loginSuccess(LoginActivity loginActivity, UserDTO user) {
         SemsApplication.instance.putUser(user);
-        Toast.makeText(loginActivity, String.format("用户: %s 登录成功!", user.getUkEmail()),
+        Toast.makeText(loginActivity, String.format("用户: %s 登录成功!", user.getUser().getEmail()),
                 Toast.LENGTH_LONG).show();
         loginActivity.startActivity(new Intent(loginActivity, MainActivity.class));
         loginActivity.finish();

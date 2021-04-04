@@ -16,7 +16,6 @@ android {
             cmake {
                 arguments "-DANDROID_STL=c++_shared"
                 cppFlags ""
-//                abiFilters 'armeabi-v7a'
                 abiFilters 'arm64-v8a'
             }
         }

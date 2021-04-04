@@ -15,6 +15,7 @@ import cool.zzy.sems.application.constant.Const;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.RegexUtils;
+import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.UserService;
 
@@ -102,13 +103,13 @@ public class RegisterFragment extends BaseFragment {
         if (userService != null) {
             User user = new User();
             user.setNickname(Objects.requireNonNull(userNameEditText.getText()).toString());
-            user.setUkEmail(Objects.requireNonNull(emailEditText.getText()).toString());
+            user.setEmail(Objects.requireNonNull(emailEditText.getText()).toString());
             user.setPasswordHash(Objects.requireNonNull(passwordEditText.getText()).toString());
             user.setGender(gender);
             user.setIp(SemsApplication.instance.getIp());
             try {
-                user = userService.register(user);
-                LoginFragment.loginSuccess(getLoginActivity(), user);
+                UserDTO userDTO = userService.register(user);
+                LoginFragment.loginSuccess(getLoginActivity(), userDTO);
             } catch (Exception e) {
                 Toast.makeText(getLoginActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
             } finally {

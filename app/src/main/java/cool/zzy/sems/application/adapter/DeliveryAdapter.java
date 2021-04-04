@@ -73,7 +73,7 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
         }
         info.setText(infoStr.toString());
         // 快递状态
-        DeliveryStatusEnum deliveryStatusEnum = DeliveryStatusEnum.of(delivery.getDeliveryStatus());
+        DeliveryStatusEnum deliveryStatusEnum = DeliveryStatusEnum.from(delivery.getDeliveryStatus());
         status.setText(deliveryStatusEnum.getDescription());
         DeliveryCompanyHandler.DeliveryCompanyEntity deliveryCompanyEntity = DeliveryCompanyHandler.get(delivery.getDeliveryCompanyId());
         List<Logistics> logisticsList = deliveryLogistics.getLogisticsList();

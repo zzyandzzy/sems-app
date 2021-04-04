@@ -1,5 +1,6 @@
 package cool.zzy.sems.context.service;
 
+import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 
 /**
@@ -18,7 +19,7 @@ public interface UserService {
      * @param password 密码（未Hash之前的原始密码）
      * @return {@link User} or null
      */
-    User signIn(String email, String password);
+    UserDTO signIn(String email, String password);
 
     /**
      * 注册用户
@@ -27,7 +28,7 @@ public interface UserService {
      * @return {@link User}
      * @throws Exception 用户注册异常
      */
-    User register(User user) throws Exception;
+    UserDTO register(User user) throws Exception;
 
     /**
      * 更新用户信息
@@ -35,7 +36,7 @@ public interface UserService {
      * @param user 用户
      * @return {@link User}
      */
-    User updateUser(User user);
+    UserDTO updateUser(User user);
 
     /**
      * 退出用户

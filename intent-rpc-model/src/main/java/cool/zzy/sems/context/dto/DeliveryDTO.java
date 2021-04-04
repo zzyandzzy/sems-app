@@ -3,6 +3,7 @@ package cool.zzy.sems.context.dto;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author intent <a>zzy.main@gmail.com</a>
@@ -13,8 +14,8 @@ import java.io.Serializable;
 public class DeliveryDTO implements Serializable {
     private static final long serialVersionUID = 3593625541433750056L;
     private Integer id;
-    private Long created;
-    private Long modified;
+    private Date created;
+    private Date modified;
     private Integer userId;
     private String postId;
     private Integer deliveryCompanyId;

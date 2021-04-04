@@ -25,6 +25,6 @@ public interface DeliveryService {
      * @param delivery 物流信息
      * @return true add success
      */
-    boolean save(Delivery delivery);
+    boolean saveDelivery(Delivery delivery);
 
 }

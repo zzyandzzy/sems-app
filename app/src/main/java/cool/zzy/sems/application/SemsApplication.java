@@ -6,8 +6,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import com.google.gson.Gson;
 import cool.zzy.sems.application.constant.Const;
+import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.DeliveryLogistics;
-import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.*;
 import cool.zzy.sems.rpc.client.RpcClient;
 
@@ -24,10 +24,9 @@ public class SemsApplication extends Application {
     public static SemsApplication instance;
     private volatile boolean isInitRPC;
     private String ip;
-    private User user;
+    private UserDTO user;
     private RpcClient rpcClient;
     // services
-    private HelloService helloService;
     private UserService userService;
     private DeliveryService deliveryService;
     private LogisticsService logisticsService;
@@ -64,7 +63,6 @@ public class SemsApplication extends Application {
 
     private void initService() {
         Log.d(TAG, "initService: ");
-        helloService = RpcClient.createService(HelloService.class, 1);
         userService = RpcClient.createService(UserService.class, 1);
         deliveryService = RpcClient.createService(DeliveryService.class, 1);
         logisticsService = RpcClient.createService(LogisticsService.class, 1);
@@ -129,10 +127,6 @@ public class SemsApplication extends Application {
         return rpcClient;
     }
 
-    public HelloService getHelloService() {
-        return helloService;
-    }
-
     public UserService getUserService() {
         return userService;
     }
@@ -141,16 +135,16 @@ public class SemsApplication extends Application {
         return isInitRPC;
     }
 
-    public void putUser(User user) {
+    public void putUser(UserDTO user) {
         String json = new Gson().toJson(user);
         putLocalStorage(Const.SHARED_PREFS_NAME, Const.SHARED_PREFS_USER, json);
         this.user = user;
     }
 
-    public User getUser() {
+    public UserDTO getUser() {
         if (user == null) {
             String data = getLocalStorage(Const.SHARED_PREFS_NAME, Const.SHARED_PREFS_USER, String.class);
-            User localUser = new Gson().fromJson(data, User.class);
+            UserDTO localUser = new Gson().fromJson(data, UserDTO.class);
             if (localUser != null) {
                 this.user = localUser;
             }
