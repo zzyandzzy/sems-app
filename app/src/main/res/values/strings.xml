@@ -75,4 +75,6 @@
     <string name="tab_user">User</string>
     <string name="tab_admin">Admin</string>
     <string name="tab_logistics_personnel">Logistics personnel</string>
+    <string name="pick_upping">Pick upping.</string>
+    <string name="pick_up_success">Pick up success.</string>
 </resources>

@@ -12,17 +12,18 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.widget.AppCompatImageView;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import cool.zzy.sems.application.OpencvJni;
 import cool.zzy.sems.application.R;
+import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.model.Rect;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.CameraHelper;
 import cool.zzy.sems.application.util.CameraUtils;
 import cool.zzy.sems.application.util.DialogUtils;
+import cool.zzy.sems.context.dto.DeliveryPickUpDTO;
+import cool.zzy.sems.context.service.DeliveryLogisticsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +37,7 @@ import java.util.List;
 public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callback, Camera.PreviewCallback {
     private static final String TAG = BarcodeFragment.class.getSimpleName();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
-    private static final int BARCODE_RESULT_SIZE = 5;
+    private static final int BARCODE_RESULT_SIZE = 3;
 
     private OpencvJni openCvJni;
     private CameraHelper cameraHelper;
@@ -44,8 +45,7 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
     private SurfaceView surfaceView;
 
     private LinearLayout barcodeBack;
-    private AppCompatImageView barcodeImageView;
-    private AppCompatTextView barcodeTextView;
+//    private AppCompatImageView barcodeImageView;
 
     private ProgressDialog progressDialog;
 
@@ -60,8 +60,7 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
     protected void initViews(View rootView) {
         initOpenCV(rootView);
         barcodeBack = rootView.findViewById(R.id.fragment_barcode_back);
-        barcodeTextView = rootView.findViewById(R.id.fragment_barcode_text);
-        progressDialog = new ProgressDialog(getActivity(), getString(R.string.clocking));
+        progressDialog = new ProgressDialog(getActivity(), getString(R.string.pick_upping));
     }
 
     @Override
@@ -141,6 +140,9 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
             Bitmap bitmap = BitmapFactory.decodeByteArray(jpegData, 0, jpegData.length);
             String barcode = openCvJni.recognitionBarcode(bitmap,
                     rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+            if ("2222222222222".equals(barcode)) {
+                return;
+            }
             if (barcodeResultList.size() == BARCODE_RESULT_SIZE) {
                 // 在BARCODE_RESULT_SIZE个结果里面存在相同次数最多的字符串
                 int[] ret = new int[BARCODE_RESULT_SIZE];
@@ -169,14 +171,34 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
     private void showBarcode(String barcode) {
         if (!barcode.isEmpty()) {
             Log.d(TAG, barcode);
-            barcodeTextView.setText(barcode);
             stopCamera();
-            DialogUtils.showTipDialog(this.getActivity(), "条形码：" + barcode,
-                    (dialog, which) -> {
-                        startOpenCV();
-                        dialog.dismiss();
-                    });
+            pickUp(barcode);
+//            DialogUtils.showTipDialog(this.getActivity(), "条形码：" + barcode,
+//                    (dialog, which) -> {
+//                        startOpenCV();
+//                        dialog.dismiss();
+//                    });
         }
+    }
+
+    private void pickUp(String postId) {
+        progressDialog.show();
+        DeliveryLogisticsService deliveryLogisticsService = SemsApplication.instance.getDeliveryLogisticsService();
+        if (deliveryLogisticsService == null) {
+            DialogUtils.showConnectErrorDialog(this.getMainActivity());
+            return;
+        }
+        new Thread(() -> {
+            DeliveryPickUpDTO deliveryPickUpDTO = deliveryLogisticsService.pickUp(postId, user);
+            getMainActivity().runOnUiThread(() -> {
+                progressDialog.dismiss();
+                DialogUtils.showTipDialog(this.getActivity(), deliveryPickUpDTO.getInfo(),
+                        (dialog, which) -> {
+                            enterMainFragment();
+                            dialog.dismiss();
+                        });
+            });
+        }).start();
     }
 
     @Override

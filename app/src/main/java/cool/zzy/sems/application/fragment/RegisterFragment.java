@@ -107,14 +107,22 @@ public class RegisterFragment extends BaseFragment {
             user.setPasswordHash(Objects.requireNonNull(passwordEditText.getText()).toString());
             user.setGender(gender);
             user.setIp(SemsApplication.instance.getIp());
-            try {
-                UserDTO userDTO = userService.register(user);
-                LoginFragment.loginSuccess(getLoginActivity(), userDTO);
-            } catch (Exception e) {
-                Toast.makeText(getLoginActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-            } finally {
-                registerCancel();
-            }
+            new Thread(() -> {
+                try {
+                    UserDTO userDTO = userService.register(user);
+                    getLoginActivity().runOnUiThread(() -> {
+                        LoginFragment.loginSuccess(getLoginActivity(), userDTO);
+                    });
+                } catch (Exception e) {
+                    getLoginActivity().runOnUiThread(() -> {
+                        Toast.makeText(getLoginActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    });
+                } finally {
+                    getLoginActivity().runOnUiThread(() -> {
+                        registerCancel();
+                    });
+                }
+            }).start();
         } else {
             registerCancel();
             DialogUtils.showConnectErrorDialog(this.getLoginActivity());

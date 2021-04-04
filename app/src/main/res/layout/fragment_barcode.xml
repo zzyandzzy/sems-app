@@ -45,16 +45,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_centerInParent="true"
-                    android:textColor="@android:color/white"
-                    android:textStyle="bold"
-                    android:textSize="20sp"
-                    tools:text="@string/input_user_name_hint"
-                    android:id="@+id/fragment_barcode_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
         </RelativeLayout>
     </LinearLayout>
 

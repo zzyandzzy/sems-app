@@ -49,14 +49,18 @@ public class LoginFragment extends BaseFragment {
         progressDialog.show();
         UserService userService = SemsApplication.instance.getUserService();
         if (userService != null) {
-            UserDTO user = userService.signIn(Objects.requireNonNull(emailEditText.getText()).toString(),
-                    Objects.requireNonNull(passwordEditText.getText()).toString());
-            loginCancel();
-            if (user == null) {
-                loginFail(user);
-            } else {
-                loginSuccess(getLoginActivity(), user);
-            }
+            new Thread(() -> {
+                UserDTO user = userService.signIn(Objects.requireNonNull(emailEditText.getText()).toString(),
+                        Objects.requireNonNull(passwordEditText.getText()).toString());
+                getLoginActivity().runOnUiThread(() -> {
+                    loginCancel();
+                    if (user == null) {
+                        loginFail(user);
+                    } else {
+                        loginSuccess(getLoginActivity(), user);
+                    }
+                });
+            }).start();
         } else {
             loginCancel();
             DialogUtils.showConnectErrorDialog(this.getLoginActivity());

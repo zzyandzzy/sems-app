@@ -1,6 +1,8 @@
 package cool.zzy.sems.context.service;
 
+import cool.zzy.sems.context.dto.DeliveryPickUpDTO;
 import cool.zzy.sems.context.model.DeliveryLogistics;
+import cool.zzy.sems.context.model.User;
 
 import java.util.List;
 
@@ -17,4 +19,12 @@ public interface DeliveryLogisticsService {
      * @return
      */
     List<DeliveryLogistics> getListByUid(Integer uid);
+
+    /**
+     * 根据快递单号取件
+     *
+     * @param postId 快递单号
+     * @return true/false
+     */
+    DeliveryPickUpDTO pickUp(String postId, User user);
 }
