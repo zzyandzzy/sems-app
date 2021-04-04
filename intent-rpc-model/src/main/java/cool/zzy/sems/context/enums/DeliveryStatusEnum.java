@@ -33,7 +33,7 @@ public enum DeliveryStatusEnum {
         this.description = description;
     }
 
-    public static DeliveryStatusEnum from(Integer deliveryStatus) {
+    public static DeliveryStatusEnum from(Short deliveryStatus) {
         if (deliveryStatus == null || deliveryStatus <= 0) {
             return WAITING_SYSTEM_CONFIRMATION;
         }

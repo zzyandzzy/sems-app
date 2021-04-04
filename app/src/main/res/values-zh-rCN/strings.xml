@@ -73,4 +73,7 @@
     <string name="loading">加载中...</string>
     <string name="delivery_info">快递信息</string>
     <string name="logistics_info">物流信息</string>
+    <string name="tab_user">用户</string>
+    <string name="tab_admin">管理员</string>
+    <string name="tab_logistics_personnel">物流人员</string>
 </resources>

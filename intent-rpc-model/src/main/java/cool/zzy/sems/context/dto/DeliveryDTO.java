@@ -24,5 +24,5 @@ public class DeliveryDTO implements Serializable {
     private String phone;
     private String deliveryName;
     private String avatarUrl;
-    private Integer deliveryStatus;
+    private Short deliveryStatus;
 }

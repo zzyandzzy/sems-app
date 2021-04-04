@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs xmlns:android="http://schemas.android.com/apk/res/android">
+    <tab
+            id="@+id/tab_user"
+            title="@string/tab_user"/>
+
+    <tab
+            id="@+id/tab_logistics_personnel"
+            title="@string/tab_logistics_personnel"/>
+
+    <tab
+            id="@+id/tab_admin"
+            title="@string/tab_admin"/>
+</tabs>

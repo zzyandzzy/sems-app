@@ -63,7 +63,7 @@ public class LogisticsFragment extends BaseFragment {
             DeliveryDTO delivery = deliveryLogistics.getDelivery();
             userInfo.setText("手机号：" + delivery.getPhone());
             postId.setText("快递单号：" + delivery.getPostId());
-            created.setText("创建时间：" + DateUtils.formatDateTime(delivery.getCreated(), TimeUnit.SECONDS));
+            created.setText("创建时间：" + DateUtils.formatDateTime(delivery.getCreated(), TimeUnit.MILLISECONDS));
             locationName.setText("运送地址：" + delivery.getLocationName());
             initRecyclerView(deliveryLogistics.getLogisticsList());
         }
