@@ -3,6 +3,8 @@ package cool.zzy.sems.context.service;
 import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 
+import java.util.List;
+
 /**
  * 用户操作相关接口
  *
@@ -45,4 +47,6 @@ public interface UserService {
      * @return true
      */
     boolean logout(String email);
+
+    List<User> list();
 }

@@ -1,5 +1,6 @@
 package cool.zzy.sems.application.fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Toast;
@@ -55,7 +56,7 @@ public class LoginFragment extends BaseFragment {
                 getLoginActivity().runOnUiThread(() -> {
                     loginCancel();
                     if (user == null) {
-                        loginFail(user);
+                        loginFail(getLoginActivity(), user);
                     } else {
                         loginSuccess(getLoginActivity(), user);
                     }
@@ -67,17 +68,17 @@ public class LoginFragment extends BaseFragment {
         }
     }
 
-    private void loginFail(UserDTO user) {
+    public static void loginFail(Activity activity, UserDTO user) {
         SemsApplication.instance.removeUser();
-        Toast.makeText(getLoginActivity(), R.string.login_fail, Toast.LENGTH_LONG).show();
+        Toast.makeText(activity, R.string.login_fail, Toast.LENGTH_LONG).show();
     }
 
-    public static void loginSuccess(LoginActivity loginActivity, UserDTO user) {
+    public static void loginSuccess(Activity activity, UserDTO user) {
         SemsApplication.instance.putUser(user);
-        Toast.makeText(loginActivity, String.format("用户: %s 登录成功!", user.getUser().getEmail()),
+        Toast.makeText(activity, String.format("用户: %s 登录成功!", user.getUser().getEmail()),
                 Toast.LENGTH_LONG).show();
-        loginActivity.startActivity(new Intent(loginActivity, MainActivity.class));
-        loginActivity.finish();
+        activity.startActivity(new Intent(activity, MainActivity.class));
+        activity.finish();
     }
 
     @Override

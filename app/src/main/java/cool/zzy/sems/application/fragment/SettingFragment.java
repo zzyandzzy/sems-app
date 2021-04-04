@@ -1,17 +1,25 @@
 package cool.zzy.sems.application.fragment;
 
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
+import androidx.appcompat.widget.AppCompatSpinner;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
+import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DialogUtils;
+import cool.zzy.sems.application.util.HashUtils;
 import cool.zzy.sems.application.util.UserUtils;
 import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.UserService;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author intent <a>zzy.main@gmail.com</a>
@@ -19,11 +27,17 @@ import cool.zzy.sems.context.service.UserService;
  * @since 1.0
  */
 public class SettingFragment extends BaseFragment {
+    private static final String TAG = SettingFragment.class.getSimpleName();
     private LinearLayout settingBack;
     private AppCompatButton logoutButton;
     private AppCompatButton saveButton;
     private AppCompatEditText emailEdittext;
     private AppCompatEditText usernameEdittext;
+    private AppCompatSpinner allUserSpinner;
+    private AppCompatButton allUserButton;
+    private List<User> userList;
+    private int selectUserListPosition = 0;
+    private ProgressDialog progressDialog;
 
     @Override
     protected int getLayout() {
@@ -37,6 +51,9 @@ public class SettingFragment extends BaseFragment {
         saveButton = rootView.findViewById(R.id.fragment_setting_save);
         emailEdittext = rootView.findViewById(R.id.fragment_setting_email);
         usernameEdittext = rootView.findViewById(R.id.fragment_setting_username);
+        allUserSpinner = rootView.findViewById(R.id.fragment_setting_all_user_spinner);
+        allUserButton = rootView.findViewById(R.id.fragment_setting_all_user_button);
+        progressDialog = new ProgressDialog(Objects.requireNonNull(getMainActivity()), getString(R.string.logging));
     }
 
     @Override
@@ -44,8 +61,43 @@ public class SettingFragment extends BaseFragment {
         settingBack.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
         saveButton.setOnClickListener(this);
+        allUserButton.setOnClickListener(this);
         emailEdittext.setText(user.getEmail());
         usernameEdittext.setText(user.getNickname());
+        initUserAllData();
+    }
+
+    private void initUserAllData() {
+        UserService userService = SemsApplication.instance.getUserService();
+        if (userService == null) {
+            DialogUtils.showConnectErrorDialog(this.getMainActivity());
+            return;
+        }
+        new Thread(() -> {
+            userList = userService.list();
+            getMainActivity().runOnUiThread(() -> {
+                if (userList != null && !userList.isEmpty()) {
+                    String[] array = new String[userList.size()];
+                    for (int i = 0; i < userList.size(); i++) {
+                        array[i] = userList.get(i).getNickname();
+                    }
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
+                            getContext(), android.R.layout.simple_list_item_1, array);
+                    allUserSpinner.setAdapter(arrayAdapter);
+                    allUserSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            selectUserListPosition = position;
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+            });
+        }).start();
     }
 
     @Override
@@ -59,6 +111,32 @@ public class SettingFragment extends BaseFragment {
                 break;
             case R.id.fragment_setting_save:
                 saveUser();
+                break;
+            case R.id.fragment_setting_all_user_button:
+                if (userList != null) {
+                    User user = userList.get(selectUserListPosition);
+                    if (user != null) {
+                        progressDialog.show();
+                        UserService userService = SemsApplication.instance.getUserService();
+                        if (userService == null) {
+                            progressDialog.dismiss();
+                            DialogUtils.showConnectErrorDialog(this.getMainActivity());
+                            return;
+                        }
+                        new Thread(() -> {
+                            UserDTO userDTO = userService.signIn(user.getEmail(),
+                                    HashUtils.removeSalt(user.getPasswordHash()));
+                            getMainActivity().runOnUiThread(() -> {
+                                progressDialog.dismiss();
+                                if (user == null) {
+                                    LoginFragment.loginFail(getMainActivity(), userDTO);
+                                } else {
+                                    LoginFragment.loginSuccess(getMainActivity(), userDTO);
+                                }
+                            });
+                        }).start();
+                    }
+                }
                 break;
             default:
         }
