@@ -19,6 +19,7 @@ public class MainActivity extends BaseActivity {
     public SettingFragment settingFragment;
     public BarcodeFragment userBarcodeFragment;
     public BarcodeFragment logisticsPersonnelBarcodeFragment;
+    public BarcodeFragment newDeliveryBarcodeFragment;
     public LogisticsFragment logisticsFragment;
     public LogisticsPersonnelFragment logisticsPersonnelFragment;
 
@@ -61,6 +62,7 @@ public class MainActivity extends BaseActivity {
         if (roleEnum == UserRoleEnum.LOGISTICS_PERSONNEL) {
             bottomBar.setItems(R.xml.bottombar_tabs_logistics_personnel);
         } else if (roleEnum == UserRoleEnum.ADMIN) {
+            newDeliveryBarcodeFragment = new BarcodeFragment(BarcodeFragment.NEW_DELIVERY_SCAN_TYPE);
             bottomBar.setItems(R.xml.bottombar_tabs_admin);
         }
         for (int i = 0; i < bottomBar.getTabCount(); i++) {

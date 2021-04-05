@@ -2,7 +2,6 @@ package cool.zzy.sems.application.fragment;
 
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatButton;
@@ -13,12 +12,12 @@ import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.HashUtils;
+import cool.zzy.sems.application.util.SpinnerAdapterUtils;
 import cool.zzy.sems.application.util.UserUtils;
 import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.UserService;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -35,7 +34,6 @@ public class SettingFragment extends BaseFragment {
     private AppCompatEditText usernameEdittext;
     private AppCompatSpinner allUserSpinner;
     private AppCompatButton allUserButton;
-    private List<User> userList;
     private int selectUserListPosition = 0;
     private ProgressDialog progressDialog;
 
@@ -64,40 +62,21 @@ public class SettingFragment extends BaseFragment {
         allUserButton.setOnClickListener(this);
         emailEdittext.setText(user.getEmail());
         usernameEdittext.setText(user.getNickname());
-        initUserAllData();
+        initAllUserData();
     }
 
-    private void initUserAllData() {
-        UserService userService = SemsApplication.instance.getUserService();
-        if (userService == null) {
-            DialogUtils.showConnectErrorDialog(this.getMainActivity());
-            return;
-        }
-        new Thread(() -> {
-            userList = userService.list();
-            getMainActivity().runOnUiThread(() -> {
-                if (userList != null && !userList.isEmpty()) {
-                    String[] array = new String[userList.size()];
-                    for (int i = 0; i < userList.size(); i++) {
-                        array[i] = userList.get(i).getNickname();
-                    }
-                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(
-                            getContext(), android.R.layout.simple_list_item_1, array);
-                    allUserSpinner.setAdapter(arrayAdapter);
-                    allUserSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            selectUserListPosition = position;
-                        }
+    private void initAllUserData() {
+        SpinnerAdapterUtils.initAllUserData(getActivity(), allUserSpinner, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectUserListPosition = position;
+            }
 
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
 
-                        }
-                    });
-                }
-            });
-        }).start();
+            }
+        });
     }
 
     @Override
@@ -113,8 +92,8 @@ public class SettingFragment extends BaseFragment {
                 saveUser();
                 break;
             case R.id.fragment_setting_all_user_button:
-                if (userList != null) {
-                    User user = userList.get(selectUserListPosition);
+                if (SpinnerAdapterUtils.userList != null) {
+                    User user = SpinnerAdapterUtils.userList.get(selectUserListPosition);
                     if (user != null) {
                         progressDialog.show();
                         UserService userService = SemsApplication.instance.getUserService();

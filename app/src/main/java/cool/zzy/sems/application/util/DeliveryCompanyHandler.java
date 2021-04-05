@@ -15,7 +15,7 @@ import java.util.Map;
 public class DeliveryCompanyHandler {
 
     private final static Map<Integer, DeliveryCompanyEntity> DELIVERY_COMPANY_MAP = new HashMap<>(16);
-    private final static DeliveryCompanyEntity[] DELIVERY_COMPANY_ARRAY = new DeliveryCompanyEntity[]{
+    public final static DeliveryCompanyEntity[] DELIVERY_COMPANY_ARRAY = new DeliveryCompanyEntity[]{
             new DeliveryCompanyEntity(317, "顺丰速运", R.drawable.delivery_sf),
             new DeliveryCompanyEntity(96, "EMS快递", R.drawable.delivery_ems),
             new DeliveryCompanyEntity(28, "百世快递", R.drawable.delivery_baishi),

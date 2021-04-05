@@ -24,7 +24,9 @@ import cool.zzy.sems.application.util.CameraUtils;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.context.dto.DeliveryPickUpDTO;
 import cool.zzy.sems.context.dto.LogisticsAddDTO;
+import cool.zzy.sems.context.model.Delivery;
 import cool.zzy.sems.context.service.DeliveryLogisticsService;
+import cool.zzy.sems.context.service.DeliveryService;
 import cool.zzy.sems.context.service.LogisticsService;
 
 import java.util.ArrayList;
@@ -55,6 +57,7 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
 
     public static final int USER_SCAN_TYPE = 1;
     public static final int LOGISTICS_PERSONNEL_SCAN_TYPE = 2;
+    public static final int NEW_DELIVERY_SCAN_TYPE = 3;
     private final int type;
 
     public BarcodeFragment(int type) {
@@ -84,7 +87,11 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
     protected void viewOnClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_barcode_back:
-                enterMainFragment();
+                if (type == USER_SCAN_TYPE) {
+                    enterMainFragment();
+                } else if (type == LOGISTICS_PERSONNEL_SCAN_TYPE || type == NEW_DELIVERY_SCAN_TYPE) {
+                    enterLogisticsPersonnelFragment();
+                }
                 break;
         }
     }
@@ -178,15 +185,48 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
         }
     }
 
-    private void showBarcode(String barcode) {
-        if (!barcode.isEmpty()) {
-            Log.d(TAG, barcode);
+    private void showBarcode(String postId) {
+        if (!postId.isEmpty()) {
+            Log.d(TAG, postId);
             stopCamera();
             if (type == USER_SCAN_TYPE) {
-                pickUp(barcode);
+                pickUp(postId);
             } else if (type == LOGISTICS_PERSONNEL_SCAN_TYPE) {
-                inOutbound(barcode);
+                inOutbound(postId);
+            } else if (type == NEW_DELIVERY_SCAN_TYPE) {
+                newDelivery(postId);
             }
+        }
+    }
+
+    /**
+     * 新建快递
+     *
+     * @param postId
+     */
+    private void newDelivery(String postId) {
+        progressDialog.setTitle(getString(R.string.in_the_outbound));
+        progressDialog.show();
+        Delivery newDelivery = SemsApplication.instance.getNewDelivery();
+        if (newDelivery != null) {
+            newDelivery.setPostId(postId);
+            DeliveryService deliveryService = SemsApplication.instance.getDeliveryService();
+            if (deliveryService == null) {
+                DialogUtils.showConnectErrorDialog(getActivity());
+                return;
+            }
+            new Thread(() -> {
+                boolean b = deliveryService.saveDelivery(newDelivery);
+                getMainActivity().runOnUiThread(() -> {
+                    progressDialog.dismiss();
+                    SemsApplication.instance.setNewDelivery(null);
+                    DialogUtils.showTipDialog(this.getActivity(), b ? getString(R.string.success) : getString(R.string.fail),
+                            (dialog, which) -> {
+                                dialog.dismiss();
+                                enterLogisticsPersonnelFragment();
+                            });
+                });
+            }).start();
         }
     }
 

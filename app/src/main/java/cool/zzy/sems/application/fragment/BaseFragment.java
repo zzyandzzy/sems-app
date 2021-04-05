@@ -63,6 +63,15 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
                 .setCurrentFragment(getMainActivity().userBarcodeFragment);
     }
 
+    public void enterLogisticsPersonnelFragment() {
+        getMainActivity()
+                .setCurrentFragment(getMainActivity().logisticsPersonnelFragment);
+    }
+
+    public void enterNewDeliveryBarcodeFragment(){
+        getMainActivity().setCurrentFragment(getMainActivity().newDeliveryBarcodeFragment);
+    }
+
     public void enterLogisticsPersonnelBarcodeFragment() {
         getMainActivity()
                 .setCurrentFragment(getMainActivity().logisticsPersonnelBarcodeFragment);

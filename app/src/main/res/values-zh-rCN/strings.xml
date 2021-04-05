@@ -80,4 +80,10 @@
     <string name="pick_up_success">取件成功</string>
     <string name="scan_in_the_outbound">扫码入库</string>
     <string name="in_the_outbound">入库中</string>
+    <string name="new_delivery">新建快递</string>
+    <string name="input_delivery_remark_hint">请输入快递备注</string>
+    <string name="input_phone_hint">请输入电话号</string>
+    <string name="input_delivery_location_hint">请输入快递地址</string>
+    <string name="input_delivery_name_hint">请输入快递名称</string>
+    <string name="fail">失败</string>
 </resources>

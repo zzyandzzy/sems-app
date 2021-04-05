@@ -7,6 +7,7 @@ import android.util.Log;
 import com.google.gson.Gson;
 import cool.zzy.sems.application.constant.Const;
 import cool.zzy.sems.context.dto.UserDTO;
+import cool.zzy.sems.context.model.Delivery;
 import cool.zzy.sems.context.model.DeliveryLogistics;
 import cool.zzy.sems.context.service.*;
 import cool.zzy.sems.rpc.client.RpcClient;
@@ -30,9 +31,11 @@ public class SemsApplication extends Application {
     private UserService userService;
     private DeliveryService deliveryService;
     private LogisticsService logisticsService;
+    private LogisticsLocationService logisticsLocationService;
     private DeliveryLogisticsService deliveryLogisticsService;
     // 公共
     private DeliveryLogistics deliveryLogistics;
+    private Delivery newDelivery;
 
     public SemsApplication() {
         instance = this;
@@ -66,6 +69,7 @@ public class SemsApplication extends Application {
         userService = RpcClient.createService(UserService.class, 1);
         deliveryService = RpcClient.createService(DeliveryService.class, 1);
         logisticsService = RpcClient.createService(LogisticsService.class, 1);
+        logisticsLocationService = RpcClient.createService(LogisticsLocationService.class, 1);
         deliveryLogisticsService = RpcClient.createService(DeliveryLogisticsService.class, 1);
     }
 
@@ -184,5 +188,17 @@ public class SemsApplication extends Application {
 
     public void setDeliveryLogistics(DeliveryLogistics deliveryLogistics) {
         this.deliveryLogistics = deliveryLogistics;
+    }
+
+    public LogisticsLocationService getLogisticsLocationService() {
+        return logisticsLocationService;
+    }
+
+    public Delivery getNewDelivery() {
+        return newDelivery;
+    }
+
+    public void setNewDelivery(Delivery newDelivery) {
+        this.newDelivery = newDelivery;
     }
 }

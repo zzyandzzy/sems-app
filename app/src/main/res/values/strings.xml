@@ -79,4 +79,10 @@
     <string name="pick_up_success">Pick up success.</string>
     <string name="scan_in_the_outbound">Scan in the outbound</string>
     <string name="in_the_outbound">In the outbound</string>
+    <string name="new_delivery">New delivery.</string>
+    <string name="input_delivery_remark_hint">Please inout delivery remark</string>
+    <string name="input_phone_hint">Please input phone number.</string>
+    <string name="input_delivery_location_hint">Please inout delivery location.</string>
+    <string name="input_delivery_name_hint">Please input delivery name.</string>
+    <string name="fail">Fail</string>
 </resources>
