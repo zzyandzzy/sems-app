@@ -58,11 +58,11 @@ public class MainActivity extends BaseActivity {
             return;
         }
         logisticsPersonnelBarcodeFragment = new BarcodeFragment(BarcodeFragment.LOGISTICS_PERSONNEL_SCAN_TYPE);
+        newDeliveryBarcodeFragment = new BarcodeFragment(BarcodeFragment.NEW_DELIVERY_SCAN_TYPE);
         logisticsPersonnelFragment = new LogisticsPersonnelFragment();
         if (roleEnum == UserRoleEnum.LOGISTICS_PERSONNEL) {
             bottomBar.setItems(R.xml.bottombar_tabs_logistics_personnel);
         } else if (roleEnum == UserRoleEnum.ADMIN) {
-            newDeliveryBarcodeFragment = new BarcodeFragment(BarcodeFragment.NEW_DELIVERY_SCAN_TYPE);
             bottomBar.setItems(R.xml.bottombar_tabs_admin);
         }
         for (int i = 0; i < bottomBar.getTabCount(); i++) {

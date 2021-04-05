@@ -60,12 +60,11 @@ public class LogisticsPersonnelFragment extends BaseFragment {
         UserRoleEnum roleEnum = UserRoleEnum.from(userRole.getRoleName());
         if (roleEnum == UserRoleEnum.ADMIN) {
             initAllLocationData();
-            initAllUserData();
-            intiAllDeliveryCompanyData();
         } else {
             locationSpinner.setVisibility(View.GONE);
-            adminDeliveryCardView.setVisibility(View.GONE);
         }
+        initAllUserData();
+        intiAllDeliveryCompanyData();
     }
 
     private void intiAllDeliveryCompanyData() {
@@ -124,22 +123,20 @@ public class LogisticsPersonnelFragment extends BaseFragment {
                 enterLogisticsPersonnelBarcodeFragment();
                 break;
             case R.id.fragment_logistics_personnel_post_id_scan:
-                if (roleEnum == UserRoleEnum.ADMIN) {
-                    User newDeliveryUser = SpinnerAdapterUtils.userList.get(selectUserListPosition);
-                    if (newDeliveryUser != null) {
-                        DeliveryCompanyHandler.DeliveryCompanyEntity newDeliveryCompany =
-                                DeliveryCompanyHandler.DELIVERY_COMPANY_ARRAY[selectDeliveryCompanyPosition];
-                        if (newDeliveryCompany != null) {
-                            Delivery delivery = new Delivery();
-                            delivery.setLocationName(newDeliveryLocationEditText.getText().toString());
-                            delivery.setPhone(newDeliveryPhoneEditText.getText().toString());
-                            delivery.setDeliveryName(newDeliveryNameEditText.getText().toString());
-                            delivery.setUserId(newDeliveryUser.getId());
-                            delivery.setDeliveryCompanyId(newDeliveryCompany.getId());
-                            delivery.setRemark(newDeliveryCompany.getName());
-                            SemsApplication.instance.setNewDelivery(delivery);
-                            enterNewDeliveryBarcodeFragment();
-                        }
+                User newDeliveryUser = SpinnerAdapterUtils.userList.get(selectUserListPosition);
+                if (newDeliveryUser != null) {
+                    DeliveryCompanyHandler.DeliveryCompanyEntity newDeliveryCompany =
+                            DeliveryCompanyHandler.DELIVERY_COMPANY_ARRAY[selectDeliveryCompanyPosition];
+                    if (newDeliveryCompany != null) {
+                        Delivery delivery = new Delivery();
+                        delivery.setLocationName(newDeliveryLocationEditText.getText().toString());
+                        delivery.setPhone(newDeliveryPhoneEditText.getText().toString());
+                        delivery.setDeliveryName(newDeliveryNameEditText.getText().toString());
+                        delivery.setUserId(newDeliveryUser.getId());
+                        delivery.setDeliveryCompanyId(newDeliveryCompany.getId());
+                        delivery.setRemark(newDeliveryCompany.getName());
+                        SemsApplication.instance.setNewDelivery(delivery);
+                        enterNewDeliveryBarcodeFragment();
                     }
                 }
                 break;
