@@ -54,37 +54,51 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
     protected abstract void viewOnClick(View v);
 
     public void enterSettingFragment() {
-        getMainActivity()
-                .setCurrentFragment(getMainActivity().settingFragment);
+        if (getMainActivity().settingFragment != null) {
+            getMainActivity()
+                    .setCurrentFragment(getMainActivity().settingFragment);
+        }
     }
 
     public void enterUserBarcodeFragment() {
-        getMainActivity()
-                .setCurrentFragment(getMainActivity().userBarcodeFragment);
+        if (getMainActivity().userBarcodeFragment != null) {
+            getMainActivity()
+                    .setCurrentFragment(getMainActivity().userBarcodeFragment);
+        }
     }
 
     public void enterLogisticsPersonnelFragment() {
-        getMainActivity()
-                .setCurrentFragment(getMainActivity().logisticsPersonnelFragment);
+        if (getMainActivity().logisticsPersonnelFragment != null) {
+            getMainActivity()
+                    .setCurrentFragment(getMainActivity().logisticsPersonnelFragment);
+        }
     }
 
-    public void enterNewDeliveryBarcodeFragment(){
-        getMainActivity().setCurrentFragment(getMainActivity().newDeliveryBarcodeFragment);
+    public void enterNewDeliveryBarcodeFragment() {
+        if (getMainActivity().newDeliveryBarcodeFragment != null) {
+            getMainActivity().setCurrentFragment(getMainActivity().newDeliveryBarcodeFragment);
+        }
     }
 
     public void enterLogisticsPersonnelBarcodeFragment() {
-        getMainActivity()
-                .setCurrentFragment(getMainActivity().logisticsPersonnelBarcodeFragment);
+        if (getMainActivity().logisticsPersonnelBarcodeFragment != null) {
+            getMainActivity()
+                    .setCurrentFragment(getMainActivity().logisticsPersonnelBarcodeFragment);
+        }
     }
 
     public void enterMainFragment() {
-        getMainActivity()
-                .setCurrentFragment(getMainActivity().mainFragment);
+        if (getMainActivity().mainFragment != null) {
+            getMainActivity()
+                    .setCurrentFragment(getMainActivity().mainFragment);
+        }
     }
 
     public void enterLogisticsFragment() {
-        getMainActivity()
-                .setCurrentFragment(getMainActivity().logisticsFragment);
+        if (getMainActivity().logisticsFragment != null) {
+            getMainActivity()
+                    .setCurrentFragment(getMainActivity().logisticsFragment);
+        }
     }
 
     public MainActivity getMainActivity() {

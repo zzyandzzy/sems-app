@@ -86,4 +86,7 @@
     <string name="input_delivery_location_hint">请输入快递地址</string>
     <string name="input_delivery_name_hint">请输入快递名称</string>
     <string name="fail">失败</string>
+    <string name="input_delivery_post_id_hint">请输入快递单号(或使用扫描)</string>
+    <string name="random">随机</string>
+    <string name="saveing_delivery">保存快递中</string>
 </resources>

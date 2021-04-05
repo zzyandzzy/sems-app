@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat;
 import cool.zzy.sems.application.OpencvJni;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
+import cool.zzy.sems.application.activity.MainActivity;
 import cool.zzy.sems.application.model.Rect;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.CameraHelper;
@@ -194,7 +195,7 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
             } else if (type == LOGISTICS_PERSONNEL_SCAN_TYPE) {
                 inOutbound(postId);
             } else if (type == NEW_DELIVERY_SCAN_TYPE) {
-                newDelivery(postId);
+                newDelivery(getMainActivity(), progressDialog, postId, true);
             }
         }
     }
@@ -204,26 +205,28 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
      *
      * @param postId
      */
-    private void newDelivery(String postId) {
-        progressDialog.setTitle(getString(R.string.in_the_outbound));
+    public static void newDelivery(MainActivity activity, ProgressDialog progressDialog, String postId, boolean isBack) {
+        progressDialog.setTitle(activity.getString(R.string.saveing_delivery));
         progressDialog.show();
         Delivery newDelivery = SemsApplication.instance.getNewDelivery();
         if (newDelivery != null) {
             newDelivery.setPostId(postId);
             DeliveryService deliveryService = SemsApplication.instance.getDeliveryService();
             if (deliveryService == null) {
-                DialogUtils.showConnectErrorDialog(getActivity());
+                DialogUtils.showConnectErrorDialog(activity);
                 return;
             }
             new Thread(() -> {
                 boolean b = deliveryService.saveDelivery(newDelivery);
-                getMainActivity().runOnUiThread(() -> {
+                activity.runOnUiThread(() -> {
                     progressDialog.dismiss();
                     SemsApplication.instance.setNewDelivery(null);
-                    DialogUtils.showTipDialog(this.getActivity(), b ? getString(R.string.success) : getString(R.string.fail),
+                    DialogUtils.showTipDialog(activity, b ? activity.getString(R.string.success) : activity.getString(R.string.fail),
                             (dialog, which) -> {
                                 dialog.dismiss();
-                                enterLogisticsPersonnelFragment();
+                                if (isBack) {
+                                    activity.newDeliveryBarcodeFragment.enterLogisticsPersonnelFragment();
+                                }
                             });
                 });
             }).start();

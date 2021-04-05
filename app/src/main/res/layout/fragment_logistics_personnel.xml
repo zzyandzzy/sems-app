@@ -60,7 +60,6 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-                android:id="@+id/fragment_logistics_personnel_admin_delivery"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -114,6 +113,32 @@
 
                     </LinearLayout>
 
+                    <LinearLayout
+                            android:gravity="center"
+                            android:orientation="horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/fragment_logistics_personnel_admin_delivery_post_id"
+                                android:ems="10"
+                                android:focusable="true"
+                                android:hint="@string/input_delivery_post_id_hint"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:theme="@style/EditTextStyle"
+                                android:backgroundTint="@android:color/transparent"
+                                android:textCursorDrawable="@drawable/edit_cursor_color"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/fragment_logistics_personnel_admin_delivery_post_id_random"
+                                android:text="@string/random"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
+
                     <androidx.appcompat.widget.AppCompatEditText
                             android:id="@+id/fragment_logistics_personnel_admin_delivery_location"
                             android:ems="10"
@@ -138,17 +163,30 @@
                             android:backgroundTint="@android:color/transparent"
                             android:textCursorDrawable="@drawable/edit_cursor_color"/>
 
-                    <androidx.appcompat.widget.AppCompatEditText
-                            android:id="@+id/fragment_logistics_personnel_admin_delivery_name"
-                            android:ems="10"
-                            android:focusable="true"
-                            android:hint="@string/input_delivery_name_hint"
+                    <LinearLayout
+                            android:gravity="center"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:inputType="text"
-                            android:theme="@style/EditTextStyle"
-                            android:backgroundTint="@android:color/transparent"
-                            android:textCursorDrawable="@drawable/edit_cursor_color"/>
+                            android:layout_height="wrap_content">
+
+                        <androidx.appcompat.widget.AppCompatEditText
+                                android:id="@+id/fragment_logistics_personnel_admin_delivery_name"
+                                android:ems="10"
+                                android:focusable="true"
+                                android:hint="@string/input_delivery_name_hint"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:inputType="text"
+                                android:theme="@style/EditTextStyle"
+                                android:backgroundTint="@android:color/transparent"
+                                android:textCursorDrawable="@drawable/edit_cursor_color"/>
+
+                        <androidx.appcompat.widget.AppCompatButton
+                                android:id="@+id/fragment_logistics_personnel_admin_delivery_save"
+                                android:text="@string/new_delivery"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

@@ -85,4 +85,7 @@
     <string name="input_delivery_location_hint">Please inout delivery location.</string>
     <string name="input_delivery_name_hint">Please input delivery name.</string>
     <string name="fail">Fail</string>
+    <string name="input_delivery_post_id_hint">Please input delivery post id.</string>
+    <string name="random">Random</string>
+    <string name="saveing_delivery">Saveing delivery</string>
 </resources>

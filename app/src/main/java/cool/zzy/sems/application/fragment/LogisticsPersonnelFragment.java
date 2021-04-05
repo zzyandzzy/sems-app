@@ -2,13 +2,15 @@ package cool.zzy.sems.application.fragment;
 
 import android.view.View;
 import android.widget.AdapterView;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatSpinner;
-import androidx.cardview.widget.CardView;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
+import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DeliveryCompanyHandler;
+import cool.zzy.sems.application.util.EAN13Utils;
 import cool.zzy.sems.application.util.SpinnerAdapterUtils;
 import cool.zzy.sems.context.enums.UserRoleEnum;
 import cool.zzy.sems.context.model.Delivery;
@@ -26,7 +28,6 @@ public class LogisticsPersonnelFragment extends BaseFragment {
     // admin
     private int selectLocationListPosition = 0;
     private AppCompatSpinner locationSpinner;
-    private CardView adminDeliveryCardView;
     private AppCompatSpinner adminAllUserSpinner;
     private int selectUserListPosition = 0;
     private AppCompatSpinner adminAllDeliveryCompanySpinner;
@@ -34,6 +35,10 @@ public class LogisticsPersonnelFragment extends BaseFragment {
     private AppCompatEditText newDeliveryLocationEditText;
     private AppCompatEditText newDeliveryNameEditText;
     private AppCompatEditText newDeliveryPhoneEditText;
+    private AppCompatEditText adminDeliveryPostId;
+    private AppCompatButton adminDeliveryPostIdRandomButton;
+    private AppCompatButton adminDeliverySave;
+    private ProgressDialog progressDialog;
 
     @Override
     protected int getLayout() {
@@ -45,16 +50,22 @@ public class LogisticsPersonnelFragment extends BaseFragment {
         scanImageView = rootView.findViewById(R.id.fragment_logistics_personnel_scan);
         newDeliveryScanImageView = rootView.findViewById(R.id.fragment_logistics_personnel_post_id_scan);
         locationSpinner = rootView.findViewById(R.id.fragment_logistics_personnel_location_spinner);
-        adminDeliveryCardView = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery);
         adminAllUserSpinner = rootView.findViewById(R.id.fragment_logistics_personnel_admin_all_user_spinner);
         adminAllDeliveryCompanySpinner = rootView.findViewById(R.id.fragment_logistics_personnel_admin_all_delivery_company_spinner);
         newDeliveryLocationEditText = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_location);
         newDeliveryNameEditText = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_name);
         newDeliveryPhoneEditText = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_phone);
+        adminDeliveryPostId = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_post_id);
+        adminDeliveryPostIdRandomButton = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_post_id_random);
+        adminDeliverySave = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_save);
+        progressDialog = new ProgressDialog(getActivity(), getString(R.string.saveing_delivery));
     }
 
     @Override
     protected void initData() {
+        adminDeliveryPostId.setText(EAN13Utils.randomCode());
+        adminDeliveryPostIdRandomButton.setOnClickListener(this);
+        adminDeliverySave.setOnClickListener(this);
         scanImageView.setOnClickListener(this);
         newDeliveryScanImageView.setOnClickListener(this);
         UserRoleEnum roleEnum = UserRoleEnum.from(userRole.getRoleName());
@@ -123,24 +134,38 @@ public class LogisticsPersonnelFragment extends BaseFragment {
                 enterLogisticsPersonnelBarcodeFragment();
                 break;
             case R.id.fragment_logistics_personnel_post_id_scan:
-                User newDeliveryUser = SpinnerAdapterUtils.userList.get(selectUserListPosition);
-                if (newDeliveryUser != null) {
-                    DeliveryCompanyHandler.DeliveryCompanyEntity newDeliveryCompany =
-                            DeliveryCompanyHandler.DELIVERY_COMPANY_ARRAY[selectDeliveryCompanyPosition];
-                    if (newDeliveryCompany != null) {
-                        Delivery delivery = new Delivery();
-                        delivery.setLocationName(newDeliveryLocationEditText.getText().toString());
-                        delivery.setPhone(newDeliveryPhoneEditText.getText().toString());
-                        delivery.setDeliveryName(newDeliveryNameEditText.getText().toString());
-                        delivery.setUserId(newDeliveryUser.getId());
-                        delivery.setDeliveryCompanyId(newDeliveryCompany.getId());
-                        delivery.setRemark(newDeliveryCompany.getName());
-                        SemsApplication.instance.setNewDelivery(delivery);
-                        enterNewDeliveryBarcodeFragment();
-                    }
-                }
+                initNewDelivery(true);
+                break;
+            case R.id.fragment_logistics_personnel_admin_delivery_post_id_random:
+                adminDeliveryPostId.setText(EAN13Utils.randomCode());
+                break;
+            case R.id.fragment_logistics_personnel_admin_delivery_save:
+                initNewDelivery(false);
                 break;
             default:
+        }
+    }
+
+    public void initNewDelivery(boolean enterBarcode) {
+        User newDeliveryUser = SpinnerAdapterUtils.userList.get(selectUserListPosition);
+        if (newDeliveryUser != null) {
+            DeliveryCompanyHandler.DeliveryCompanyEntity newDeliveryCompany =
+                    DeliveryCompanyHandler.DELIVERY_COMPANY_ARRAY[selectDeliveryCompanyPosition];
+            if (newDeliveryCompany != null) {
+                Delivery delivery = new Delivery();
+                delivery.setLocationName(newDeliveryLocationEditText.getText().toString());
+                delivery.setPhone(newDeliveryPhoneEditText.getText().toString());
+                delivery.setDeliveryName(newDeliveryNameEditText.getText().toString());
+                delivery.setUserId(newDeliveryUser.getId());
+                delivery.setDeliveryCompanyId(newDeliveryCompany.getId());
+                delivery.setRemark(newDeliveryCompany.getName());
+                SemsApplication.instance.setNewDelivery(delivery);
+                if (enterBarcode) {
+                    enterNewDeliveryBarcodeFragment();
+                } else {
+                    BarcodeFragment.newDelivery(getMainActivity(), progressDialog, adminDeliveryPostId.getText().toString(), false);
+                }
+            }
         }
     }
 }

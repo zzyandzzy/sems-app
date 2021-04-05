@@ -11,6 +11,7 @@ import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.adapter.DeliveryAdapter;
 import cool.zzy.sems.application.adapter.LogisticsAdapter;
 import cool.zzy.sems.application.util.DateUtils;
+import cool.zzy.sems.application.util.EAN13Utils;
 import cool.zzy.sems.context.dto.DeliveryDTO;
 import cool.zzy.sems.context.model.DeliveryLogistics;
 import cool.zzy.sems.context.model.Logistics;
@@ -34,6 +35,7 @@ public class LogisticsFragment extends BaseFragment {
     private AppCompatImageView deliveryAvatar;
     private LinearLayout backLayout;
     private RecyclerView recyclerView;
+    private AppCompatImageView postIdImage;
 
     @Override
     protected int getLayout() {
@@ -52,6 +54,7 @@ public class LogisticsFragment extends BaseFragment {
         deliveryAvatar = rootView.findViewById(R.id.fragment_logistics_avatar);
         backLayout = rootView.findViewById(R.id.fragment_logistics_back);
         recyclerView = rootView.findViewById(R.id.fragment_logistics_recyclerview);
+        postIdImage = rootView.findViewById(R.id.fragment_logistics_post_id_image);
     }
 
     @Override
@@ -63,6 +66,7 @@ public class LogisticsFragment extends BaseFragment {
             DeliveryDTO delivery = deliveryLogistics.getDelivery();
             userInfo.setText("手机号：" + delivery.getPhone());
             postId.setText("快递单号：" + delivery.getPostId());
+            postIdImage.setImageBitmap(EAN13Utils.drawEan13Code(delivery.getPostId()));
             created.setText("创建时间：" + DateUtils.formatDateTime(delivery.getCreated(), TimeUnit.MILLISECONDS));
             locationName.setText("运送地址：" + delivery.getLocationName());
             initRecyclerView(deliveryLogistics.getLogisticsList());
