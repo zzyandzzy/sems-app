@@ -29,32 +29,85 @@
                         android:layout_height="match_parent">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                            android:text="@string/delete_user"
+                            android:text="@string/user_manager"
                             android:textColor="@color/colorPrimary"
                             android:textSize="15sp"
-                            android:layout_marginStart="16dp"
-                            android:layout_marginEnd="8dp"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="4dp"
+                            android:layout_gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"/>
 
                     <LinearLayout
+                            android:layout_gravity="center"
                             android:gravity="center"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:ignore="UselessParent">
 
-                        <androidx.appcompat.widget.AppCompatSpinner
-                                android:id="@+id/fragment_user_manager_delete_user_spanner"
+                        <LinearLayout
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:orientation="vertical"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                                android:layout_height="wrap_content">
 
-                        <androidx.appcompat.widget.AppCompatButton
-                                android:id="@+id/fragment_user_manager_delete_user_button"
-                                android:text="@string/delete_user"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"/>
+                            <LinearLayout
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:orientation="horizontal"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                <androidx.appcompat.widget.AppCompatEditText
+                                        android:id="@+id/fragment_user_manager_user_id"
+                                        android:ems="10"
+                                        android:focusable="true"
+                                        android:hint="@string/input_user_id_hint"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:inputType="number"
+                                        android:textCursorDrawable="@drawable/edit_cursor_color"/>
+
+                                <androidx.appcompat.widget.AppCompatButton
+                                        android:id="@+id/fragment_user_manager_search_user"
+                                        android:text="@string/search_user"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"/>
+
+                            </LinearLayout>
+
+                            <LinearLayout
+                                    android:layout_gravity="center"
+                                    android:gravity="center"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content">
+
+                                <androidx.appcompat.widget.AppCompatSpinner
+                                        android:id="@+id/fragment_user_manager_delete_user_spanner"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"/>
+
+                                <LinearLayout
+                                        android:orientation="vertical"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content">
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                            android:id="@+id/fragment_user_manager_delete_user_button"
+                                            android:text="@string/delete_user"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"/>
+
+                                    <androidx.appcompat.widget.AppCompatButton
+                                            android:id="@+id/fragment_user_manager_update_user_button"
+                                            android:text="@string/update_user"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"/>
+
+                                </LinearLayout>
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 

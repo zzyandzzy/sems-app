@@ -92,4 +92,12 @@
     <string name="delete_delivery">删除快递</string>
     <string name="deleting">删除中...</string>
     <string name="delete_user">删除用户</string>
+    <string name="user_manager">用户管理</string>
+    <string name="update_user">更新用户信息</string>
+    <string name="input_user_id_hint">请输入用户id(或手动选择)</string>
+    <string name="search_user">搜索用户</string>
+    <string name="not_find">没有找到该用户</string>
+    <string name="gender">性别</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
 </resources>

@@ -91,4 +91,12 @@
     <string name="delete_delivery">Delete delivery.</string>
     <string name="deleting">Deleting...</string>
     <string name="delete_user">Delete user</string>
+    <string name="user_manager">User manager</string>
+    <string name="update_user">Update user info</string>
+    <string name="input_user_id_hint">Please input user id.</string>
+    <string name="search_user">Search user.</string>
+    <string name="not_find">Not find user by id.</string>
+    <string name="gender">Gender</string>
+    <string name="man">Man</string>
+    <string name="woman">Woman</string>
 </resources>

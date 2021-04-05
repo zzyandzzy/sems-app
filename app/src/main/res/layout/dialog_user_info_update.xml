@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+            android:gravity="center"
+            android:layout_margin="16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_layout_height"
+                android:gravity="center"
+                android:background="@drawable/input_background"
+                android:layout_marginTop="@dimen/input_layout_margin_top"
+                android:layout_marginBottom="@dimen/input_layout_margin_bottom"
+                android:layout_marginStart="@dimen/input_layout_margin_left"
+                android:layout_marginEnd="@dimen/input_layout_margin_right">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/input_icon_width"
+                    android:layout_height="@dimen/input_icon_height"
+                    android:src="@drawable/email_icon"
+                    android:layout_marginStart="@dimen/input_icon_margin_left"
+                    android:layout_marginEnd="@dimen/input_icon_margin_right"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/dialog_user_info_update_email"
+                    android:ems="10"
+                    android:enabled="false"
+                    android:hint="@string/input_email_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/input_edit_margin_left"
+                    android:layout_marginEnd="@dimen/input_edit_margin_right"
+                    android:theme="@style/EditTextStyle"
+                    android:inputType="textEmailAddress"
+                    android:backgroundTint="@android:color/transparent"
+                    android:textCursorDrawable="@drawable/edit_cursor_color"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/input_layout_height"
+                android:gravity="center"
+                android:background="@drawable/input_background"
+                android:layout_marginTop="@dimen/input_layout_margin_top"
+                android:layout_marginBottom="@dimen/input_layout_margin_bottom"
+                android:layout_marginStart="@dimen/input_layout_margin_left"
+                android:layout_marginEnd="@dimen/input_layout_margin_right">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="@dimen/input_icon_width"
+                    android:layout_height="@dimen/input_icon_height"
+                    android:src="@drawable/user_icon"
+                    android:layout_marginStart="@dimen/input_icon_margin_left"
+                    android:layout_marginEnd="@dimen/input_icon_margin_right"/>
+
+            <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/dialog_user_info_update_user_name"
+                    android:ems="10"
+                    android:focusable="true"
+                    android:hint="@string/input_user_name_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/input_edit_margin_left"
+                    android:layout_marginEnd="@dimen/input_edit_margin_right"
+                    android:inputType="text"
+                    android:theme="@style/EditTextStyle"
+                    android:backgroundTint="@android:color/transparent"
+                    android:textCursorDrawable="@drawable/edit_cursor_color"/>
+
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/dialog_user_info_update_gender"
+                android:text="@string/woman"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        <RelativeLayout
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dialog_user_info_update_cancel"
+                    android:text="@android:string/cancel"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/colorPrimary"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/dialog_user_info_update_ok"
+                    android:layout_alignParentEnd="true"
+                    android:textColor="@color/colorPrimary"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:text="@string/update_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    tools:ignore="RelativeOverlap"/>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
