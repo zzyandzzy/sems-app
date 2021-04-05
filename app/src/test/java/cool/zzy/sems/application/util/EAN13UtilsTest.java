@@ -10,6 +10,8 @@ import junit.framework.TestCase;
 public class EAN13UtilsTest extends TestCase {
 
     public void testRandomCode() {
-        System.out.println(EAN13Utils.randomCode());
+        for (int i = 0; i < 100; i++) {
+            System.out.println(EAN13Utils.randomCode());
+        }
     }
 }

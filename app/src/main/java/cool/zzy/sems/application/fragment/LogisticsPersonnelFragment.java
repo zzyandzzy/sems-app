@@ -2,20 +2,24 @@ package cool.zzy.sems.application.fragment;
 
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Toast;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatSpinner;
+import androidx.cardview.widget.CardView;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DeliveryCompanyHandler;
+import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.EAN13Utils;
 import cool.zzy.sems.application.util.SpinnerAdapterUtils;
 import cool.zzy.sems.context.enums.UserRoleEnum;
 import cool.zzy.sems.context.model.Delivery;
 import cool.zzy.sems.context.model.LogisticsLocation;
 import cool.zzy.sems.context.model.User;
+import cool.zzy.sems.context.service.DeliveryService;
 
 /**
  * @author intent <a>zzy.main@gmail.com</a>
@@ -39,6 +43,10 @@ public class LogisticsPersonnelFragment extends BaseFragment {
     private AppCompatButton adminDeliveryPostIdRandomButton;
     private AppCompatButton adminDeliverySave;
     private ProgressDialog progressDialog;
+    private CardView adminDeleteDelivery;
+    private AppCompatSpinner adminAllDeliverySpinner;
+    private AppCompatButton adminDeliveryDelete;
+    private int selectDeliveryPosition = 0;
 
     @Override
     protected int getLayout() {
@@ -59,6 +67,9 @@ public class LogisticsPersonnelFragment extends BaseFragment {
         adminDeliveryPostIdRandomButton = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_post_id_random);
         adminDeliverySave = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_save);
         progressDialog = new ProgressDialog(getActivity(), getString(R.string.saveing_delivery));
+        adminDeleteDelivery = rootView.findViewById(R.id.fragment_logistics_personnel_delete_delivery);
+        adminAllDeliverySpinner = rootView.findViewById(R.id.fragment_logistics_personnel_delete_delivery_spinner);
+        adminDeliveryDelete = rootView.findViewById(R.id.fragment_logistics_personnel_admin_delivery_delete);
     }
 
     @Override
@@ -68,14 +79,33 @@ public class LogisticsPersonnelFragment extends BaseFragment {
         adminDeliverySave.setOnClickListener(this);
         scanImageView.setOnClickListener(this);
         newDeliveryScanImageView.setOnClickListener(this);
+        adminDeliveryDelete.setOnClickListener(this);
         UserRoleEnum roleEnum = UserRoleEnum.from(userRole.getRoleName());
         if (roleEnum == UserRoleEnum.ADMIN) {
             initAllLocationData();
+            initAllDeliveryData();
         } else {
             locationSpinner.setVisibility(View.GONE);
+            adminDeleteDelivery.setVisibility(View.GONE);
         }
         initAllUserData();
         intiAllDeliveryCompanyData();
+    }
+
+    private void initAllDeliveryData() {
+        SpinnerAdapterUtils.deliveryNameArray = null;
+        selectDeliveryPosition = 0;
+        SpinnerAdapterUtils.initAllDeliveryData(getActivity(), adminAllDeliverySpinner, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectDeliveryPosition = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     private void intiAllDeliveryCompanyData() {
@@ -142,11 +172,49 @@ public class LogisticsPersonnelFragment extends BaseFragment {
             case R.id.fragment_logistics_personnel_admin_delivery_save:
                 initNewDelivery(false);
                 break;
+            case R.id.fragment_logistics_personnel_admin_delivery_delete:
+                progressDialog.setTitle(getString(R.string.deleting));
+                progressDialog.show();
+                Delivery delivery = SpinnerAdapterUtils.deliveryList.get(selectDeliveryPosition);
+                if (delivery != null) {
+                    DeliveryService deliveryService = SemsApplication.instance.getDeliveryService();
+                    if (deliveryService == null) {
+                        DialogUtils.showConnectErrorDialog(getActivity());
+                        return;
+                    }
+                    new Thread(() -> {
+                        boolean b = deliveryService.removeById(delivery.getId());
+                        getMainActivity().runOnUiThread(() -> {
+                            progressDialog.dismiss();
+                            DialogUtils.showTipDialog(getActivity(), b ? getString(R.string.success) : getString(R.string.fail),
+                                    (dialog, which) -> {
+                                        dialog.dismiss();
+                                        if (b) {
+                                            initAllDeliveryData();
+                                        }
+                                    });
+                        });
+                    }).start();
+                }
+                break;
             default:
         }
     }
 
     public void initNewDelivery(boolean enterBarcode) {
+        if (newDeliveryNameEditText.getText() == null || "".equals(newDeliveryNameEditText.getText().toString())) {
+            Toast.makeText(getActivity(), R.string.input_delivery_name_hint, Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (newDeliveryLocationEditText.getText() == null || "".equals(newDeliveryLocationEditText.getText().toString())) {
+            Toast.makeText(getActivity(), R.string.input_delivery_location_hint, Toast.LENGTH_LONG).show();
+            return;
+        }
+        if (newDeliveryPhoneEditText.getText() == null || "".equals(newDeliveryPhoneEditText.getText().toString())) {
+            Toast.makeText(getActivity(), R.string.input_phone_hint, Toast.LENGTH_LONG).show();
+            return;
+        }
+        adminDeliveryPostId.setText(EAN13Utils.randomCode());
         User newDeliveryUser = SpinnerAdapterUtils.userList.get(selectUserListPosition);
         if (newDeliveryUser != null) {
             DeliveryCompanyHandler.DeliveryCompanyEntity newDeliveryCompany =

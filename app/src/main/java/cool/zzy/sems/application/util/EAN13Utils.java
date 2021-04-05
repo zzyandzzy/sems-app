@@ -1,10 +1,8 @@
 package cool.zzy.sems.application.util;
 
 import android.graphics.*;
-import android.os.Build;
-import androidx.annotation.RequiresApi;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
 
 /**
  * @author intent zzy.main@gmail.com
@@ -84,22 +82,24 @@ public class EAN13Utils {
             1, 3, 1, 3
     };
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String randomCode() {
-        String code = String.valueOf(getRandomIntInRange(100000000000L, 999999999999L));
+        String code = getRandom(12);
         return generateCheckCode(code);
     }
 
-    /**
-     * 获取闭区间内随机数返回int类型
-     *
-     * @param min 最小值
-     * @param max 最大值
-     * @return 随机数
-     */
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    static long getRandomIntInRange(long min, long max) {
-        return ThreadLocalRandom.current().longs(min, (max + 1)).limit(1).findFirst().getAsLong();
+    public static String getRandom(int len) {
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder();
+        boolean isFirst = true;
+        for (int i = 0; i < len; i++) {
+            if (isFirst) {
+                sb.append(random.nextInt(8) + 1);
+                isFirst = false;
+            } else {
+                sb.append(random.nextInt(9));
+            }
+        }
+        return sb.toString();
     }
 
     public static Bitmap drawEan13Code(String code) {

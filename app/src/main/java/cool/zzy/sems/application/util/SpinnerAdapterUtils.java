@@ -5,8 +5,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import androidx.appcompat.widget.AppCompatSpinner;
 import cool.zzy.sems.application.SemsApplication;
+import cool.zzy.sems.context.model.Delivery;
 import cool.zzy.sems.context.model.LogisticsLocation;
 import cool.zzy.sems.context.model.User;
+import cool.zzy.sems.context.service.DeliveryService;
 import cool.zzy.sems.context.service.LogisticsLocationService;
 import cool.zzy.sems.context.service.UserService;
 
@@ -25,6 +27,9 @@ public class SpinnerAdapterUtils {
     public static String[] logisticsLocationNameArray;
 
     public static String[] deliveryCompanyArray;
+
+    public static List<Delivery> deliveryList;
+    public static String[] deliveryNameArray;
 
     public static void initAllDeliveryCompany(Activity activity, AppCompatSpinner spinner,
                                               AdapterView.OnItemSelectedListener selectedListener) {
@@ -83,6 +88,32 @@ public class SpinnerAdapterUtils {
                         logisticsLocationNameArray[i] = logisticsLocationList.get(i).getLocationName();
                     }
                     initSpinnerData(activity, spinner, selectedListener, logisticsLocationNameArray);
+                }
+            });
+        }).start();
+    }
+
+
+    public static void initAllDeliveryData(Activity activity, AppCompatSpinner spinner,
+                                           AdapterView.OnItemSelectedListener selectedListener) {
+        if (deliveryList != null && deliveryNameArray != null) {
+            initSpinnerData(activity, spinner, selectedListener, deliveryNameArray);
+            return;
+        }
+        DeliveryService deliveryService = SemsApplication.instance.getDeliveryService();
+        if (deliveryService == null) {
+            DialogUtils.showConnectErrorDialog(activity);
+            return;
+        }
+        new Thread(() -> {
+            deliveryList = deliveryService.list();
+            activity.runOnUiThread(() -> {
+                if (deliveryList != null && !deliveryList.isEmpty()) {
+                    deliveryNameArray = new String[deliveryList.size()];
+                    for (int i = 0; i < deliveryList.size(); i++) {
+                        deliveryNameArray[i] = deliveryList.get(i).getDeliveryName();
+                    }
+                    initSpinnerData(activity, spinner, selectedListener, deliveryNameArray);
                 }
             });
         }).start();

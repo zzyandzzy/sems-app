@@ -4,6 +4,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
@@ -76,6 +77,9 @@ public class MainActivity extends BaseActivity {
                     break;
                 case R.id.tab_logistics_personnel:
                     setCurrentFragment(logisticsPersonnelFragment);
+                    break;
+                case R.id.tab_admin:
+                    Toast.makeText(this, "暂未开发", Toast.LENGTH_LONG).show();
                     break;
                 default:
             }

@@ -89,4 +89,6 @@
     <string name="input_delivery_post_id_hint">请输入快递单号(或使用扫描)</string>
     <string name="random">随机</string>
     <string name="saveing_delivery">保存快递中</string>
+    <string name="delete_delivery">删除快递</string>
+    <string name="deleting">删除中...</string>
 </resources>
