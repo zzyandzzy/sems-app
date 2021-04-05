@@ -90,4 +90,5 @@
     <string name="saveing_delivery">Saveing delivery</string>
     <string name="delete_delivery">Delete delivery.</string>
     <string name="deleting">Deleting...</string>
+    <string name="delete_user">Delete user</string>
 </resources>

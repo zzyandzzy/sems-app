@@ -83,6 +83,7 @@ public class RpcClientHandler extends SimpleChannelInboundHandler<RpcResponse> {
     }
 
     public RpcFuture sendRequest(RpcRequest request) {
+        Log.d(TAG, "sendRequest: " + request.toString());
         RpcFuture rpcFuture = new RpcFuture(request);
         pendingRPC.put(request.getRequestId(), rpcFuture);
         try {

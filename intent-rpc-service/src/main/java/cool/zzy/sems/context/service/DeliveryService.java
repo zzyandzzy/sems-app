@@ -3,7 +3,6 @@ package cool.zzy.sems.context.service;
 import cool.zzy.sems.context.dto.DeliveryDTO;
 import cool.zzy.sems.context.model.Delivery;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,5 +29,5 @@ public interface DeliveryService {
 
     List<Delivery> list();
 
-    boolean removeById(Serializable id);
+    boolean removeDeliveryById(int id);
 }

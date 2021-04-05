@@ -49,4 +49,6 @@ public interface UserService {
     boolean logout(String email);
 
     List<User> list();
+
+    boolean removeUserById(int id);
 }

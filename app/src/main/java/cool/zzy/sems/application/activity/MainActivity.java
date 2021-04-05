@@ -4,7 +4,6 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.BottomBarTab;
@@ -23,6 +22,7 @@ public class MainActivity extends BaseActivity {
     public BarcodeFragment newDeliveryBarcodeFragment;
     public LogisticsFragment logisticsFragment;
     public LogisticsPersonnelFragment logisticsPersonnelFragment;
+    public UserManagerFragment userManagerFragment;
 
     private BottomBar bottomBar;
 
@@ -64,6 +64,7 @@ public class MainActivity extends BaseActivity {
         if (roleEnum == UserRoleEnum.LOGISTICS_PERSONNEL) {
             bottomBar.setItems(R.xml.bottombar_tabs_logistics_personnel);
         } else if (roleEnum == UserRoleEnum.ADMIN) {
+            userManagerFragment = new UserManagerFragment();
             bottomBar.setItems(R.xml.bottombar_tabs_admin);
         }
         for (int i = 0; i < bottomBar.getTabCount(); i++) {
@@ -79,7 +80,7 @@ public class MainActivity extends BaseActivity {
                     setCurrentFragment(logisticsPersonnelFragment);
                     break;
                 case R.id.tab_admin:
-                    Toast.makeText(this, "暂未开发", Toast.LENGTH_LONG).show();
+                    setCurrentFragment(userManagerFragment);
                     break;
                 default:
             }
