@@ -52,16 +52,18 @@ public class SemsApplication extends Application {
     @SuppressLint("DefaultLocale")
     public void initRPC() {
         Log.d(TAG, "initRPC: ");
-        rpcClient = new RpcClient(
-                String.format("%s:%d", Const.RPC_IP, Const.RPC_PORT),
-                future -> {
-                    if (future.isSuccess()) {
-                        initService();
-                    } else {
-                        Log.d(TAG, "initRPC error: " + future.toString());
-                    }
-                    isInitRPC = future.isSuccess();
-                });
+        new Thread(() -> {
+            rpcClient = new RpcClient(
+                    String.format("%s:%d", Const.RPC_IP, Const.RPC_PORT),
+                    future -> {
+                        if (future.isSuccess()) {
+                            initService();
+                        } else {
+                            Log.d(TAG, "initRPC error: " + future.toString());
+                        }
+                        isInitRPC = future.isSuccess();
+                    });
+        }).start();
     }
 
     private void initService() {
