@@ -1,4 +1,4 @@
-package cool.zzy.sems.application.fragment;
+package cool.zzy.sems.application.activity;
 
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,11 +21,10 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * @author intent <a>zzy.main@gmail.com</a>
- * @date 2021/4/3 14:46
+ * @date 2021/4/30 3:25 下午
  * @since 1.0
  */
-@Deprecated
-public class LogisticsFragment extends BaseFragment {
+public class UserLogisticsActivity extends BaseActivity implements View.OnClickListener {
     private AppCompatTextView userInfo;
     private AppCompatTextView postId;
     private AppCompatTextView created;
@@ -39,30 +38,34 @@ public class LogisticsFragment extends BaseFragment {
     private AppCompatImageView postIdImage;
 
     @Override
-    protected int getLayout() {
-        return R.layout.fragment_logistics;
+    protected int getContentView() {
+        return R.layout.activity_user_logistics;
     }
 
     @Override
-    protected void initViews(View rootView) {
-        userInfo = rootView.findViewById(R.id.fragment_logistics_user_info);
-        postId = rootView.findViewById(R.id.fragment_logistics_post_id);
-        created = rootView.findViewById(R.id.fragment_logistics_created);
-        locationName = rootView.findViewById(R.id.fragment_logistics_location_name);
-        deliveryStatus = rootView.findViewById(R.id.fragment_logistics_status);
-        deliveryInfo = rootView.findViewById(R.id.fragment_logistics_info);
-        deliveryLogistics = rootView.findViewById(R.id.fragment_logistics);
-        deliveryAvatar = rootView.findViewById(R.id.fragment_logistics_avatar);
-        backLayout = rootView.findViewById(R.id.fragment_logistics_back);
-        recyclerView = rootView.findViewById(R.id.fragment_logistics_recyclerview);
-        postIdImage = rootView.findViewById(R.id.fragment_logistics_post_id_image);
+    protected void init() {
+    }
+
+    @Override
+    protected void initViews() {
+        userInfo = findViewById(R.id.user_info);
+        postId = findViewById(R.id.post_id);
+        created = findViewById(R.id.created);
+        locationName = findViewById(R.id.location_name);
+        deliveryStatus = findViewById(R.id.status);
+        deliveryInfo = findViewById(R.id.info);
+        deliveryLogistics = findViewById(R.id.logistics);
+        deliveryAvatar = findViewById(R.id.avatar);
+        backLayout = findViewById(R.id.back);
+        recyclerView = findViewById(R.id.recyclerview);
+        postIdImage = findViewById(R.id.post_id_image);
     }
 
     @Override
     protected void initData() {
         DeliveryLogistics deliveryLogistics = SemsApplication.instance.getDeliveryLogistics();
         if (deliveryLogistics != null) {
-            DeliveryAdapter.setDeliveryLogisticsData(deliveryLogistics, getMainActivity(),
+            DeliveryAdapter.setDeliveryLogisticsData(deliveryLogistics, this,
                     deliveryStatus, deliveryInfo, this.deliveryLogistics, deliveryAvatar, false);
             DeliveryDTO delivery = deliveryLogistics.getDelivery();
             userInfo.setText("手机号：" + delivery.getPhone());
@@ -75,18 +78,23 @@ public class LogisticsFragment extends BaseFragment {
         backLayout.setOnClickListener(this);
     }
 
+    @Override
+    protected int getFragmentViewId() {
+        return 0;
+    }
+
     private void initRecyclerView(List<Logistics> logisticsList) {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        LogisticsAdapter adapter = new LogisticsAdapter(logisticsList, getMainActivity());
+        LogisticsAdapter adapter = new LogisticsAdapter(logisticsList, this);
         recyclerView.setAdapter(adapter);
     }
 
     @Override
-    protected void viewOnClick(View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fragment_logistics_back:
-                enterMainFragment();
+            case R.id.back:
+                this.finish();
                 break;
             default:
         }

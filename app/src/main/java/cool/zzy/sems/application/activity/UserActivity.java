@@ -8,11 +8,11 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.adapter.UserPagerAdapter;
-import cool.zzy.sems.application.fragment.*;
-import cool.zzy.sems.context.enums.UserRoleEnum;
+import cool.zzy.sems.application.fragment.UserDeliveryFragment;
 import cool.zzy.sems.ui.coordinatortablayout.CoordinatorTabLayout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author intent <a>zzy.main@gmail.com</a>
@@ -23,18 +23,11 @@ public class UserActivity extends BaseActivity {
     private DrawerLayout drawerLayout;
     private CoordinatorTabLayout coordinatorTabLayout;
     private int[] imageArray, colorArray;
-    private final String[] titles = {getString(R.string.tab_user), getString(R.string.tab_logistics_personnel)};
     private ViewPager viewPager;
-    private ArrayList<Fragment> fragments;
-    // fraggments
-    public MainFragment mainFragment;
-    public SettingFragment settingFragment;
-    public BarcodeFragment userBarcodeFragment;
-    public BarcodeFragment logisticsPersonnelBarcodeFragment;
-    public BarcodeFragment newDeliveryBarcodeFragment;
-    public LogisticsFragment logisticsFragment;
-    public LogisticsPersonnelFragment logisticsPersonnelFragment;
-    public UserManagerFragment userManagerFragment;
+    private List<Fragment> fragmentList;
+    private List<String> titleList;
+    // fragments
+    public UserDeliveryFragment userDeliveryFragment;
 
     @Override
     protected int getContentView() {
@@ -43,7 +36,8 @@ public class UserActivity extends BaseActivity {
 
     @Override
     protected void init() {
-        fragments = new ArrayList<>();
+        fragmentList = new ArrayList<>();
+        titleList = new ArrayList<>();
     }
 
     @Override
@@ -55,8 +49,9 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void initData() {
         initFragment();
-        viewPager.setOffscreenPageLimit(fragments.size());
-        viewPager.setAdapter(new UserPagerAdapter(getSupportFragmentManager(), fragments, titles));
+        titleList.add(getString(R.string.delivery_info));
+        viewPager.setOffscreenPageLimit(fragmentList.size());
+        viewPager.setAdapter(new UserPagerAdapter(getSupportFragmentManager(), fragmentList, titleList));
         imageArray = new int[]{
                 R.mipmap.bg_android,
                 R.mipmap.bg_ios
@@ -75,28 +70,8 @@ public class UserActivity extends BaseActivity {
     }
 
     private void initFragment() {
-        mainFragment = new MainFragment();
-        settingFragment = new SettingFragment();
-        userBarcodeFragment = new BarcodeFragment(BarcodeFragment.USER_SCAN_TYPE);
-        logisticsFragment = new LogisticsFragment();
-        if (userRole == null) {
-//            setCurrentFragment(mainFragment);
-            return;
-        }
-        UserRoleEnum roleEnum = UserRoleEnum.from(userRole.getRoleName());
-        if (roleEnum == UserRoleEnum.USER) {
-//            setCurrentFragment(mainFragment);
-            return;
-        }
-        logisticsPersonnelBarcodeFragment = new BarcodeFragment(BarcodeFragment.LOGISTICS_PERSONNEL_SCAN_TYPE);
-        newDeliveryBarcodeFragment = new BarcodeFragment(BarcodeFragment.NEW_DELIVERY_SCAN_TYPE);
-        logisticsPersonnelFragment = new LogisticsPersonnelFragment();
-        if (roleEnum == UserRoleEnum.LOGISTICS_PERSONNEL) {
-        } else if (roleEnum == UserRoleEnum.ADMIN) {
-            userManagerFragment = new UserManagerFragment();
-        }
-        fragments.add(mainFragment);
-        fragments.add(settingFragment);
+        userDeliveryFragment = new UserDeliveryFragment();
+        fragmentList.add(userDeliveryFragment);
     }
 
     @Override

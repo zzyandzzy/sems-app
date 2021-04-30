@@ -14,6 +14,7 @@ import cool.zzy.sems.context.enums.UserRoleEnum;
 
 import java.util.Objects;
 
+@Deprecated
 public class MainActivity extends BaseActivity {
     public MainFragment mainFragment;
     public SettingFragment settingFragment;

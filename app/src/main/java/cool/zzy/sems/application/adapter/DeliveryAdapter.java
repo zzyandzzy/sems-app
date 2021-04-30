@@ -24,7 +24,15 @@ import java.util.List;
  * @since 1.0
  */
 public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHolder> {
-    private final List<DeliveryLogistics> data;
+    public List<DeliveryLogistics> getData() {
+        return data;
+    }
+
+    public void setData(List<DeliveryLogistics> data) {
+        this.data = data;
+    }
+
+    private List<DeliveryLogistics> data;
     private final Context context;
     private OnItemClickListener listener;
 
@@ -105,6 +113,9 @@ public class DeliveryAdapter extends RecyclerView.Adapter<DeliveryAdapter.ViewHo
 
     @Override
     public int getItemCount() {
+        if (data == null) {
+            return 0;
+        }
         return data.size();
     }
 

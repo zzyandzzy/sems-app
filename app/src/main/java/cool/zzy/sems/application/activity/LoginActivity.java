@@ -3,6 +3,7 @@ package cool.zzy.sems.application.activity;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.fragment.LoginFragment;
 import cool.zzy.sems.application.fragment.RegisterFragment;
+import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.UserUtils;
 
 import java.util.Objects;
@@ -19,6 +20,7 @@ public class LoginActivity extends BaseActivity {
 
     public LoginFragment loginFragment;
     public RegisterFragment registerFragment;
+    private ProgressDialog progressDialog;
 
     @Override
     protected int getContentView() {
@@ -32,6 +34,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initViews() {
+        progressDialog = new ProgressDialog(this, getString(R.string.logging));
     }
 
     @Override
@@ -50,8 +53,11 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        progressDialog.show();
 //        long start = System.currentTimeMillis();
-        UserUtils.staticLogin(this);
+        new Thread(() -> {
+            UserUtils.staticLogin(this, progressDialog);
+        }).start();
 //        Log.d(TAG, "onResume: " + (System.currentTimeMillis() - start) / 1000 + "ms");
     }
 }
