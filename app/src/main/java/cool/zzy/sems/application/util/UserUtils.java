@@ -6,7 +6,7 @@ import android.widget.Toast;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.activity.LoginActivity;
-import cool.zzy.sems.application.activity.MainActivity;
+import cool.zzy.sems.application.activity.UserActivity;
 import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.UserService;
@@ -38,8 +38,8 @@ public class UserUtils {
             return;
         }
         SemsApplication.instance.putUser(userDTO);
-        if (activity.getClass() != MainActivity.class) {
-            activity.startActivity(new Intent(activity, MainActivity.class));
+        if (activity.getClass() != UserActivity.class) {
+            activity.startActivity(new Intent(activity, UserActivity.class));
             activity.finish();
         }
     }
