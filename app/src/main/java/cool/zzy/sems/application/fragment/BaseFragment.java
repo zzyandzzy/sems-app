@@ -9,7 +9,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.activity.MainActivity;
-import cool.zzy.sems.application.activity.UserActivity;
 import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.model.UserRole;
@@ -54,6 +53,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     protected abstract void viewOnClick(View v);
 
+    @Deprecated
     public void enterSettingFragment() {
         if (getMainActivity().settingFragment != null) {
             getMainActivity()
@@ -61,6 +61,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    @Deprecated
     public void enterUserBarcodeFragment() {
         if (getMainActivity().userBarcodeFragment != null) {
             getMainActivity()
@@ -68,6 +69,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    @Deprecated
     public void enterLogisticsPersonnelFragment() {
         if (getMainActivity().logisticsPersonnelFragment != null) {
             getMainActivity()
@@ -75,12 +77,14 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    @Deprecated
     public void enterNewDeliveryBarcodeFragment() {
         if (getMainActivity().newDeliveryBarcodeFragment != null) {
             getMainActivity().setCurrentFragment(getMainActivity().newDeliveryBarcodeFragment);
         }
     }
 
+    @Deprecated
     public void enterLogisticsPersonnelBarcodeFragment() {
         if (getMainActivity().logisticsPersonnelBarcodeFragment != null) {
             getMainActivity()
@@ -88,6 +92,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    @Deprecated
     public void enterMainFragment() {
         if (getMainActivity().mainFragment != null) {
             getMainActivity()
@@ -95,6 +100,7 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    @Deprecated
     public void enterLogisticsFragment() {
         if (getMainActivity().logisticsFragment != null) {
             getMainActivity()
@@ -102,11 +108,8 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
         }
     }
 
+    @Deprecated
     public MainActivity getMainActivity() {
         return (MainActivity) this.getActivity();
-    }
-
-    public UserActivity getUserActivity() {
-        return (UserActivity) this.getActivity();
     }
 }

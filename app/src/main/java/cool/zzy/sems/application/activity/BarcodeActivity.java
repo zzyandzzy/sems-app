@@ -59,6 +59,11 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
     private int type = USER_SCAN_TYPE;
     public static final String TYPE_NAME = "type";
 
+
+    public interface BarcodeCallback {
+        void callback(String postId);
+    }
+
     @Override
     protected int getContentView() {
         return R.layout.activity_barcode;
@@ -195,7 +200,7 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
             } else if (type == LOGISTICS_PERSONNEL_SCAN_TYPE) {
                 inOutbound(postId);
             } else if (type == NEW_DELIVERY_SCAN_TYPE) {
-                newDelivery(this, progressDialog, postId);
+                newDelivery(this, progressDialog, postId, id -> finish());
             }
         }
     }
@@ -205,7 +210,7 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
      *
      * @param postId
      */
-    public static void newDelivery(Activity activity, ProgressDialog progressDialog, String postId) {
+    public static void newDelivery(Activity activity, ProgressDialog progressDialog, String postId, BarcodeCallback callback) {
         progressDialog.setTitle(activity.getString(R.string.saveing_delivery));
         progressDialog.show();
         Delivery newDelivery = SemsApplication.instance.getNewDelivery();
@@ -224,6 +229,9 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
                     DialogUtils.showTipDialog(activity, b ? activity.getString(R.string.success) : activity.getString(R.string.fail),
                             (dialog, which) -> {
                                 dialog.dismiss();
+                                if (callback != null) {
+                                    callback.callback(postId);
+                                }
                             });
                 });
             }).start();

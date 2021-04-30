@@ -1,5 +1,6 @@
 package cool.zzy.sems.application.fragment;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Toast;
@@ -10,6 +11,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.cardview.widget.CardView;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
+import cool.zzy.sems.application.activity.BarcodeActivity;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DeliveryCompanyHandler;
 import cool.zzy.sems.application.util.DialogUtils;
@@ -161,7 +163,10 @@ public class LogisticsPersonnelFragment extends BaseFragment {
                         SemsApplication.instance.getUser().setLogisticsLocation(logisticsLocation);
                     }
                 }
-                enterLogisticsPersonnelBarcodeFragment();
+//                enterLogisticsPersonnelBarcodeFragment();
+                Intent intent = new Intent(this.getActivity(), BarcodeActivity.class);
+                intent.putExtra(BarcodeActivity.TYPE_NAME, BarcodeActivity.LOGISTICS_PERSONNEL_SCAN_TYPE);
+                startActivity(intent);
                 break;
             case R.id.fragment_logistics_personnel_post_id_scan:
                 initNewDelivery(true);
@@ -228,10 +233,18 @@ public class LogisticsPersonnelFragment extends BaseFragment {
                 delivery.setDeliveryCompanyId(newDeliveryCompany.getId());
                 delivery.setRemark(newDeliveryCompany.getName());
                 SemsApplication.instance.setNewDelivery(delivery);
+//                if (enterBarcode) {
+//                    enterNewDeliveryBarcodeFragment();
+//                } else {
+//                    BarcodeFragment.newDelivery(getMainActivity(), progressDialog, adminDeliveryPostId.getText().toString(), false);
+//                }
                 if (enterBarcode) {
-                    enterNewDeliveryBarcodeFragment();
+                    Intent intent = new Intent(this.getActivity(), BarcodeActivity.class);
+                    intent.putExtra(BarcodeActivity.TYPE_NAME, BarcodeActivity.NEW_DELIVERY_SCAN_TYPE);
+                    startActivity(intent);
                 } else {
-                    BarcodeFragment.newDelivery(getMainActivity(), progressDialog, adminDeliveryPostId.getText().toString(), false);
+                    BarcodeActivity.newDelivery(getActivity(), progressDialog, adminDeliveryPostId.getText().toString(), postId -> {
+                    });
                 }
             }
         }
