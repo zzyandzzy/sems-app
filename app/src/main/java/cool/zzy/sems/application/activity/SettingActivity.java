@@ -1,4 +1,4 @@
-package cool.zzy.sems.application.fragment;
+package cool.zzy.sems.application.activity;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,6 +9,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.AppCompatSpinner;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
+import cool.zzy.sems.application.fragment.LoginFragment;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.HashUtils;
@@ -22,12 +23,11 @@ import java.util.Objects;
 
 /**
  * @author intent <a>zzy.main@gmail.com</a>
- * @date 2021/2/25 17:49
+ * @date 2021/4/30 8:21 下午
  * @since 1.0
  */
-@Deprecated
-public class SettingFragment extends BaseFragment {
-    private static final String TAG = SettingFragment.class.getSimpleName();
+public class SettingActivity extends BaseActivity implements View.OnClickListener {
+    private static final String TAG = SettingActivity.class.getSimpleName();
     private LinearLayout settingBack;
     private AppCompatButton logoutButton;
     private AppCompatButton saveButton;
@@ -39,20 +39,25 @@ public class SettingFragment extends BaseFragment {
     private ProgressDialog progressDialog;
 
     @Override
-    protected int getLayout() {
-        return R.layout.fragment_setting;
+    protected int getContentView() {
+        return R.layout.activity_setting;
     }
 
     @Override
-    protected void initViews(View rootView) {
-        settingBack = rootView.findViewById(R.id.fragment_setting_back);
-        logoutButton = rootView.findViewById(R.id.fragment_setting_logout);
-        saveButton = rootView.findViewById(R.id.fragment_setting_save);
-        emailEdittext = rootView.findViewById(R.id.fragment_setting_email);
-        usernameEdittext = rootView.findViewById(R.id.fragment_setting_username);
-        allUserSpinner = rootView.findViewById(R.id.fragment_setting_all_user_spinner);
-        allUserButton = rootView.findViewById(R.id.fragment_setting_all_user_button);
-        progressDialog = new ProgressDialog(Objects.requireNonNull(getActivity()), getString(R.string.logging));
+    protected void init() {
+
+    }
+
+    @Override
+    protected void initViews() {
+        settingBack = findViewById(R.id.fragment_setting_back);
+        logoutButton = findViewById(R.id.fragment_setting_logout);
+        saveButton = findViewById(R.id.fragment_setting_save);
+        emailEdittext = findViewById(R.id.fragment_setting_email);
+        usernameEdittext = findViewById(R.id.fragment_setting_username);
+        allUserSpinner = findViewById(R.id.fragment_setting_all_user_spinner);
+        allUserButton = findViewById(R.id.fragment_setting_all_user_button);
+        progressDialog = new ProgressDialog(Objects.requireNonNull(this), getString(R.string.logging));
     }
 
     @Override
@@ -66,28 +71,19 @@ public class SettingFragment extends BaseFragment {
         initAllUserData();
     }
 
-    private void initAllUserData() {
-        SpinnerAdapterUtils.initAllUserData(getActivity(), allUserSpinner, new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectUserListPosition = position;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
+    @Override
+    protected int getFragmentViewId() {
+        return 0;
     }
 
     @Override
-    protected void viewOnClick(View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fragment_setting_back:
-                enterMainFragment();
+                finish();
                 break;
             case R.id.fragment_setting_logout:
-                UserUtils.logout(getActivity());
+                UserUtils.logout(this);
                 break;
             case R.id.fragment_setting_save:
                 saveUser();
@@ -100,18 +96,18 @@ public class SettingFragment extends BaseFragment {
                         UserService userService = SemsApplication.instance.getUserService();
                         if (userService == null) {
                             progressDialog.dismiss();
-                            DialogUtils.showConnectErrorDialog(this.getMainActivity());
+                            DialogUtils.showConnectErrorDialog(this);
                             return;
                         }
                         new Thread(() -> {
                             UserDTO userDTO = userService.signIn(user.getEmail(),
                                     HashUtils.removeSalt(user.getPasswordHash()));
-                            getMainActivity().runOnUiThread(() -> {
+                            this.runOnUiThread(() -> {
                                 progressDialog.dismiss();
                                 if (user == null) {
-                                    LoginFragment.loginFail(getMainActivity(), userDTO);
+                                    LoginFragment.loginFail(this, userDTO);
                                 } else {
-                                    LoginFragment.loginSuccess(getMainActivity(), userDTO);
+                                    LoginFragment.loginSuccess(this, userDTO);
                                 }
                             });
                         }).start();
@@ -131,14 +127,28 @@ public class SettingFragment extends BaseFragment {
             updateUser.setNickname(usernameEdittext.getText().toString());
             UserDTO userDTO = userService.updateUser(updateUser);
             if (userDTO == null) {
-                Toast.makeText(getActivity(), R.string.modify_user_fail, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.modify_user_fail, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(getActivity(), R.string.success, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, R.string.success, Toast.LENGTH_LONG).show();
                 SemsApplication.instance.putUser(userDTO);
-                enterMainFragment();
+                finish();
             }
         } else {
-            DialogUtils.showConnectErrorDialog(getActivity());
+            DialogUtils.showConnectErrorDialog(this);
         }
+    }
+
+    private void initAllUserData() {
+        SpinnerAdapterUtils.initAllUserData(this, allUserSpinner, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectUserListPosition = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 }

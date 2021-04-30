@@ -1,5 +1,6 @@
 package cool.zzy.sems.application.activity;
 
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,7 +13,10 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.navigation.NavigationView;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.adapter.UserPagerAdapter;
+import cool.zzy.sems.application.fragment.LogisticsPersonnelFragment;
 import cool.zzy.sems.application.fragment.UserDeliveryFragment;
+import cool.zzy.sems.application.fragment.UserManagerFragment;
+import cool.zzy.sems.application.ui.AuthorDialog;
 import cool.zzy.sems.application.util.UserUtils;
 import cool.zzy.sems.context.enums.UserRoleEnum;
 import cool.zzy.sems.ui.coordinatortablayout.CoordinatorTabLayout;
@@ -33,8 +37,10 @@ public class UserActivity extends BaseActivity {
     private List<Fragment> fragmentList;
     private List<String> titleList;
     // fragments
-    public UserDeliveryFragment userDeliveryFragment;
-
+    private UserDeliveryFragment userDeliveryFragment;
+    private LogisticsPersonnelFragment logisticsPersonnelFragment;
+    private UserManagerFragment userManagerFragment;
+    // nav
     private NavigationView navigationView;
     // nav header
     private AppCompatImageView headerUserHeadImg;
@@ -63,16 +69,19 @@ public class UserActivity extends BaseActivity {
     @Override
     protected void initData() {
         initFragment();
-        titleList.add(getString(R.string.delivery_info));
         viewPager.setOffscreenPageLimit(fragmentList.size());
         viewPager.setAdapter(new UserPagerAdapter(getSupportFragmentManager(), fragmentList, titleList));
         imageArray = new int[]{
                 R.mipmap.bg_android,
-                R.mipmap.bg_ios
+                R.mipmap.bg_ios,
+                R.mipmap.bg_js,
+                R.mipmap.bg_other,
         };
         colorArray = new int[]{
                 android.R.color.holo_blue_light,
-                android.R.color.holo_red_light
+                android.R.color.holo_red_light,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
         };
 
         coordinatorTabLayout = findViewById(R.id.coordinatortablayout);
@@ -99,8 +108,16 @@ public class UserActivity extends BaseActivity {
         headerRole.setText(String.format(getString(R.string.user_role), role));
         navigationView.setNavigationItemSelectedListener(item -> {
             switch (item.getItemId()) {
+                case R.id.item_personal:
+                    startActivity(new Intent(UserActivity.this, SettingActivity.class));
+                    break;
+                case R.id.item_author:
+                    new AuthorDialog(this).show();
+                    drawerLayout.closeDrawers();
+                    break;
                 case R.id.item_logout:
                     UserUtils.logout(UserActivity.this);
+                    break;
                 default:
             }
             return true;
@@ -110,6 +127,26 @@ public class UserActivity extends BaseActivity {
     private void initFragment() {
         userDeliveryFragment = new UserDeliveryFragment();
         fragmentList.add(userDeliveryFragment);
+        titleList.add(getString(R.string.delivery_info));
+        if (userRole == null) {
+            return;
+        }
+        UserRoleEnum roleEnum = UserRoleEnum.from(userRole.getRoleName());
+        if (roleEnum == UserRoleEnum.USER) {
+            return;
+        }
+        if (roleEnum == UserRoleEnum.LOGISTICS_PERSONNEL) {
+            logisticsPersonnelFragment = new LogisticsPersonnelFragment();
+            fragmentList.add(logisticsPersonnelFragment);
+            titleList.add(getString(R.string.tab_logistics_personnel));
+        } else if (roleEnum == UserRoleEnum.ADMIN) {
+            logisticsPersonnelFragment = new LogisticsPersonnelFragment();
+            fragmentList.add(logisticsPersonnelFragment);
+            titleList.add(getString(R.string.tab_logistics_personnel));
+            userManagerFragment = new UserManagerFragment();
+            fragmentList.add(userManagerFragment);
+            titleList.add(getString(R.string.user_manager));
+        }
     }
 
     @Override

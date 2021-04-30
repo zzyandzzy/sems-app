@@ -7,37 +7,60 @@
     <androidx.cardview.widget.CardView
             android:layout_marginTop="8dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-    <LinearLayout
-            android:id="@+id/item_delivery_parent"
-            android:layout_margin="16dp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        <cool.zzy.sems.application.ui.CircleImageView
-                android:id="@+id/item_delivery_avatar"
-                android:layout_width="90dp"
-                android:layout_height="90dp"
-                android:layout_margin="8dp"
-                android:src="@drawable/default_delivery_avatar"/>
+            android:layout_height="wrap_content"
+            app:cardElevation="10dp"
+            android:background="?android:attr/selectableItemBackground">
 
         <LinearLayout
-                android:layout_gravity="center_vertical"
-                android:orientation="vertical"
+                android:id="@+id/item_delivery_parent"
+                android:layout_margin="16dp"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+            <cool.zzy.sems.application.ui.CircleImageView
+                    android:id="@+id/item_delivery_avatar"
+                    android:layout_width="90dp"
+                    android:layout_height="90dp"
+                    android:layout_margin="8dp"
+                    android:src="@drawable/default_delivery_avatar"/>
+
             <LinearLayout
-                    android:orientation="horizontal"
+                    android:layout_gravity="center_vertical"
+                    android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
+                <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/item_delivery_status"
+                            android:text="其他"
+                            android:textColor="@color/colorPrimary"
+                            android:textSize="15sp"
+                            android:layout_marginStart="16dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"/>
+
+                    <!--                <androidx.appcompat.widget.AppCompatTextView-->
+                    <!--                        android:text="预计后天送达"-->
+                    <!--                        android:textColor="@android:color/black"-->
+                    <!--                        android:textSize="15sp"-->
+                    <!--                        android:layout_margin="4dp"-->
+                    <!--                        android:layout_width="wrap_content"-->
+                    <!--                        android:layout_height="wrap_content"/>-->
+
+                </LinearLayout>
+
                 <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/item_delivery_status"
-                        android:text="其他"
-                        android:textColor="@color/colorPrimary"
+                        android:id="@+id/item_delivery_info"
+                        android:textColor="@color/text_grey_666"
                         android:textSize="15sp"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="4dp"
@@ -46,41 +69,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
 
-                <!--                <androidx.appcompat.widget.AppCompatTextView-->
-                <!--                        android:text="预计后天送达"-->
-                <!--                        android:textColor="@android:color/black"-->
-                <!--                        android:textSize="15sp"-->
-                <!--                        android:layout_margin="4dp"-->
-                <!--                        android:layout_width="wrap_content"-->
-                <!--                        android:layout_height="wrap_content"/>-->
+                <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/item_delivery_logistics"
+                        android:textColor="@color/text_grey_888"
+                        android:textSize="15sp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginBottom="4dp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/item_delivery_info"
-                    android:textColor="@color/text_grey_666"
-                    android:textSize="15sp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/item_delivery_logistics"
-                    android:textColor="@color/text_grey_888"
-                    android:textSize="15sp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="4dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginBottom="4dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
         </LinearLayout>
-
-    </LinearLayout>
 
     </androidx.cardview.widget.CardView>
 
