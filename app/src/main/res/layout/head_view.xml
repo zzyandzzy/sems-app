@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              xmlns:tool="http://schemas.android.com/tools"
               android:background="#7adfb8"
               android:orientation="vertical">
 
@@ -11,11 +12,12 @@
             android:layout_height="75dp"
             android:orientation="horizontal">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/userHeadImg"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:src="@mipmap/ic_launcher_round"/>
 
         <LinearLayout
@@ -23,35 +25,39 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-            <TextView
-                    android:id="@+id/nickName"
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/email"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_weight="1"
-                    android:text="Intent"
                     android:textColor="#ffffff"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    tool:text="1428658308@qq.com"/>
 
-            <TextView
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/username"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
                     android:layout_weight="1"
-                    android:text="Test"
                     android:textColor="#ffffff"
-                    android:textSize="16sp"/>
+                    android:textSize="16sp"
+                    tool:text="admin"/>
         </LinearLayout>
 
     </LinearLayout>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/role"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="18dp"
-            android:text="TestTestTestTest"
+            android:layout_marginEnd="20dp"
             android:textColor="#ffffff"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            tool:text="权限：管理员"/>
 
 </LinearLayout>

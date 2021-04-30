@@ -100,4 +100,6 @@
     <string name="gender">性别</string>
     <string name="man">男</string>
     <string name="woman">女</string>
+    <string name="user_role">用户权限: %s</string>
+    <string name="user_info">用户信息</string>
 </resources>

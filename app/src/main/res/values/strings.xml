@@ -99,4 +99,6 @@
     <string name="gender">Gender</string>
     <string name="man">Man</string>
     <string name="woman">Woman</string>
+    <string name="user_role">User role: %s</string>
+    <string name="user_info">User info</string>
 </resources>

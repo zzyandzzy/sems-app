@@ -3,9 +3,11 @@ package cool.zzy.sems.application.fragment;
 import android.content.Intent;
 import android.os.Handler;
 import android.view.View;
+import android.widget.LinearLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.activity.UserLogisticsActivity;
@@ -26,6 +28,8 @@ public class UserDeliveryFragment extends BaseFragment implements SwipeRefreshLa
     private RecyclerView recyclerView;
     private DeliveryAdapter adapter;
     private List<DeliveryLogistics> deliveryLogisticsList;
+    private FloatingActionButton fab;
+    private LinearLayout empty;
 
     @Override
     protected int getLayout() {
@@ -36,15 +40,23 @@ public class UserDeliveryFragment extends BaseFragment implements SwipeRefreshLa
     protected void initViews(View rootView) {
         swipeRefreshLayout = rootView.findViewById(R.id.swiperefreshlayout);
         recyclerView = rootView.findViewById(R.id.recyclerview);
+        fab = rootView.findViewById(R.id.fab);
+        empty = rootView.findViewById(R.id.empty);
     }
 
     @Override
     protected void initData() {
         initRecyclerView();
+        fab.setOnClickListener(this);
     }
 
     @Override
     protected void viewOnClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                break;
+            default:
+        }
     }
 
     private void initRecyclerView() {
@@ -66,6 +78,13 @@ public class UserDeliveryFragment extends BaseFragment implements SwipeRefreshLa
             deliveryLogisticsList = deliveryLogisticsService.getListByUid(user.getId());
             adapter.setData(deliveryLogisticsList);
             adapter.notifyDataSetChanged();
+            if (deliveryLogisticsList.size() != 0) {
+                recyclerView.setVisibility(View.VISIBLE);
+                empty.setVisibility(View.GONE);
+            } else {
+                recyclerView.setVisibility(View.GONE);
+                empty.setVisibility(View.VISIBLE);
+            }
         } else {
             DialogUtils.showConnectErrorDialog(this.getMainActivity());
         }
