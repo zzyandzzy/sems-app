@@ -10,6 +10,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
+import cool.zzy.sems.application.activity.BarcodeActivity;
 import cool.zzy.sems.application.activity.UserLogisticsActivity;
 import cool.zzy.sems.application.adapter.DeliveryAdapter;
 import cool.zzy.sems.application.util.DialogUtils;
@@ -54,6 +55,9 @@ public class UserDeliveryFragment extends BaseFragment implements SwipeRefreshLa
     protected void viewOnClick(View v) {
         switch (v.getId()) {
             case R.id.fab:
+                Intent intent = new Intent(this.getActivity(), BarcodeActivity.class);
+                intent.putExtra(BarcodeActivity.TYPE_NAME, BarcodeActivity.USER_SCAN_TYPE);
+                startActivity(intent);
                 break;
             default:
         }

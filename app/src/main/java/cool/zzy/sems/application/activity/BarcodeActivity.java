@@ -1,6 +1,8 @@
-package cool.zzy.sems.application.fragment;
+package cool.zzy.sems.application.activity;
 
 import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,7 +19,7 @@ import androidx.core.content.ContextCompat;
 import cool.zzy.sems.application.OpencvJni;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
-import cool.zzy.sems.application.activity.MainActivity;
+import cool.zzy.sems.application.fragment.BarcodeFragment;
 import cool.zzy.sems.application.model.Rect;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.CameraHelper;
@@ -33,49 +35,46 @@ import cool.zzy.sems.context.service.LogisticsService;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * @author intent zzy.main@gmail.com
- * @date 2020/9/12 14:44
+ * @author intent <a>zzy.main@gmail.com</a>
+ * @date 2021/4/30 5:49 下午
  * @since 1.0
  */
-@Deprecated
-public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callback, Camera.PreviewCallback {
+public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callback, Camera.PreviewCallback, View.OnClickListener {
     private static final String TAG = BarcodeFragment.class.getSimpleName();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int BARCODE_RESULT_SIZE = 3;
+    private final List<String> barcodeResultList = new ArrayList<>(BARCODE_RESULT_SIZE);
 
     private OpencvJni openCvJni;
     private CameraHelper cameraHelper;
     private int cameraId = Camera.CameraInfo.CAMERA_FACING_BACK;
     private SurfaceView surfaceView;
-
     private LinearLayout barcodeBack;
-//    private AppCompatImageView barcodeImageView;
-
     private ProgressDialog progressDialog;
-
-    private List<String> barcodeResultList = new ArrayList<>(BARCODE_RESULT_SIZE);
 
     public static final int USER_SCAN_TYPE = 1;
     public static final int LOGISTICS_PERSONNEL_SCAN_TYPE = 2;
     public static final int NEW_DELIVERY_SCAN_TYPE = 3;
-    private final int type;
+    private int type = USER_SCAN_TYPE;
+    public static final String TYPE_NAME = "type";
 
-    public BarcodeFragment(int type) {
-        this.type = type;
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_barcode;
     }
 
     @Override
-    protected int getLayout() {
-        return R.layout.fragment_barcode;
+    protected void init() {
+        Intent intent = getIntent();
+        type = intent.getIntExtra(TYPE_NAME, USER_SCAN_TYPE);
     }
 
     @Override
-    protected void initViews(View rootView) {
-        initOpenCV(rootView);
-        barcodeBack = rootView.findViewById(R.id.fragment_barcode_back);
-        progressDialog = new ProgressDialog(getActivity(), getString(R.string.pick_upping));
+    protected void initViews() {
+        initOpenCV();
+        barcodeBack = findViewById(R.id.fragment_barcode_back);
+        progressDialog = new ProgressDialog(this, getString(R.string.pick_upping));
     }
 
     @Override
@@ -86,43 +85,14 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
     }
 
     @Override
-    protected void viewOnClick(View v) {
-        switch (v.getId()) {
-            case R.id.fragment_barcode_back:
-                if (type == USER_SCAN_TYPE) {
-                    enterMainFragment();
-                } else if (type == LOGISTICS_PERSONNEL_SCAN_TYPE || type == NEW_DELIVERY_SCAN_TYPE) {
-                    enterLogisticsPersonnelFragment();
-                }
-                break;
-        }
-    }
-
-    private void initOpenCV(View rootView) {
-        openCvJni = new OpencvJni();
-        cameraHelper = new CameraHelper(cameraId);
-        surfaceView = rootView.findViewById(R.id.fragment_barcode_surface_view);
-//        barcodeImageView = rootView.findViewById(R.id.fragment_clock_barcode);
-//        barcodeImageView.setImageBitmap(EAN13Utils.drawEan13Code("978730238251"));
+    protected int getFragmentViewId() {
+        return 0;
     }
 
     @Override
-    public void onResume() {
+    protected void onResume() {
         super.onResume();
         startOpenCV();
-    }
-
-    private void startOpenCV() {
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED) {
-            cameraHelper.startPreview();
-        } else if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
-                Manifest.permission.CAMERA)) {
-            Toast.makeText(getActivity(), R.string.camera_permission_not_granted, Toast.LENGTH_LONG).show();
-        } else {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA},
-                    REQUEST_CAMERA_PERMISSION);
-        }
     }
 
     @Override
@@ -131,9 +101,38 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
         stopCamera();
     }
 
+    private void initOpenCV() {
+        openCvJni = new OpencvJni();
+        cameraHelper = new CameraHelper(cameraId);
+        surfaceView = findViewById(R.id.fragment_barcode_surface_view);
+    }
+
+    private void startOpenCV() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                == PackageManager.PERMISSION_GRANTED) {
+            cameraHelper.startPreview();
+        } else if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.CAMERA)) {
+            Toast.makeText(this, R.string.camera_permission_not_granted, Toast.LENGTH_LONG).show();
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    REQUEST_CAMERA_PERMISSION);
+        }
+    }
+
     private void stopCamera() {
         cameraHelper.stopPreview();
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fragment_barcode_back:
+                finish();
+                break;
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -143,7 +142,7 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
                     throw new RuntimeException("Error on requesting camera permission.");
                 }
                 if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(getActivity(), R.string.camera_permission_not_granted,
+                    Toast.makeText(this, R.string.camera_permission_not_granted,
                             Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -196,7 +195,7 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
             } else if (type == LOGISTICS_PERSONNEL_SCAN_TYPE) {
                 inOutbound(postId);
             } else if (type == NEW_DELIVERY_SCAN_TYPE) {
-                newDelivery(getMainActivity(), progressDialog, postId, true);
+                newDelivery(this, progressDialog, postId);
             }
         }
     }
@@ -206,7 +205,7 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
      *
      * @param postId
      */
-    public static void newDelivery(MainActivity activity, ProgressDialog progressDialog, String postId, boolean isBack) {
+    public static void newDelivery(Activity activity, ProgressDialog progressDialog, String postId) {
         progressDialog.setTitle(activity.getString(R.string.saveing_delivery));
         progressDialog.show();
         Delivery newDelivery = SemsApplication.instance.getNewDelivery();
@@ -225,9 +224,6 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
                     DialogUtils.showTipDialog(activity, b ? activity.getString(R.string.success) : activity.getString(R.string.fail),
                             (dialog, which) -> {
                                 dialog.dismiss();
-                                if (isBack) {
-                                    activity.newDeliveryBarcodeFragment.enterLogisticsPersonnelFragment();
-                                }
                             });
                 });
             }).start();
@@ -244,14 +240,14 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
         progressDialog.show();
         LogisticsService logisticsService = SemsApplication.instance.getLogisticsService();
         if (logisticsService == null) {
-            DialogUtils.showConnectErrorDialog(this.getMainActivity());
+            DialogUtils.showConnectErrorDialog(this);
             return;
         }
         new Thread(() -> {
             LogisticsAddDTO logisticsAddDTO = logisticsService.addLogistics(postId, userDTO);
-            getMainActivity().runOnUiThread(() -> {
+            this.runOnUiThread(() -> {
                 progressDialog.dismiss();
-                DialogUtils.showTipDialog(this.getActivity(), logisticsAddDTO.getInfo(),
+                DialogUtils.showTipDialog(this, logisticsAddDTO.getInfo(),
                         (dialog, which) -> {
                             dialog.dismiss();
                             startOpenCV();
@@ -270,16 +266,16 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
         progressDialog.show();
         DeliveryLogisticsService deliveryLogisticsService = SemsApplication.instance.getDeliveryLogisticsService();
         if (deliveryLogisticsService == null) {
-            DialogUtils.showConnectErrorDialog(this.getMainActivity());
+            DialogUtils.showConnectErrorDialog(this);
             return;
         }
         new Thread(() -> {
             DeliveryPickUpDTO deliveryPickUpDTO = deliveryLogisticsService.pickUp(postId, user);
-            getMainActivity().runOnUiThread(() -> {
+            this.runOnUiThread(() -> {
                 progressDialog.dismiss();
-                DialogUtils.showTipDialog(this.getActivity(), deliveryPickUpDTO.getInfo(),
+                DialogUtils.showTipDialog(this, deliveryPickUpDTO.getInfo(),
                         (dialog, which) -> {
-                            enterMainFragment();
+                            finish();
                             dialog.dismiss();
                         });
             });

@@ -19,6 +19,7 @@ import cool.zzy.sems.context.model.UserRole;
 public abstract class BaseActivity extends AppCompatActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
     private Fragment currentFragment;
+    protected UserDTO userDTO;
     protected User user;
     protected UserRole userRole;
 
@@ -26,7 +27,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getContentView());
-        UserDTO userDTO = SemsApplication.instance.getUser();
+        userDTO = SemsApplication.instance.getUser();
         if (userDTO != null) {
             this.user = userDTO.getUser();
             this.userRole = userDTO.getUserRole();
