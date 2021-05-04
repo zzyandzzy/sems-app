@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:tool="http://schemas.android.com/tools"
+              android:background="#7adfb8"
+              android:orientation="vertical">
+
+    <LinearLayout
+            android:layout_marginTop="50dp"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/userHeadImg"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:src="@mipmap/ic_launcher_round"/>
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/email"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    tool:text="1428658308@qq.com"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/username"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp"
+                    tool:text="admin"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/role"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginEnd="20dp"
+            android:textColor="#ffffff"
+            android:textSize="16sp"
+            tool:text="权限：管理员"/>
+
+</LinearLayout>

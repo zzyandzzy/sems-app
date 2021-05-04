@@ -1,6 +1,7 @@
 <resources>
+
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -10,5 +11,10 @@
     <style name="EditTextStyle" parent="Base.Widget.AppCompat.EditText">
         <item name="colorControlNormal">@color/edit_text_normal_color</item>
         <item name="colorControlActivated">@color/edit_text_activated_color</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 </resources>

@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.activity.MainActivity;
+import cool.zzy.sems.application.activity.UserActivity;
 import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.model.UserRole;
@@ -103,5 +104,9 @@ public abstract class BaseFragment extends Fragment implements View.OnClickListe
 
     public MainActivity getMainActivity() {
         return (MainActivity) this.getActivity();
+    }
+
+    public UserActivity getUserActivity() {
+        return (UserActivity) this.getActivity();
     }
 }

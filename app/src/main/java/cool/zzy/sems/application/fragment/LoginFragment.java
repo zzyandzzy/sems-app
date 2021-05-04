@@ -11,7 +11,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.activity.LoginActivity;
-import cool.zzy.sems.application.activity.MainActivity;
+import cool.zzy.sems.application.activity.UserActivity;
 import cool.zzy.sems.application.constant.Const;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DialogUtils;
@@ -77,7 +77,7 @@ public class LoginFragment extends BaseFragment {
         SemsApplication.instance.putUser(user);
         Toast.makeText(activity, String.format("用户: %s 登录成功!", user.getUser().getEmail()),
                 Toast.LENGTH_LONG).show();
-        activity.startActivity(new Intent(activity, MainActivity.class));
+        activity.startActivity(new Intent(activity, UserActivity.class));
         activity.finish();
     }
 

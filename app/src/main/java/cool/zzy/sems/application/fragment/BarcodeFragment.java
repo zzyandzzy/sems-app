@@ -39,6 +39,7 @@ import java.util.List;
  * @date 2020/9/12 14:44
  * @since 1.0
  */
+@Deprecated
 public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callback, Camera.PreviewCallback {
     private static final String TAG = BarcodeFragment.class.getSimpleName();
     private static final int REQUEST_CAMERA_PERMISSION = 1;

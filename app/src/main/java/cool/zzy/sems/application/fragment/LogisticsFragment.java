@@ -24,6 +24,7 @@ import java.util.concurrent.TimeUnit;
  * @date 2021/4/3 14:46
  * @since 1.0
  */
+@Deprecated
 public class LogisticsFragment extends BaseFragment {
     private AppCompatTextView userInfo;
     private AppCompatTextView postId;

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.adapter.DeliveryAdapter;
+import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.UserUtils;
 import cool.zzy.sems.context.model.DeliveryLogistics;
@@ -22,6 +23,7 @@ import java.util.List;
  * @date 2021/2/7 10:54
  * @since 1.0
  */
+@Deprecated
 public class MainFragment extends BaseFragment {
     private AppCompatTextView nicknameTextView;
     private AppCompatEditText inputEditText;
@@ -29,6 +31,7 @@ public class MainFragment extends BaseFragment {
     private AppCompatButton settingButton;
     private RecyclerView recyclerView;
     private List<DeliveryLogistics> deliveryLogisticsList;
+    private ProgressDialog progressDialog;
 
     @Override
     protected int getLayout() {
@@ -42,6 +45,7 @@ public class MainFragment extends BaseFragment {
         scanImageView = rootView.findViewById(R.id.fragment_main_scan);
         settingButton = rootView.findViewById(R.id.fragment_main_setting);
         recyclerView = rootView.findViewById(R.id.fragment_main_recyclerview);
+        progressDialog = new ProgressDialog(getActivity(), getString(R.string.logging));
     }
 
     @Override
@@ -49,7 +53,7 @@ public class MainFragment extends BaseFragment {
         if (user != null) {
             nicknameTextView.setText(user.getNickname());
         } else {
-            UserUtils.staticLogin(getActivity());
+            UserUtils.staticLogin(getActivity(), progressDialog);
         }
         scanImageView.setOnClickListener(this);
         settingButton.setOnClickListener(this);

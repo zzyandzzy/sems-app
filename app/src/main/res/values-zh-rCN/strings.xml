@@ -100,4 +100,10 @@
     <string name="gender">性别</string>
     <string name="man">男</string>
     <string name="woman">女</string>
+    <string name="user_role">用户权限: %s</string>
+    <string name="user_info">用户信息</string>
+    <string name="author">开发者信息</string>
+    <string name="author_1">计算机与软件工程学院2017级毕业设计</string>
+    <string name="author_2">物联网工程专业</string>
+    <string name="author_3">何东洋&amp;周智勇</string>
 </resources>

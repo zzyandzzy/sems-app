@@ -6,7 +6,8 @@ import android.widget.Toast;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.activity.LoginActivity;
-import cool.zzy.sems.application.activity.MainActivity;
+import cool.zzy.sems.application.activity.UserActivity;
+import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.context.dto.UserDTO;
 import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.UserService;
@@ -18,28 +19,33 @@ import cool.zzy.sems.context.service.UserService;
  */
 public class UserUtils {
 
-    public static void staticLogin(Activity activity) {
+    public static void staticLogin(Activity activity, ProgressDialog progressDialog) {
         UserDTO user = SemsApplication.instance.getUser();
         if (user == null) {
+            progressDialog.dismiss();
             return;
         }
         if (user.getUser() == null) {
             SemsApplication.instance.removeUser();
+            progressDialog.dismiss();
             return;
         }
         UserService userService = SemsApplication.instance.getUserService();
         if (userService == null) {
+            progressDialog.dismiss();
             DialogUtils.showConnectErrorDialog(activity);
             return;
         }
         UserDTO userDTO = userService.signIn(user.getUser().getEmail(), user.getUser().getPasswordHash());
         if (userDTO == null) {
+            progressDialog.dismiss();
             Toast.makeText(activity, R.string.login_fail, Toast.LENGTH_LONG).show();
             return;
         }
         SemsApplication.instance.putUser(userDTO);
-        if (activity.getClass() != MainActivity.class) {
-            activity.startActivity(new Intent(activity, MainActivity.class));
+        progressDialog.dismiss();
+        if (activity.getClass() != UserActivity.class) {
+            activity.startActivity(new Intent(activity, UserActivity.class));
             activity.finish();
         }
     }

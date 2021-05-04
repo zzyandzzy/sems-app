@@ -25,6 +25,7 @@ import java.util.Objects;
  * @date 2021/2/25 17:49
  * @since 1.0
  */
+@Deprecated
 public class SettingFragment extends BaseFragment {
     private static final String TAG = SettingFragment.class.getSimpleName();
     private LinearLayout settingBack;
@@ -51,7 +52,7 @@ public class SettingFragment extends BaseFragment {
         usernameEdittext = rootView.findViewById(R.id.fragment_setting_username);
         allUserSpinner = rootView.findViewById(R.id.fragment_setting_all_user_spinner);
         allUserButton = rootView.findViewById(R.id.fragment_setting_all_user_button);
-        progressDialog = new ProgressDialog(Objects.requireNonNull(getMainActivity()), getString(R.string.logging));
+        progressDialog = new ProgressDialog(Objects.requireNonNull(getActivity()), getString(R.string.logging));
     }
 
     @Override
