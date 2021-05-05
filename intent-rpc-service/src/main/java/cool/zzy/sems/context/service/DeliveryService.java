@@ -1,6 +1,5 @@
 package cool.zzy.sems.context.service;
 
-import cool.zzy.sems.context.dto.DeliveryDTO;
 import cool.zzy.sems.context.model.Delivery;
 
 import java.util.List;
@@ -11,14 +10,6 @@ import java.util.List;
  * @since 1.0
  */
 public interface DeliveryService {
-    /**
-     * 根据uid获取物流信息
-     *
-     * @param uid uid
-     * @return 物流信息
-     */
-    List<DeliveryDTO> getListByUid(Integer uid);
-
     /**
      * 添加一条物流信息
      *
