@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.navigation.NavigationView;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.adapter.UserPagerAdapter;
+import cool.zzy.sems.application.fragment.DeliveryListFragment;
 import cool.zzy.sems.application.fragment.LogisticsPersonnelFragment;
 import cool.zzy.sems.application.fragment.UserDeliveryFragment;
 import cool.zzy.sems.application.fragment.UserManagerFragment;
@@ -40,6 +41,7 @@ public class UserActivity extends BaseActivity {
     private UserDeliveryFragment userDeliveryFragment;
     private LogisticsPersonnelFragment logisticsPersonnelFragment;
     private UserManagerFragment userManagerFragment;
+    private DeliveryListFragment deliveryListFragment;
     // nav
     private NavigationView navigationView;
     // nav header
@@ -146,6 +148,9 @@ public class UserActivity extends BaseActivity {
             userManagerFragment = new UserManagerFragment();
             fragmentList.add(userManagerFragment);
             titleList.add(getString(R.string.user_manager));
+            deliveryListFragment = new DeliveryListFragment();
+            fragmentList.add(deliveryListFragment);
+            titleList.add(getString(R.string.delivery_list));
         }
     }
 

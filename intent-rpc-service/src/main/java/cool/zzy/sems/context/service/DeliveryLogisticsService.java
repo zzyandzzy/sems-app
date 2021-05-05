@@ -13,6 +13,13 @@ import java.util.List;
  */
 public interface DeliveryLogisticsService {
     /**
+     * 根据快递状态获取快递
+     *
+     * @param status
+     * @return
+     */
+    List<DeliveryLogistics> getListByDeliveryStatus(Integer status);
+    /**
      * 根据uid获取list
      *
      * @param uid uid

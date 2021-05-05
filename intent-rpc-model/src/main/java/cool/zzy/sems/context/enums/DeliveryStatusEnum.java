@@ -46,4 +46,24 @@ public enum DeliveryStatusEnum {
         }
         return OTHER;
     }
+
+    public static DeliveryStatusEnum from(String name) {
+        if (name == null || name.length() == 0) {
+            return WAITING_SYSTEM_CONFIRMATION;
+        }
+        for (DeliveryStatusEnum value : values()) {
+            if (value.getDescription().equals(name)) {
+                return value;
+            }
+        }
+        return OTHER;
+    }
+
+    public static String[] toList() {
+        String[] ret = new String[values().length];
+        for (int i = 0; i < values().length; i++) {
+            ret[i] = values()[i].getDescription();
+        }
+        return ret;
+    }
 }

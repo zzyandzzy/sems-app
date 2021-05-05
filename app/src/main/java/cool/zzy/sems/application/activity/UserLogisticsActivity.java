@@ -68,9 +68,10 @@ public class UserLogisticsActivity extends BaseActivity implements View.OnClickL
             DeliveryAdapter.setDeliveryLogisticsData(deliveryLogistics, this,
                     deliveryStatus, deliveryInfo, this.deliveryLogistics, deliveryAvatar, false);
             DeliveryDTO delivery = deliveryLogistics.getDelivery();
-            userInfo.setText("手机号：" + delivery.getPhone());
+            userInfo.setText(String.format("uid: %d | 手机号：%s", delivery.getUserId(), delivery.getPhone()));
             postId.setText("快递单号：" + delivery.getPostId());
             postIdImage.setImageBitmap(EAN13Utils.drawEan13Code(delivery.getPostId()));
+//            postIdImage.setImageBitmap(Code36Utils.drawCode36Code(delivery.getPostId()));
             created.setText("创建时间：" + DateUtils.formatDateTime(delivery.getCreated(), TimeUnit.MILLISECONDS));
             locationName.setText("运送地址：" + delivery.getLocationName());
             initRecyclerView(deliveryLogistics.getLogisticsList());
