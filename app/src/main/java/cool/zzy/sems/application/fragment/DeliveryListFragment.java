@@ -135,7 +135,7 @@ public class DeliveryListFragment extends BaseFragment implements SwipeRefreshLa
                 empty.setVisibility(View.VISIBLE);
             }
         } else {
-            DialogUtils.showConnectErrorDialog(this.getMainActivity());
+            DialogUtils.showConnectErrorDialog(this.getActivity());
         }
     }
 

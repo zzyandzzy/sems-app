@@ -74,10 +74,10 @@ public class UserActivity extends BaseActivity {
         viewPager.setOffscreenPageLimit(fragmentList.size());
         viewPager.setAdapter(new UserPagerAdapter(getSupportFragmentManager(), fragmentList, titleList));
         imageArray = new int[]{
-                R.mipmap.bg_android,
-                R.mipmap.bg_ios,
-                R.mipmap.bg_js,
-                R.mipmap.bg_other,
+                R.mipmap.bg_1,
+                R.mipmap.bg_2,
+                R.mipmap.bg_3,
+                R.mipmap.bg_4,
         };
         colorArray = new int[]{
                 android.R.color.holo_blue_light,

@@ -62,7 +62,7 @@ public class LogisticsFragment extends BaseFragment {
     protected void initData() {
         DeliveryLogistics deliveryLogistics = SemsApplication.instance.getDeliveryLogistics();
         if (deliveryLogistics != null) {
-            DeliveryAdapter.setDeliveryLogisticsData(deliveryLogistics, getMainActivity(),
+            DeliveryAdapter.setDeliveryLogisticsData(deliveryLogistics, getActivity(),
                     deliveryStatus, deliveryInfo, this.deliveryLogistics, deliveryAvatar, false);
             DeliveryDTO delivery = deliveryLogistics.getDelivery();
             userInfo.setText("手机号：" + delivery.getPhone());
@@ -78,7 +78,7 @@ public class LogisticsFragment extends BaseFragment {
     private void initRecyclerView(List<Logistics> logisticsList) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
         recyclerView.setLayoutManager(layoutManager);
-        LogisticsAdapter adapter = new LogisticsAdapter(logisticsList, getMainActivity());
+        LogisticsAdapter adapter = new LogisticsAdapter(logisticsList, getActivity());
         recyclerView.setAdapter(adapter);
     }
 

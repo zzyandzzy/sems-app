@@ -189,7 +189,7 @@ public class LogisticsPersonnelFragment extends BaseFragment {
                     }
                     new Thread(() -> {
                         boolean b = deliveryService.removeDeliveryById(delivery.getId());
-                        getMainActivity().runOnUiThread(() -> {
+                        getActivity().runOnUiThread(() -> {
                             progressDialog.dismiss();
                             DialogUtils.showTipDialog(getActivity(), b ? getString(R.string.success) : getString(R.string.fail),
                                     (dialog, which) -> {
