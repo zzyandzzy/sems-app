@@ -27,7 +27,7 @@ public:
         std::string barcode;
     };
 
-    static std::string recognition(cv::Mat &src, cv::Rect &rect);
+    static std::vector<std::string> recognition(cv::Mat &src, cv::Rect &rect);
 
 private:
     static void print_line(const uchar *line, int width);

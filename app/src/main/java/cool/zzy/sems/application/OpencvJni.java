@@ -4,13 +4,15 @@ import android.graphics.Bitmap;
 import android.view.Surface;
 import cool.zzy.sems.application.model.Rect;
 
+import java.util.List;
+
 public class OpencvJni {
     static {
         System.loadLibrary("native-lib");
     }
 
-    public native String recognitionBarcode(Bitmap bitmap,
-                                            int rectX, int rectY, int rectWidth, int rectHeight);
+    public native List<String> recognitionBarcode(Bitmap bitmap,
+                                                  int rectX, int rectY, int rectWidth, int rectHeight);
 
     public native Rect haveBarcode(byte[] data, int width, int height);
 

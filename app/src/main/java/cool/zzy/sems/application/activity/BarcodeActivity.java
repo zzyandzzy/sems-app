@@ -19,7 +19,6 @@ import androidx.core.content.ContextCompat;
 import cool.zzy.sems.application.OpencvJni;
 import cool.zzy.sems.application.R;
 import cool.zzy.sems.application.SemsApplication;
-import cool.zzy.sems.application.fragment.BarcodeFragment;
 import cool.zzy.sems.application.model.Rect;
 import cool.zzy.sems.application.ui.ProgressDialog;
 import cool.zzy.sems.application.util.CameraHelper;
@@ -32,8 +31,7 @@ import cool.zzy.sems.context.service.DeliveryLogisticsService;
 import cool.zzy.sems.context.service.DeliveryService;
 import cool.zzy.sems.context.service.LogisticsService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author intent <a>zzy.main@gmail.com</a>
@@ -41,10 +39,11 @@ import java.util.List;
  * @since 1.0
  */
 public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callback, Camera.PreviewCallback, View.OnClickListener {
-    private static final String TAG = BarcodeFragment.class.getSimpleName();
+    private static final String TAG = BarcodeActivity.class.getSimpleName();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final int BARCODE_RESULT_SIZE = 3;
-    private final List<String> barcodeResultList = new ArrayList<>(BARCODE_RESULT_SIZE);
+    private Map<String, Integer> barcodeResultMap = new HashMap<>();
+
 
     private OpencvJni openCvJni;
     private CameraHelper cameraHelper;
@@ -161,32 +160,47 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
         if (rect.getWidth() * rect.getHeight() > 0) {
             byte[] jpegData = CameraUtils.runInPreviewFrame(data, camera);
             Bitmap bitmap = BitmapFactory.decodeByteArray(jpegData, 0, jpegData.length);
-            String barcode = openCvJni.recognitionBarcode(bitmap,
+            Object barcodeObject = openCvJni.recognitionBarcode(bitmap,
                     rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-            if ("2222222222222".equals(barcode)) {
+            if (barcodeObject instanceof String) {
                 return;
             }
-            if (barcodeResultList.size() == BARCODE_RESULT_SIZE) {
-                // 在BARCODE_RESULT_SIZE个结果里面存在相同次数最多的字符串
-                int[] ret = new int[BARCODE_RESULT_SIZE];
-                for (int i = 0; i < BARCODE_RESULT_SIZE; i++) {
-                    for (int j = 0; j < BARCODE_RESULT_SIZE; j++) {
-                        if (i != j && barcodeResultList.get(i).equals(barcodeResultList.get(j))) {
-                            ret[i] = ret[i]++;
-                        }
+            if (barcodeObject instanceof List) {
+                List<String> barcodeList = (List<String>) barcodeObject;
+                if (barcodeList.isEmpty()) {
+                    return;
+                }
+                // hashmap记录出现次数
+                Map<String, Integer> map = new HashMap<>();
+                for (String code : barcodeList) {
+                    Integer count = map.get(code);
+                    if (count == null) {
+                        map.put(code, 1);
+                    } else {
+                        map.put(code, ++count);
                     }
                 }
-                int maxIndex = 0;
-                int barcodeCount = 0;
-                for (int i = 0; i < BARCODE_RESULT_SIZE; i++) {
-                    if (ret[i] > barcodeCount) {
-                        maxIndex = i;
-                    }
+                // 排序
+                List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
+                //然后通过比较器来实现排序
+                Collections.sort(list, Map.Entry.comparingByValue());
+                String barcode = list.get(list.size() - 1).getKey();
+                Log.i(TAG, "barcode: " + barcode);
+                if ("2222222222222".equals(barcode)) {
+                    return;
                 }
-                showBarcode(barcodeResultList.get(maxIndex));
-                barcodeResultList.clear();
-            } else {
-                barcodeResultList.add(barcode);
+                Integer barcodeFindCount = barcodeResultMap.get(barcode);
+                if (barcodeFindCount != null) {
+                    if (barcodeFindCount == BARCODE_RESULT_SIZE) {
+                        showBarcode(barcode);
+                        Log.i(TAG, "onPreviewFrame: " + barcode);
+                        barcodeResultMap.clear();
+                    } else {
+                        barcodeResultMap.put(barcode, ++barcodeFindCount);
+                    }
+                } else {
+                    barcodeResultMap.put(barcode, 1);
+                }
             }
         }
     }

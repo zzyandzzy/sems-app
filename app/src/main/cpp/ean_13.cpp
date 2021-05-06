@@ -1,6 +1,6 @@
 #include "ean_13.h"
 
-std::string ean_13::recognition(cv::Mat &src, cv::Rect &rect) {
+std::vector<std::string> ean_13::recognition(cv::Mat &src, cv::Rect &rect) {
     cv::Mat temp(src, rect);
     cv::cvtColor(temp, temp, cv::COLOR_BGR2GRAY);
     // 中值滤波，消除椒盐噪声
@@ -9,27 +9,52 @@ std::string ean_13::recognition(cv::Mat &src, cv::Rect &rect) {
 //    cv::rectangle(src, rect, cv::Scalar(0, 0, 255), 1);
 //    imshow("src", src);
 //    cv::waitKey();
-    // 取1/3到2/3之间的条形码
-    for (int i = temp.cols / 3; i < temp.cols / 3 * 2; ++i) {
-        auto line = temp.ptr<uchar>(i);
-//        print_line(line, temp.cols);
-        // 找到最小值
-        ean_13::barcode_info info = get_min_unit(line, temp.cols);
-//        print_line(line, info);
-        // 转换为vector
-        std::vector<float> barcode_data = convert(line, info);
-        // 解码
-        std::string ret = decode(barcode_data);
-        if (!ret.empty()) {
-//            print_line(line, temp.cols);
-//            LOGD("\ninfo: start_pos: %d, stop_pos: %d, min_unit: %d, %d\n",
-//                            info.start_pos, info.stop_pos, info.min_unit, rect.area());
-//            print_line(line, info);
-//            print_vector(barcode_data, info);
-            return ret;
+    // 分为baseShare等份
+    float baseShare = 20.0F;
+    float startPoint = 0.2F;
+    float centerPoint = 0.5F;
+    float endPoint = 0.8F;
+    float oneShare = (float) temp.cols / baseShare;
+    std::vector<std::string> ret;
+    for (int i = (int) (oneShare * (baseShare * startPoint));
+         i < (int) (oneShare * (baseShare * (endPoint + 0.1F))); ++i) {
+        if (i > (int) (oneShare * (baseShare * startPoint))
+            && i < (int) (oneShare * (baseShare * (startPoint + 0.1F)))
+            || i > (int) (oneShare * (baseShare * centerPoint))
+               && i < (int) (oneShare * (baseShare * (centerPoint + 0.1F)))
+            || i > (int) (oneShare * (baseShare * endPoint))
+               && i < (int) (oneShare * (baseShare * (endPoint + 0.1F)))) {
+            auto line = temp.ptr<uchar>(i);
+            ean_13::barcode_info info = get_min_unit(line, temp.cols);
+            // 转换为vector
+            std::vector<float> barcode_data = convert(line, info);
+            std::string code = decode(barcode_data);
+            if (!code.empty()) {
+                ret.push_back(code);
+            }
         }
     }
-    return std::string();
+    // 取1/3到2/3之间的条形码
+//    for (int i = temp.cols / 3; i < temp.cols / 3 * 2; ++i) {
+//        auto line = temp.ptr<uchar>(i);
+////        print_line(line, temp.cols);
+//        // 找到最小值
+//        ean_13::barcode_info info = get_min_unit(line, temp.cols);
+////        print_line(line, info);
+//        // 转换为vector
+//        std::vector<float> barcode_data = convert(line, info);
+//        // 解码
+//        std::string ret = decode(barcode_data);
+//        if (!ret.empty()) {
+////            print_line(line, temp.cols);
+////            LOGD("\ninfo: start_pos: %d, stop_pos: %d, min_unit: %d, %d\n",
+////                            info.start_pos, info.stop_pos, info.min_unit, rect.area());
+////            print_line(line, info);
+////            print_vector(barcode_data, info);
+//            return ret;
+//        }
+//    }
+    return ret;
 }
 
 std::string ean_13::decode(const std::vector<float> &data) {

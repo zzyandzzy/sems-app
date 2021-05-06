@@ -69,7 +69,7 @@ Java_cool_zzy_sems_application_OpencvJni_haveBarcode(JNIEnv *env, jobject instan
 }
 
 extern "C"
-JNIEXPORT jstring JNICALL
+JNIEXPORT jobject JNICALL
 Java_cool_zzy_sems_application_OpencvJni_recognitionBarcode(JNIEnv *env, jobject instance, jobject bmp,
                                                    jint rect_x,jint rect_y,jint rect_width,jint rect_height) {
     AndroidBitmapInfo bitmapInfo;
@@ -100,7 +100,16 @@ Java_cool_zzy_sems_application_OpencvJni_recognitionBarcode(JNIEnv *env, jobject
     if(rect.area() < 20000){
         return env->NewStringUTF("");
     }
-    return env->NewStringUTF(ean_13::recognition(src, rect).data());
+    std::vector<std::string> code_ret = ean_13::recognition(src, rect);
+    jclass class_arraylist = env->FindClass("java/util/ArrayList");
+    jmethodID arraylist_construct_method = env->GetMethodID(class_arraylist, "<init>","()V");
+    jobject obj_arraylist = env->NewObject(class_arraylist, arraylist_construct_method);
+    jmethodID arraylist_add_method= env->GetMethodID(class_arraylist,"add","(Ljava/lang/Object;)Z");
+    for (auto code : code_ret) {
+        jstring code_str = env->NewStringUTF(code.data());
+        env->CallBooleanMethod(obj_arraylist, arraylist_add_method, code_str);
+    }
+    return obj_arraylist;
 }
 extern "C"
 JNIEXPORT void JNICALL

@@ -153,38 +153,38 @@ public class BarcodeFragment extends BaseFragment implements SurfaceHolder.Callb
 
     @Override
     public void onPreviewFrame(byte[] data, Camera camera) {
-        Rect rect = openCvJni.haveBarcode(data, CameraHelper.WIDTH, CameraHelper.HEIGHT);
-        if (rect.getWidth() * rect.getHeight() > 0) {
-            byte[] jpegData = CameraUtils.runInPreviewFrame(data, camera);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(jpegData, 0, jpegData.length);
-            String barcode = openCvJni.recognitionBarcode(bitmap,
-                    rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-            if ("2222222222222".equals(barcode)) {
-                return;
-            }
-            if (barcodeResultList.size() == BARCODE_RESULT_SIZE) {
-                // 在BARCODE_RESULT_SIZE个结果里面存在相同次数最多的字符串
-                int[] ret = new int[BARCODE_RESULT_SIZE];
-                for (int i = 0; i < BARCODE_RESULT_SIZE; i++) {
-                    for (int j = 0; j < BARCODE_RESULT_SIZE; j++) {
-                        if (i != j && barcodeResultList.get(i).equals(barcodeResultList.get(j))) {
-                            ret[i] = ret[i]++;
-                        }
-                    }
-                }
-                int maxIndex = 0;
-                int barcodeCount = 0;
-                for (int i = 0; i < BARCODE_RESULT_SIZE; i++) {
-                    if (ret[i] > barcodeCount) {
-                        maxIndex = i;
-                    }
-                }
-                showBarcode(barcodeResultList.get(maxIndex));
-                barcodeResultList.clear();
-            } else {
-                barcodeResultList.add(barcode);
-            }
-        }
+//        Rect rect = openCvJni.haveBarcode(data, CameraHelper.WIDTH, CameraHelper.HEIGHT);
+//        if (rect.getWidth() * rect.getHeight() > 0) {
+//            byte[] jpegData = CameraUtils.runInPreviewFrame(data, camera);
+//            Bitmap bitmap = BitmapFactory.decodeByteArray(jpegData, 0, jpegData.length);
+//            String barcode = openCvJni.recognitionBarcode(bitmap,
+//                    rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+//            if ("2222222222222".equals(barcode)) {
+//                return;
+//            }
+//            if (barcodeResultList.size() == BARCODE_RESULT_SIZE) {
+//                // 在BARCODE_RESULT_SIZE个结果里面存在相同次数最多的字符串
+//                int[] ret = new int[BARCODE_RESULT_SIZE];
+//                for (int i = 0; i < BARCODE_RESULT_SIZE; i++) {
+//                    for (int j = 0; j < BARCODE_RESULT_SIZE; j++) {
+//                        if (i != j && barcodeResultList.get(i).equals(barcodeResultList.get(j))) {
+//                            ret[i] = ret[i]++;
+//                        }
+//                    }
+//                }
+//                int maxIndex = 0;
+//                int barcodeCount = 0;
+//                for (int i = 0; i < BARCODE_RESULT_SIZE; i++) {
+//                    if (ret[i] > barcodeCount) {
+//                        maxIndex = i;
+//                    }
+//                }
+//                showBarcode(barcodeResultList.get(maxIndex));
+//                barcodeResultList.clear();
+//            } else {
+//                barcodeResultList.add(barcode);
+//            }
+//        }
     }
 
     private void showBarcode(String postId) {
