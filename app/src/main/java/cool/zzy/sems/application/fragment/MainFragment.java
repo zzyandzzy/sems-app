@@ -63,7 +63,7 @@ public class MainFragment extends BaseFragment {
     private void initRecyclerView() {
         DeliveryLogisticsService deliveryLogisticsService = SemsApplication.instance.getDeliveryLogisticsService();
         if (deliveryLogisticsService != null) {
-            deliveryLogisticsList = deliveryLogisticsService.getListByUid(user.getId());
+            deliveryLogisticsList = deliveryLogisticsService.getDeliveryLogisticsMap(0, user.getId());
             LinearLayoutManager layoutManager = new LinearLayoutManager(this.getActivity());
             recyclerView.setLayoutManager(layoutManager);
             DeliveryAdapter adapter = new DeliveryAdapter(deliveryLogisticsList, getActivity());

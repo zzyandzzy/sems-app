@@ -15,8 +15,10 @@ import cool.zzy.sems.application.SemsApplication;
 import cool.zzy.sems.application.activity.UserLogisticsActivity;
 import cool.zzy.sems.application.adapter.DeliveryAdapter;
 import cool.zzy.sems.application.util.DialogUtils;
+import cool.zzy.sems.application.util.SpinnerAdapterUtils;
 import cool.zzy.sems.context.enums.DeliveryStatusEnum;
 import cool.zzy.sems.context.model.DeliveryLogistics;
+import cool.zzy.sems.context.model.User;
 import cool.zzy.sems.context.service.DeliveryLogisticsService;
 
 import java.util.List;
@@ -27,13 +29,17 @@ import java.util.List;
  * @since 1.0
  */
 public class DeliveryListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+    private static final String TAG = DeliveryListFragment.class.getSimpleName();
     private SwipeRefreshLayout swipeRefreshLayout;
     private RecyclerView recyclerView;
     private DeliveryAdapter adapter;
     private List<DeliveryLogistics> deliveryLogisticsList;
     private LinearLayout empty;
     private AppCompatSpinner deliveryStatusSpinner;
-    private Integer deliveryStatus = DeliveryStatusEnum.WAITING_SYSTEM_CONFIRMATION.getStatus();
+    private Integer deliveryStatus = 0;
+    private AppCompatSpinner allUserSpinner;
+    private int selectUserListPosition = -1;
+    private List<User> userList;
 
     @Override
     protected int getLayout() {
@@ -46,11 +52,36 @@ public class DeliveryListFragment extends BaseFragment implements SwipeRefreshLa
         recyclerView = rootView.findViewById(R.id.recyclerview);
         empty = rootView.findViewById(R.id.empty);
         deliveryStatusSpinner = rootView.findViewById(R.id.delivery_status_spinner);
+        allUserSpinner = rootView.findViewById(R.id.all_user_spinner);
     }
 
     @Override
     protected void initData() {
+        initDeliverySpinner();
+        initAllUserData();
         initRecyclerView();
+    }
+
+    private void initAllUserData() {
+        User allUser = new User();
+        allUser.setId(0);
+        allUser.setNickname("全部");
+        SpinnerAdapterUtils.initAllUserData(getActivity(), allUserSpinner, new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                selectUserListPosition = position;
+                onRefresh();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        }, allUser, list -> {
+            userList = list;
+        });
+    }
+
+    private void initDeliverySpinner() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getActivity(),
                 android.R.layout.simple_list_item_1,
                 DeliveryStatusEnum.toList());
@@ -83,13 +114,17 @@ public class DeliveryListFragment extends BaseFragment implements SwipeRefreshLa
         });
         recyclerView.setAdapter(adapter);
         swipeRefreshLayout.setOnRefreshListener(this);
-        onRefresh();
     }
 
     private void recyclerViewRefresh() {
         DeliveryLogisticsService deliveryLogisticsService = SemsApplication.instance.getDeliveryLogisticsService();
         if (deliveryLogisticsService != null) {
-            deliveryLogisticsList = deliveryLogisticsService.getListByDeliveryStatus(deliveryStatus);
+            if (selectUserListPosition == -1) {
+                deliveryLogisticsList = deliveryLogisticsService.getDeliveryLogisticsMap(deliveryStatus, 0);
+            } else {
+                deliveryLogisticsList = deliveryLogisticsService.getDeliveryLogisticsMap(deliveryStatus,
+                        userList.get(selectUserListPosition).getId());
+            }
             adapter.setData(deliveryLogisticsList);
             adapter.notifyDataSetChanged();
             if (deliveryLogisticsList.size() != 0) {

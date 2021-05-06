@@ -31,6 +31,10 @@ public class SpinnerAdapterUtils {
     public static List<Delivery> deliveryList;
     public static String[] deliveryNameArray;
 
+    public interface Callback<T> {
+        void callback(List<T> list);
+    }
+
     public static void initAllDeliveryCompany(Activity activity, AppCompatSpinner spinner,
                                               AdapterView.OnItemSelectedListener selectedListener) {
         if (deliveryCompanyArray != null) {
@@ -44,13 +48,17 @@ public class SpinnerAdapterUtils {
         initSpinnerData(activity, spinner, selectedListener, deliveryCompanyArray);
     }
 
-
     public static void initAllUserData(Activity activity, AppCompatSpinner spinner,
                                        AdapterView.OnItemSelectedListener selectedListener) {
-        if (userList != null && userNameArray != null) {
-            initSpinnerData(activity, spinner, selectedListener, userNameArray);
-            return;
-        }
+        initAllUserData(activity, spinner, selectedListener, null, null);
+    }
+
+    public static void initAllUserData(Activity activity, AppCompatSpinner spinner,
+                                       AdapterView.OnItemSelectedListener selectedListener, User appendUser, Callback<User> callback) {
+//        if (userList != null && userNameArray != null) {
+//            initSpinnerData(activity, spinner, selectedListener, userNameArray);
+//            return;
+//        }
         UserService userService = SemsApplication.instance.getUserService();
         if (userService == null) {
             DialogUtils.showConnectErrorDialog(activity);
@@ -58,22 +66,28 @@ public class SpinnerAdapterUtils {
         }
         new Thread(() -> {
             userList = userService.list();
+            if (userList != null && appendUser != null) {
+                userList.add(appendUser);
+            }
             if (userList != null && !userList.isEmpty()) {
                 userNameArray = new String[userList.size()];
                 for (int i = 0; i < userList.size(); i++) {
                     userNameArray[i] = userList.get(i).getNickname();
                 }
                 initSpinnerData(activity, spinner, selectedListener, userNameArray);
+                if (callback != null) {
+                    callback.callback(userList);
+                }
             }
         }).start();
     }
 
     public static void initAllLocationData(Activity activity, AppCompatSpinner spinner,
                                            AdapterView.OnItemSelectedListener selectedListener) {
-        if (logisticsLocationList != null && logisticsLocationNameArray != null) {
-            initSpinnerData(activity, spinner, selectedListener, logisticsLocationNameArray);
-            return;
-        }
+//        if (logisticsLocationList != null && logisticsLocationNameArray != null) {
+//            initSpinnerData(activity, spinner, selectedListener, logisticsLocationNameArray);
+//            return;
+//        }
         LogisticsLocationService logisticsLocationService = SemsApplication.instance.getLogisticsLocationService();
         if (logisticsLocationService == null) {
             DialogUtils.showConnectErrorDialog(activity);
@@ -96,10 +110,10 @@ public class SpinnerAdapterUtils {
 
     public static void initAllDeliveryData(Activity activity, AppCompatSpinner spinner,
                                            AdapterView.OnItemSelectedListener selectedListener) {
-        if (deliveryList != null && deliveryNameArray != null) {
-            initSpinnerData(activity, spinner, selectedListener, deliveryNameArray);
-            return;
-        }
+//        if (deliveryList != null && deliveryNameArray != null) {
+//            initSpinnerData(activity, spinner, selectedListener, deliveryNameArray);
+//            return;
+//        }
         DeliveryService deliveryService = SemsApplication.instance.getDeliveryService();
         if (deliveryService == null) {
             DialogUtils.showConnectErrorDialog(activity);

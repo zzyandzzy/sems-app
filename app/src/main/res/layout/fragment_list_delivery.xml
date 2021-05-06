@@ -11,14 +11,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/delivery_status_spinner"
-                android:layout_gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+        <LinearLayout
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/all_user_spinner"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/delivery_status_spinner"
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
         <LinearLayout
-                android:visibility="visible"
+                android:visibility="gone"
                 android:id="@+id/empty"
                 android:orientation="horizontal"
                 android:gravity="center"
@@ -39,7 +51,6 @@
                 android:layout_height="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                    android:visibility="gone"
                     android:id="@+id/recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
