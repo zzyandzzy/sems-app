@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.hardware.Camera;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -57,7 +58,9 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
     public static final int NEW_DELIVERY_SCAN_TYPE = 3;
     private int type = USER_SCAN_TYPE;
     public static final String TYPE_NAME = "type";
-
+    // 播放音效
+    private MediaPlayer pickUpMediaPlayer;
+    private MediaPlayer inDeliveryMediaPlayer;
 
     public interface BarcodeCallback {
         void callback(String postId);
@@ -79,6 +82,8 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
         initOpenCV();
         barcodeBack = findViewById(R.id.fragment_barcode_back);
         progressDialog = new ProgressDialog(this, getString(R.string.pick_upping));
+        inDeliveryMediaPlayer = MediaPlayer.create(this, R.raw.in_delivery);
+        pickUpMediaPlayer = MediaPlayer.create(this, R.raw.pickup);
     }
 
     @Override
@@ -86,6 +91,8 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
         cameraHelper.setPreviewCallback(this);
         surfaceView.getHolder().addCallback(this);
         barcodeBack.setOnClickListener(this);
+        inDeliveryMediaPlayer.setLooping(false);
+        pickUpMediaPlayer.setLooping(false);
     }
 
     @Override
@@ -268,6 +275,9 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
         new Thread(() -> {
             LogisticsAddDTO logisticsAddDTO = logisticsService.addLogistics(postId, userDTO);
             this.runOnUiThread(() -> {
+                if (logisticsAddDTO.getState().equals(LogisticsAddDTO.SUCCESS.getState())) {
+                    inDeliveryMediaPlayer.start();
+                }
                 progressDialog.dismiss();
                 DialogUtils.showTipDialog(this, logisticsAddDTO.getInfo(),
                         (dialog, which) -> {
@@ -294,6 +304,9 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
         new Thread(() -> {
             DeliveryPickUpDTO deliveryPickUpDTO = deliveryLogisticsService.pickUp(postId, user);
             this.runOnUiThread(() -> {
+                if (DeliveryPickUpDTO.SUCCESS.getState().equals(deliveryPickUpDTO.getState())) {
+                    pickUpMediaPlayer.start();
+                }
                 progressDialog.dismiss();
                 DialogUtils.showTipDialog(this, deliveryPickUpDTO.getInfo(),
                         (dialog, which) -> {
