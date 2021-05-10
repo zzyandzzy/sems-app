@@ -96,24 +96,41 @@ public class RegisterFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 注册逻辑
+     */
     private void register() {
+        // 当前注册状态为true
         isRegistering = true;
+        // 显示进度框
         progressDialog.show();
+        // 获取到UserService实例
         UserService userService = SemsApplication.instance.getUserService();
+        // 如果UserService不为空
         if (userService != null) {
+            // 创建User实体，设置实体属性
             User user = new User();
+            // 设置用户名
             user.setNickname(Objects.requireNonNull(userNameEditText.getText()).toString());
+            // 设置邮箱
             user.setEmail(Objects.requireNonNull(emailEditText.getText()).toString());
+            // 设置密码
             user.setPasswordHash(Objects.requireNonNull(passwordEditText.getText()).toString());
+            // 设置性别
             user.setGender(gender);
+            // 设置ip地址
             user.setIp(SemsApplication.instance.getIp());
+            // 新开一个线程
             new Thread(() -> {
                 try {
+                    // 通过RPC远程调用后端的方法，注册用户
                     UserDTO userDTO = userService.register(user);
+                    // 在主线程执行注册成功的UI展示（只有主线程能够进行UI的更新）
                     getLoginActivity().runOnUiThread(() -> {
                         LoginFragment.loginSuccess(getLoginActivity(), userDTO);
                     });
                 } catch (Exception e) {
+                    // 注册失败提示
                     getLoginActivity().runOnUiThread(() -> {
                         Toast.makeText(getLoginActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     });
@@ -130,10 +147,17 @@ public class RegisterFragment extends BaseFragment {
     }
 
     private void registerCancel() {
+        // 取消进度框
         progressDialog.dismiss();
+        // 当前注册状态为false
         isRegistering = false;
     }
 
+    /**
+     * 检查注册参数是否正确
+     *
+     * @return
+     */
     private boolean checkRegisterArgs() {
         if (!clauseCheckBox.isChecked()) {
             Toast.makeText(getLoginActivity(), R.string.clause_error, Toast.LENGTH_LONG).show();

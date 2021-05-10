@@ -45,19 +45,31 @@ public class LoginFragment extends BaseFragment {
         isLogin = false;
     }
 
+    /**
+     * 登录
+     */
     private void login() {
+        // 登录状态设置为true
         isLogin = true;
+        // 显示登录进度框
         progressDialog.show();
+        // 获取到UserService实例
         UserService userService = SemsApplication.instance.getUserService();
+        // 如果UserService不为空
         if (userService != null) {
+            // 新开一个线程
             new Thread(() -> {
+                // 通过RPC远程调用后端的方法，登录
                 UserDTO user = userService.signIn(Objects.requireNonNull(emailEditText.getText()).toString(),
                         Objects.requireNonNull(passwordEditText.getText()).toString());
+                // 在主线程执行注册成功的UI展示（只有主线程能够进行UI的更新）
                 getLoginActivity().runOnUiThread(() -> {
                     loginCancel();
                     if (user == null) {
+                        // 登录失败
                         loginFail(getLoginActivity(), user);
                     } else {
+                        // 登录成功
                         loginSuccess(getLoginActivity(), user);
                     }
                 });
@@ -123,6 +135,11 @@ public class LoginFragment extends BaseFragment {
         }
     }
 
+    /**
+     * 检查登录参数是否正确
+     *
+     * @return
+     */
     private boolean checkLoginArgs() {
         if (!clauseCheckBox.isChecked()) {
             Toast.makeText(getLoginActivity(), R.string.clause_error, Toast.LENGTH_LONG).show();
