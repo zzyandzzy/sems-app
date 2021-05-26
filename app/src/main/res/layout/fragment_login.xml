@@ -23,6 +23,7 @@
                 android:gravity="center">
 
             <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/re_connect_server"
                     android:textSize="30sp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

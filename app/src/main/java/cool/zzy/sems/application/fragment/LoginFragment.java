@@ -14,6 +14,7 @@ import cool.zzy.sems.application.activity.LoginActivity;
 import cool.zzy.sems.application.activity.UserActivity;
 import cool.zzy.sems.application.constant.Const;
 import cool.zzy.sems.application.ui.ProgressDialog;
+import cool.zzy.sems.application.ui.ReConnectServerDialog;
 import cool.zzy.sems.application.util.DialogUtils;
 import cool.zzy.sems.application.util.RegexUtils;
 import cool.zzy.sems.context.dto.UserDTO;
@@ -35,6 +36,7 @@ public class LoginFragment extends BaseFragment {
     private AppCompatButton registerButton;
     private AppCompatCheckBox clauseCheckBox;
     private AppCompatTextView clauseText;
+    private AppCompatTextView reConnectServer;
 
     private ProgressDialog progressDialog;
 
@@ -107,12 +109,14 @@ public class LoginFragment extends BaseFragment {
         registerButton = rootView.findViewById(R.id.fragment_login_register);
         clauseCheckBox = rootView.findViewById(R.id.fragment_login_clause);
         clauseText = rootView.findViewById(R.id.fragment_login_clause_text);
+        reConnectServer = rootView.findViewById(R.id.re_connect_server);
     }
 
     @Override
     protected void initData() {
         loginButton.setOnClickListener(this);
         registerButton.setOnClickListener(this);
+        reConnectServer.setOnClickListener(this);
     }
 
     private LoginActivity getLoginActivity() {
@@ -130,6 +134,10 @@ public class LoginFragment extends BaseFragment {
             case R.id.fragment_login_register:
                 LoginActivity loginActivity = getLoginActivity();
                 loginActivity.setCurrentFragment(loginActivity.registerFragment);
+                break;
+            case R.id.re_connect_server:
+                ReConnectServerDialog reConnectServerDialog = new ReConnectServerDialog(getActivity());
+                reConnectServerDialog.show();
                 break;
             default:
         }

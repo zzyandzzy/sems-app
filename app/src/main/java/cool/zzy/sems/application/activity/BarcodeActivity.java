@@ -192,10 +192,6 @@ public class BarcodeActivity extends BaseActivity implements SurfaceHolder.Callb
                 //然后通过比较器来实现排序
                 Collections.sort(list, Map.Entry.comparingByValue());
                 String barcode = list.get(list.size() - 1).getKey();
-                Log.i(TAG, "barcode: " + barcode);
-                if ("2222222222222".equals(barcode)) {
-                    return;
-                }
                 Integer barcodeFindCount = barcodeResultMap.get(barcode);
                 if (barcodeFindCount != null) {
                     if (barcodeFindCount == BARCODE_RESULT_SIZE) {
