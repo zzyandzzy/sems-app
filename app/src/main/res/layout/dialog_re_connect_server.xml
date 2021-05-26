@@ -15,15 +15,10 @@
         <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/server_host"
                 android:ems="10"
-                android:enabled="false"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/input_edit_margin_left"
-                android:layout_marginEnd="@dimen/input_edit_margin_right"
-                android:theme="@style/EditTextStyle"
-                android:backgroundTint="@android:color/transparent"
-                android:textCursorDrawable="@drawable/edit_cursor_color"/>
-
+                android:layout_marginEnd="@dimen/input_edit_margin_right"/>
 
         <RelativeLayout
                 android:layout_marginTop="16dp"
@@ -43,7 +38,7 @@
                     android:layout_alignParentEnd="true"
                     android:textColor="@color/colorPrimary"
                     style="@style/Widget.AppCompat.Button.Borderless"
-                    android:text="@string/update_user"
+                    android:text="@string/ok"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:ignore="RelativeOverlap"/>

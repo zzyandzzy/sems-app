@@ -35,15 +35,16 @@ public class ReConnectServerDialog extends Dialog implements View.OnClickListene
         setCanceledOnTouchOutside(false);
     }
 
-    private void initData() {
-        ok.setOnClickListener(this);
-        cancel.setOnClickListener(this);
-    }
-
     private void initViews() {
         serverHost = findViewById(R.id.server_host);
         cancel = findViewById(R.id.dialog_user_info_update_cancel);
         ok = findViewById(R.id.dialog_user_info_update_ok);
+    }
+
+    private void initData() {
+        serverHost.setText(Const.RPC_IP);
+        ok.setOnClickListener(this);
+        cancel.setOnClickListener(this);
     }
 
     @Override
@@ -52,6 +53,7 @@ public class ReConnectServerDialog extends Dialog implements View.OnClickListene
             case R.id.dialog_user_info_update_ok:
                 Const.RPC_IP = serverHost.getText().toString();
                 SemsApplication.instance.initRPC();
+                dismiss();
                 break;
             case R.id.dialog_user_info_update_cancel:
                 dismiss();
