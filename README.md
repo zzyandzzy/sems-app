@@ -8,6 +8,8 @@
 
 EAN-13条形码识别用到的是我自己写的一个基于OpenCV的库，参考：[ean-13-recognition](https://github.com/zzyandzzy/ean-13-recognition)
 
+参考论文：[一维图像条形码识别方法研究_董华冰](./res/一维图像条形码识别方法研究_董华冰.pdf)
+
 # EAN-13条形码生成
 
 EAN-13条形码是基于Android写的一个工具类，参考：[EAN13Utils](./app/src/main/java/cool/zzy/sems/application/util/EAN13Utils.java)
