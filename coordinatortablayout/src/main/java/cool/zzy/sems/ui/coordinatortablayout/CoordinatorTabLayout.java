@@ -11,8 +11,6 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,7 +25,7 @@ import cool.zzy.sems.ui.coordinatortablayout.listener.OnTabSelectedListener;
 import cool.zzy.sems.ui.coordinatortablayout.utils.SystemView;
 
 /**
- * @author hugeterry(http://hugeterry.cn)
+ * @author hugeterry(http : / / hugeterry.cn)
  */
 
 public class CoordinatorTabLayout extends CoordinatorLayout {
@@ -37,7 +35,7 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
     private Toolbar mToolbar;
     private ActionBar mActionbar;
     private TabLayout mTabLayout;
-    private ImageView mImageView;
+    //    private ImageView mImageView;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private LoadHeaderImagesListener mLoadHeaderImagesListener;
     private OnTabSelectedListener mOnTabSelectedListener;
@@ -70,7 +68,7 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
         initToolbar();
         mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsingtoolbarlayout);
         mTabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        mImageView = (ImageView) findViewById(R.id.imageview);
+//        mImageView = (ImageView) findViewById(R.id.imageview);
     }
 
     private void initWidget(Context context, AttributeSet attrs) {
@@ -130,20 +128,18 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
      * @param imageArray 图片数组
      * @return CoordinatorTabLayout
      */
-    public CoordinatorTabLayout setImageArray(@NonNull int[] imageArray) {
-        mImageArray = imageArray;
-        return this;
-    }
+//    public CoordinatorTabLayout setImageArray(@NonNull int[] imageArray) {
+//        mImageArray = imageArray;
+//        return this;
+//    }
 
     /**
      * 设置每个tab对应的头部照片和ContentScrimColor
      *
-     * @param imageArray 图片数组
      * @param colorArray ContentScrimColor数组
      * @return CoordinatorTabLayout
      */
-    public CoordinatorTabLayout setImageArray(@NonNull int[] imageArray, @NonNull int[] colorArray) {
-        mImageArray = imageArray;
+    public CoordinatorTabLayout setImageArray(@NonNull int[] colorArray) {
         mColorArray = colorArray;
         return this;
     }
@@ -163,20 +159,20 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mImageView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_dismiss));
-                if (mLoadHeaderImagesListener == null) {
-                    if (mImageArray != null) {
-                        mImageView.setImageResource(mImageArray[tab.getPosition()]);
-                    }
-                } else {
-                    mLoadHeaderImagesListener.loadHeaderImages(mImageView, tab);
-                }
+//                mImageView.startAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_dismiss));
+//                if (mLoadHeaderImagesListener == null) {
+//                    if (mImageArray != null) {
+//                        mImageView.setImageResource(mImageArray[tab.getPosition()]);
+//                    }
+//                } else {
+//                    mLoadHeaderImagesListener.loadHeaderImages(mImageView, tab);
+//                }
                 if (mColorArray != null) {
                     mCollapsingToolbarLayout.setContentScrimColor(
                             ContextCompat.getColor(
                                     mContext, mColorArray[tab.getPosition()]));
                 }
-                mImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_show));
+//                mImageView.setAnimation(AnimationUtils.loadAnimation(mContext, R.anim.anim_show));
 
                 if (mOnTabSelectedListener != null) {
                     mOnTabSelectedListener.onTabSelected(tab);
@@ -240,9 +236,9 @@ public class CoordinatorTabLayout extends CoordinatorLayout {
     /**
      * 获取该组件中的ImageView
      */
-    public ImageView getImageView() {
-        return mImageView;
-    }
+//    public ImageView getImageView() {
+//        return mImageView;
+//    }
 
     /**
      * 设置LoadHeaderImagesListener

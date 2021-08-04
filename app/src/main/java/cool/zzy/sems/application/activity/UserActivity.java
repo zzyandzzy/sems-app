@@ -33,7 +33,7 @@ import java.util.List;
 public class UserActivity extends BaseActivity {
     private DrawerLayout drawerLayout;
     private CoordinatorTabLayout coordinatorTabLayout;
-    private int[] imageArray, colorArray;
+    private int[] colorArray;
     private ViewPager viewPager;
     private List<Fragment> fragmentList;
     private List<String> titleList;
@@ -73,12 +73,12 @@ public class UserActivity extends BaseActivity {
         initFragment();
         viewPager.setOffscreenPageLimit(fragmentList.size());
         viewPager.setAdapter(new UserPagerAdapter(getSupportFragmentManager(), fragmentList, titleList));
-        imageArray = new int[]{
-                R.mipmap.bg_1,
-                R.mipmap.bg_2,
-                R.mipmap.bg_3,
-                R.mipmap.bg_4,
-        };
+//        imageArray = new int[]{
+//                R.mipmap.bg_1,
+//                R.mipmap.bg_2,
+//                R.mipmap.bg_3,
+//                R.mipmap.bg_4,
+//        };
         colorArray = new int[]{
                 android.R.color.holo_blue_light,
                 android.R.color.holo_red_light,
@@ -90,7 +90,7 @@ public class UserActivity extends BaseActivity {
         coordinatorTabLayout.setTranslucentStatusBar(this)
                 .setTitle(getString(R.string.app_name))
                 .setBackEnable(true)
-                .setImageArray(imageArray, colorArray)
+                .setImageArray(colorArray)
                 .setupWithViewPager(viewPager);
         initNavigationView();
     }
